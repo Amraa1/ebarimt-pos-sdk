@@ -1,0 +1,19 @@
+[project]
+name = "ebarimt-pos-sdk"
+version = "0.0.0"
+description = "Python SDK for Ebarimt POS API 3.0"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "SenergyTech" }]
+dependencies = [
+  "httpx>=0.27.0",
+  "pydantic>=2.7.0",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0.0",
+  "ruff>=0.5.0",
+  "mypy>=1.10.0",
+]

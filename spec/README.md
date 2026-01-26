@@ -2,8 +2,8 @@
 
 ## Source of truth
 
-- **OpenAPI** lives under `spec/openapi/` and is the SDK contract.
-- **Vendored upstream artifacts** live under `spec/vendor/` for traceability.
+- **openapi** canonical contract the SDK targets. May be edited (fixes, examples, clarifications), but changes must be validated + diffed.
+- **vendor** immutable artifacts (raw drops). **Never edit**.
 
 ## Vendored upstream artifacts
 

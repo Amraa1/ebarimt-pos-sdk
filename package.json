@@ -1,0 +1,26 @@
+{
+  "name": "ebarimt-pos-sdk",
+  "version": "0.0.0",
+  "description": "Modern async-first Python SDK for Ebarimt Pos API 3.0.",
+  "main": "index.js",
+  "scripts": {
+    "spec:lint": "redocly lint spec/openapi/posapi-3.0.yaml",
+    "spec:bundle": "node tools/spec-bundle.mjs",
+    "spec:check": "npm run spec:lint && npm run spec:bundle"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Amraa1/ebarimt-pos-sdk.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Amraa1/ebarimt-pos-sdk/issues"
+  },
+  "homepage": "https://github.com/Amraa1/ebarimt-pos-sdk#readme",
+  "devDependencies": {
+    "@redocly/cli": "^2.14.9"
+  }
+}

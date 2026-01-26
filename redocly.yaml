@@ -1,0 +1,23 @@
+apis:
+  posapi:
+    root: spec/openapi/posapi-3.0.yaml
+
+extends:
+  - recommended
+
+rules:
+  # Your environment: localhost/VPN is valid
+  no-empty-servers: off
+  no-server-example.com: off
+  no-server-trailing-slash: error # keep this on (easy cleanup, improves consistency)
+
+  # Vendor spec often omits this; we'll add later once auth is confirmed
+  security-defined: off
+
+  # Nice-to-have, not blocking right now
+  info-license: off
+  operation-4xx-response: off
+
+  # Examples in vendor docs are messy; do not fail CI on examples
+  no-invalid-media-type-examples: off
+  no-invalid-schema-examples: off

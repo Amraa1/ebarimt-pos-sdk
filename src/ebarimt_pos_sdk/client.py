@@ -1,0 +1,83 @@
+from __future__ import annotations
+
+from typing import Optional
+
+import httpx
+
+from ._http import AsyncTransport, SyncTransport, _merge_headers
+from .resources.receipt import ReceiptResource
+from .settings import PosApiSettings
+
+
+class PosApiClient:
+    """
+    Dual sync/async client.
+
+    Usage:
+        client = PosApiClient(PosApiSettings(...))
+        resp = client.receipt.create({...})
+
+        async with client:
+            resp = await client.receipt.acreate({...})
+    """
+
+    def __init__(
+        self,
+        settings: PosApiSettings,
+        *,
+        sync_client: httpx.Client | None = None,
+        async_client: httpx.AsyncClient | None = None,
+        headers: Optional[dict[str, str]] = None,
+    ) -> None:
+        self._settings = settings
+        self._base_url = settings.normalized_base_url()
+
+        merged_headers = _merge_headers(settings.default_headers, headers)
+        self._headers: dict[str, str] = dict(merged_headers)
+
+        self._owns_sync = sync_client is None
+        self._owns_async = async_client is None
+
+        self._sync_client = sync_client or httpx.Client(
+            base_url=self._base_url,
+            timeout=settings.timeout_s,
+            verify=settings.verify_tls,
+        )
+        self._async_client = async_client or httpx.AsyncClient(
+            base_url=self._base_url,
+            timeout=settings.timeout_s,
+            verify=settings.verify_tls,
+        )
+
+        self._sync_transport = SyncTransport(self._sync_client)
+        self._async_transport = AsyncTransport(self._async_client)
+
+        # Resources: expose both sync & async methods
+        self.receipt = ReceiptResource(
+            base_url=self._base_url,
+            headers=self._headers,
+            transport=self._sync_transport,
+        )
+        self.arecipt = ReceiptResource(
+            base_url=self._base_url,
+            headers=self._headers,
+            transport=self._async_transport,
+        )  # optional alias
+
+        # Preferred: keep one resource, with .create (sync) + .acreate (async)
+        # We'll do that by reusing the async transport when calling .acreate:
+        self.receipt._transport_async = self._async_transport  # internal
+
+    async def __aenter__(self) -> "PosApiClient":
+        return self
+
+    async def __aexit__(self, exc_type, exc, tb) -> None:
+        await self.aclose()
+
+    def close(self) -> None:
+        if self._owns_sync:
+            self._sync_client.close()
+
+    async def aclose(self) -> None:
+        if self._owns_async:
+            await self._async_client.aclose()

@@ -8,7 +8,7 @@ on:
       - "tools/**"
       - "package.json"
       - "package-lock.json"
-      - ".redocly.yaml"
+      - "redocly.yaml"
 
 jobs:
   breaking:

@@ -1,0 +1,1590 @@
+openapi: 3.1.0
+x-stoplight:
+  id: inbishdm2zj3x
+info:
+  title: PosAPI 3.0 системийн API холболт зааврууд
+  version: '3.0'
+  description: "---\r\nstoplight-id: 8mw1byololjkv \r\n---\r\n\r\n## ЦАХИМ ТӨЛБӨРИЙН БАРИМТЫН СИСТЕМ POS API 3.0\r\n\r\n### Танилцуулга \r\n\r\n<!-- theme: none -->\r\n\r\n> **1.1. Хэрэглэгчийн систем болон PosAPI нь REST service ашиглан мэдээлэл солилцдог болсон нь өмнөх хувилбараас давуу талтай.**\r\n> PosAPI 2.0 хувилбар нь програмын сан байдлаар хөгжүүлэгдсэн бөгөөд хэрэглэгчийн системд суурилж ажилладаг. Иймд тухайн хэрэглэгчийн системээс хэт хамааралтай, өөрчлөлт шинэчлэлтийг хийх боломжгүй байдаг. PosAPI 3.0-н хувьд бие даасан тусдаа service application тул хэрэглэгчийн системээс үл хамааран ажилладаг. Энэ нь дээрх 2.0 хувилбар дээр гарч байсан алдаа дутагдлыг арилгаж өгч байна.PosAPI 2.0 нь хэрэглэгчийн системийн нэг хэсэг болж ажиллахын тулд мэдээллийг function ашиглан солилцдог байсныг 3.0 хувилбар дээр өөрчлөн REST WebService ашиглан солилцдог болсон. Мөн хэрэглэгчийн систем болон PosAPI-н хоорондоо Server-Client хэлбэрээр ажиллах бүрэн боломжийг нээж өгсөн.\r\n\r\n- [POS API 3.0 татах (Бодит орчин)](https://share.itc.gov.mn/share/developer/PosService_3.0.12-Prod.zip)\r\n- [POS API 3.0 татах (Хөгжүүлэлтийн орчин)](https://share.itc.gov.mn/share/developer/ST_PosService_3.0.12-Staging.zip)\r\n\r\n<!-- theme: none -->\r\n\r\n> **1.2. Нэг PosAPI-г хэд хэдэн этгээд ашиглан,баримтын мэдээлэл солилцох боломжийг бүрдүүлсэн.**\r\n> PosAPI 2.0 хувилбар нь зөвхөн нэг иргэн, ААН-ийн баримтыг хүлээн авах боломжтой байсан. Энэ нь > > сервер шийдэл бүхий хэрэглэгчийн системийн хувьд төвөгтэй шийдэл юм. Харин PosAPI 3.0 хувилбарын > хувьд энэхүү асуудлыг бүрэн шийдвэрлэсэн.\r\n> PosAPI 3.0 хувилбар нь өөр дээрээ нэг болон түүнээс дээш тооны ААН, иргэнийг бүртгэн,тэдгээрийн > баримтыг бүртгэх боломжтой болсон.\r\n\r\n### PosAPI тохируулах: \r\n\r\n> PosAPI нь суусны дараа анхны байдлаар тохируулах шаардлагатай. “posapi.ini” файлд тухайн PosAPI-н үндсэн тохиргоо байрлах ба “P101.poi, P102.poi” файлуудад ажиллагааны тохиргоо байрлах ба нууцлагдсан байна.\r\n\r\nҮндсэн тохиргооны тайлбар /posapi.ini файл/\r\n\r\n| Нэр              | Талбар                                                                        |\r\n| ---------------- | ----------------------------------------------------------------------------- |\r\n| authUrl          | Тухайн PosAPI-н нэгдсэн нэвтрэлттэй холбогдох тохиргоо./Өөрчлөх шаардлагагүй/ |\r\n| authRealm        | Тухайн PosAPI-н нэгдсэн нэвтрэлттэй холбогдох тохиргоо./Өөрчлөх шаардлагагүй/ |\r\n| authClientId     | Тухайн PosAPI-н нэгдсэн нэвтрэлттэй холбогдох тохиргоо./Өөрчлөх шаардлагагүй/ |\r\n| authClientSecret | Тухайн PosAPI-н нэгдсэн нэвтрэлттэй холбогдох тохиргоо./Өөрчлөх шаардлагагүй/ |\r\n| ebarimtUrl       | Ebarimt системтэй холбогдох хаяг. /Өөрчлөх шаардлагагүй/                      |\r\n| db               | Өгөгдлийн сангийн driver.                                                     |\r\n| dbHost           | Өгөгдлийн сангийн хаяг. /Хэрэв QSQLITE бол файлын зам байна/                  |\r\n| dbPort           | Өгөгдлийн сангийн port. /Хэрэв QSQLITE бол бөглөхгүй/                         |\r\n| dbUser           | Өгөгдлийн сангийн хэрэглэгчийн нэр. /Хэрэв QSQLITE бол бөглөхгүй/             |\r\n| dbPass           | Өгөгдлийн сангийн нууц үг. /Хэрэв QSQLITE бол бөглөхгүй/                      |\r\n| dbName           | Өгөгдлийн сангийн баазын нэр. /Хэрэв QSQLITE бол бөглөхгүй/                   |\r\n| dbOptions        | Өгөгдлийн сангийн нэмэлт тохиргоо. /Хэрэв QSQLITE бол бөглөхгүй/              |\r\n| workDir          | PosAPI-н ажиллагааны хавтас                                                   |\r\n| webServiceHost   | PosAPI-н ажиллах сүлжээний IP address                                         |\r\n| webServicePort   | PosAPI-н ажиллах сүлжээний port                                               |\r\n\r\n<!-- theme: none -->\r\n⚠ Анхаарах зүйлс:\r\n\"workDir\" хавтсанд байрлах тохиргооны файлууд тогтмол өөрчлөгдөж байдаг тул PosAPI-г ажиллуулж буй хэрэглэгч нь унших, бичих эрхтэй байх шаардлагатай. Уг хавтсыг \"FREEZE\" хийж болохгүй\r\n\r\nPosAPI-н дэмжиж ажиллах өгөгдлийн сангууд ба driver-ууд\r\n\r\n| Нэр     | Талбар                        |\r\n| ------- | ----------------------------- |\r\n| QMYSQL  | MySQL эсвэл MariaDB           |\r\n| QPSQL   | PostgreSQL                    |\r\n| QODBC   | ODBC for Microsoft SQL Server |\r\n| QSQLITE | SQLite version 3              |\r\n\r\n⚠ Анхаарах зүйл:\r\nPosAPI нь ачаалагдах үедээ өгөгдлийн сангийн хүснэгтүүдийг автоматаар үүсгэдэг. Тиймээс уг тохиргоог хийх хэрэглэгч нь хүснэгт үүсгэх эрхтэй байх шаардлагатай.\r\nСүлжээний тохиргоо:\r\n\r\nТохиргоо | Шаардлага\r\n---------|----------\r\n Хадгалах сан (Storage) | Хамгийн багадаа 1GB сул зайтай байх \r\n Сүлжээний хурд | Хамгийн багадаа 80 Mbps \r\n Хандах эрхийн нөхцөл | Зөвхөн Монгол Улсын сүлжээнээс хандах боломжтой /Гадаадаас холбогдох бол Монгол IP-тэй VPN ашиглана./\r\n\r\n>Зөвшөөрөгдсөн IP хаягууд /Network/: \r\nДомэйн | Серверийн IP \r\n---------|----------\r\n api.ebarimt.mn  | 103.17.108.216, 103.17.108.217\r\n auth.itc.gov.mn | 103.87.69.75, 103.87.69.76\r\n> PosAPI нь үндсэн тохиргоогоор SQLITE баазыг сонгосон байдаг бөгөөд уг тохиргоо нь цөөн тооны баримт үйлддэг хэрэглэгчийн системд илүү тохиромжтой байдаг. Харин олон тооны баримт үйлддэг хэрэглэгчийн системд SQLITE бааз нь зохимжгүй бөгөөд бусад төрлийн баазыг ашиглах нь илүү үр дүнтэй.\r\n\r\n### PosAPI идэвхжүүлэх:\r\n\r\n> PosAPI суулгасны дараа идэвхгүй төлөвт байдаг ба уг төлөвт аль ч сервисийг дуудсан ажиллахгүй. Идэвхжүүлэхийн тулд PosAPI систем рүү оператор эрх бүхий иргэн нэвтэрч орох шаардлагатай. Хэрэв нэвтрэх үйлдэл хийгдсэн бол PosAPI ийг идэвхжүүлэх процесс дуудагдаж, тухайн PosAPI-г нэвтэрсэн операторын бүртгэлд бүртгэж шинээр сугалааны дугаар авна.\r\n\r\n![image001.png](../assets/images/image001.png)\r\n\r\nPosAPI-руу хандах port нь posapi.ini файлд тохируулсан port байна /default port: 7080/.\r\nМөн тухайн иргэн нь хэд хэдэн операторын эрхтэй байж болох бөгөөд PosAPI-г идэвхжүүлэхдээ зөвхөн нэг оператороо сонгон идэвхжүүлнэ\r\n\r\n![image002.png](../assets/images/image002.png)\r\n\r\nPosAPI амжилттай идэвхэжсэн үед дараах байдлаар харагдана.\r\n\r\n![es.png](../assets/images/es.png)\r\n\r\n> Эм, эмнэлгийн хэрэгслийн чанар, аюулгүй байдал, хангамж, хүртээмжийг нэгдсэн цахим тогтолцоогоор хянах, цахимжилтыг эрчимжүүлэх зорилгоор шинэчлэн батлагдсан Эм, эмнэлгийн хэрэгслийн тухай 11 дүгээр зүйлийн 11.1.7, 47 дугаар зүйлийн 47.11.1, 47.12 зүйлд тус тус заасны дагуу эм, эмнэлгийн хэрэгсэл борлуулагч этгээд нь эм, эмнэлгийн хэрэгслийн цувралын дугаар, стандарт код, тоо хэмжээг төлбөрийн баримтад тусган, цахим санд хадгалах боломжийг бүрдүүлсэн. Дээрх өөрчлөлтийн дагуу тухайн төрлийн бүтээгдэхүүн борлуулагч \"Эмийн сан\"-ийн PosAPI системд \"Посын нөхцөл\" хэсгийн \"Эмийн сан\" сонголтыг сонгон хадгална. Мөн төлбөрийн баримт үүсгэх JSON-д цувралын дугаарыг нэмэлтээр оруулна.\r\n\r\nАнхаарах зүйлс :\r\n\r\n1. Эмийн сангийн POSAPI 3.0 холболт бол заавал эмийн сан гэсэн checkbox сонголтыг идэвхжүүлж хадгалах.\r\n2. Эмийн сан check хийсэн үед эмийн бүтээгдэхүүнүүдийн хамт нэг дэд баримтад илгээнэ\r\n3. \"data\":{\"lotNo\":\"эмийн бүтээгдэхүүний цувралын дугаар\"} илгээхийг анхаарна уу.\r\n\r\n<!-- theme: warning -->\r\n\r\n### Кодын жагсаалт:\r\n\r\n- [Бүтээгдэхүүн үйлчилгээний нэгдсэн ангиллын код](https://share.itc.gov.mn/share/developer/gs1\\_gs1.xlsx)\r\n\r\n### Өөрчлөлтийн түүх\r\n\r\n| № | Хувилбар | Огноо | Тайлбар | Хариуцагч |\r\n| -------- | ------- | ------- | ------- | ------- |\r\n| 1  | 1.0.0 | 03/31/2025 | Гарын авлага боловсруулав | Б.Мөнгөнчимэг   |"
+servers: []
+paths:
+  /rest/receipt:
+    post:
+      summary: Төлбөрийн баримт хадгалах
+      tags: []
+      responses:
+        '200':
+          description: "OK\r\nТалбаруудын нэмэлт тайлбар:\r\n\r\nБаримтын төлөв /status талбар/\r\n| Утга    | Тайлбар                                                        |\r\n|---------|----------------------------------------------------------------|\r\n| SUCCESS | Төлбөрийн баримтын мэдээлэл амжилттай үүссэн.                  |\r\n| ERROR   | Төлбөрийн баримтын мэдээлэл үүсгэхэд алдаа гарсан.             |\r\n| PAYMENT | Төлбөрийн баримтын мэдээлэл үүсгэхэд төлбөрийн мэдээлэл дутуу. |\r\n"
+          content:
+            application/soap+xml:
+              schema:
+                type: object
+                required:
+                  - id
+                  - posId
+                  - status
+                  - message
+                  - qrDate
+                  - lottery
+                  - date
+                  - easy
+                  - receipts
+                properties:
+                  id:
+                    type: string
+                    x-stoplight:
+                      id: ew7dduulnk829
+                    description: "Багц төлбөрийн баримтын ДДТД\r\n33 оронтой тоо"
+                  posId:
+                    type: number
+                    x-stoplight:
+                      id: e92hemss0xgfh
+                    description: PosAPI-н системийн дугаар
+                  status:
+                    type: string
+                    x-stoplight:
+                      id: ankfqrzu5gbm5
+                    description: Баримтын төлөв
+                  message:
+                    type: string
+                    x-stoplight:
+                      id: vlcez2odx61mg
+                    description: Тайлбар утга
+                  qrDate:
+                    type: string
+                    x-stoplight:
+                      id: ndvhj2353kyer
+                    description: QR Code-н утга
+                  lottery:
+                    type: string
+                    x-stoplight:
+                      id: omy9u0qzz6qk7
+                    description: Сугалааны дугаар
+                  date:
+                    type: string
+                    x-stoplight:
+                      id: woxbilxgb4obi
+                    description: Баримт хэвэлсэн огноо
+                    format: date
+                  easy:
+                    type: string
+                    x-stoplight:
+                      id: zuk2xh7dsj3nn
+                    description: "Хялбар бүртгэл хийгдсэн эсэх\r\ntrue - хялбар бүртгэлд бүртгэсэн\r\nfalse - хялбар бүртгэлд бүртгээгүй"
+                  receipts:
+                    type: array
+                    x-stoplight:
+                      id: adwnn643rg7fb
+                    description: Баримтын мэдээлэл
+                    items:
+                      x-stoplight:
+                        id: swr8d84nh3ioo
+                      type: object
+                      required:
+                        - id
+                        - bankAccountId
+                      properties:
+                        id:
+                          type: string
+                          x-stoplight:
+                            id: mkkwfenyj1xso
+                          description: Дэд баримтын ДДТД
+                        bankAccountId:
+                          type: number
+                          x-stoplight:
+                            id: tbuyq6kdsj5et
+                          description: 'ААН, Иргэний системд бүртгэсэн банкны дансны ID'
+      operationId: post-rest-receipt
+      x-stoplight:
+        id: etzeubckb91df
+      description: ">Энэхүү сервис нь хэрэглэгчийн системээс борлуулалтын мэдээллийг хүлээн авч, дараах мэдээллүүдийг нэмж боловсруулан буцаана: \r\n*ДДТД\r\n*Сугалааны дугаар\r\n*Баримт хэвлэсэн огноо\r\n*Баримтын код\r\n*QrCode\r\n\r\n⚠️ **Анхаарах зүйлс:**\r\n<!-- theme: warning -->\r\n>Эдгээр буцаасан мэдээллүүдээс lottery болон qrData талбаруудын мэдээллийг төлбөрийн баримтанд хэвлэхээс өөрөөр ямар ч хэлбэрээр хадгалахыг хориглоно."
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              x-examples:
+                Example 1:
+                  totalAmount: 5550
+                  totalBonus: 0
+                  totalVAT: 500
+                  totalCityTax: 50
+                  districtCode: '2501'
+                  merchantTin: '22101525067'
+                  posNo: '001'
+                  customerTin: null
+                  consumerNo: null
+                  branchNo: '001'
+                  type: B2C_
+                  inactiveId: null
+                  reportMonth: '2023-09-10'
+                  bankAccount: '5041466217'
+                  receipts:
+                    - totalAmount: 5550
+                      taxType: VAT_ABLE
+                      merchantTin: '22101525067'
+                      customerTin: null
+                      totalVAT: 500
+                      totalCityTax: 50
+                      items:
+                        - name: Талх
+                          barCode: '19059010880001'
+                          barCodeType: GS1
+                          classificationCode: '2349010'
+                          measureUnit: senlovesfits
+                          qty: 1
+                          unitPrice: 5000
+                          totalVAT: 500
+                          totalCityTax: 50
+                          totalAmount: 5550
+                  payments:
+                    - code: CASH
+                      status: PAID
+                      paidAmount: 5550
+              required:
+                - branchNo
+                - totalAmount
+                - merchantTin
+                - posNo
+                - type
+                - billIdSuffix
+                - receipts
+              properties:
+                branchNo:
+                  type: string
+                  x-stoplight:
+                    id: 7yioz6s7gsn1w
+                  description: "Салбарын дугаар\r\n<details>\r\n  <summary>\U0001F4C4 Дэлгэрэнгүй үзэх</summary>\r\n  <p>\r\n    PosAPI ашиглаж буй татвар төлөгчийн салбарын дугаар. 3 оронтой тоон утгаар /000, 001, 142 гэх мэт/ илэрхийлэх ба татвар төлөгч өөсрдөө салбараа тодорхойлно. Жишээ нь: Emart-н Чингис салбарыг \"001\", Хороолол салбарыг \"002\" гэх мэтээр дугаарлаж болно.\r\n  </p>\r\n</details>\r\n"
+                  example: '001'
+                totalAmount:
+                  type: number
+                  description: "Багц баримтын нийт үнийн дүн\r\n<details>\r\n  <summary>\U0001F4C4 Дэлгэрэнгүй үзэх</summary>\r\n  <p>\r\n    “Бүх төрлийн татвар шингэсэн дүн” гэсэн анхааруулга бүхий талбарууд нь НӨАТ болон НХАТ-г тухайн дүнд нэмж тооцохыг тодорхойлж буй юм. Жишээлбэл тухайн бүтээгдэхүүний үндсэн үнэ нь 1000 төгрөг бөгөөд НХАТ тооцох бүтээгдэхүүн бол дараах байдлаар тооцож нийт үнийг гарган тухайн талбарт оноож өгнө. Нийт үнэ /Нэг барааны тооцоолол/ = Үндсэн үнэ+ НӨАТ+НХАТ totalAmount = 1000 + 100 + 20 = 1120\r\n  </p>\r\n</details>\r\n"
+                  example: 1120
+                totalVAT:
+                  type:
+                    - number
+                    - 'null'
+                  description: Багц баримтын НӨАТ-н нийт дүн
+                  example: 100
+                totalCityTax:
+                  type:
+                    - number
+                    - 'null'
+                  description: "Багц баримтын НХАТ-н нийт дүн\r\n<details>\r\n  <summary>\U0001F4C4 Дэлгэрэнгүй үзэх</summary>\r\n  <p>\r\n    Нийслэл хотын албан татварын тухай хуулийн 7-р зүйлд заасан бүтээгдэхүүн, үйлчилгээнд ноогдуулсан татварыг уг талбарт оноож өгнө. Нийслэл хотын албан татварыг бодохдоо уг хуулийн 9-р зүйлд тодорхойлсон байдлаар тооцоно.\r\n  </p>\r\n</details>"
+                  example: 20
+                districtCode:
+                  type: string
+                  description: "Баримт хэвлэсэн орон нутгийн код /Байршлын код/\r\n4 оронтой бүхэл тоо\r\n[Сервис харах бол энд дарна уу.](https://developer.itc.gov.mn/docs/ebarimt-api/fbdleubwxraqa-district-code-lavlah)"
+                  example: '0101'
+                merchantTin:
+                  type: string
+                  description: "Багц баримт олгогчийн ТТД\r\n<details>\r\n  <summary>\U0001F4C4 Дэлгэрэнгүй үзэх</summary>\r\n  <p>\r\n    Хуулийн этгээд бол 11 оронтой, Хувь хүн 12-14 /civil id/ оронтой бүхэл тоо байна Монголын татварын алба нь өмнө нь улсын бүртгэлийн дугаарыг/Регистрийн дугаар/ ТТД-р давхар ашигладаг байсныг шинэчилж шинээр ТТД-г олгож эхэлсэн. Иймд PosAPI нь татварын албанаас шинээр олгож буй ТТД-г хэрэглэнэ. ТТД нь дараах форматтай байх бөгөөд өөрийн ТТД-ыг өөрийн цахим татварын систем /ETAX/-д хандан “Татвар төлөгчийн мэдээлэл” цонхноос харах боломжтой. ТТД нь хэрэв толгой татвар төлөгч эсвэл хувь хүн бол 11 орон бүхий бүхэл тоон дугаар байна. Харин салбараар бүртгэлтэй татвар төлөгч нь Аж ахуйн нэгжийн орлогын албан татварын тухай хууль, Нэмэгдсэн өртгийн албан татварын тухай хуулийн дагуу баримт үүсгэх боломжгүй болохыг анхаарна уу.\r\n  </p>\r\n</details>"
+                  example: '37900846788'
+                posNo:
+                  type: string
+                  description: Тухайн байгууллагын дотоод кассын дугаар
+                  example: '123456'
+                customerTin:
+                  type:
+                    - string
+                    - 'null'
+                  description: "Худалдан авагчийн ТТД /Зөвхөн бизнесийн үйл ажиллагаанд B2B_RECEIPT, B2B_INVOICE үед бөглөнө/\r\n\r\n<details>\r\n  <summary>\U0001F4C4 Дэлгэрэнгүй үзэх</summary>\r\n  <p>\r\n    Хуулийн этгээд бол 11 оронтой, Хувь хүн 12-14 /civil id/ оронтой бүхэл тоо байна Монголын татварын алба нь өмнө нь улсын бүртгэлийн дугаарыг/Регистрийн дугаар/ ТТД-р давхар ашигладаг байсныг шинэчилж шинээр ТТД-г олгож эхэлсэн. Иймд PosAPI нь татварын албанаас шинээр олгож буй ТТД-г хэрэглэнэ. ТТД нь дараах форматтай байх бөгөөд өөрийн ТТД-ыг өөрийн цахим татварын систем /ETAX/-д хандан “Татвар төлөгчийн мэдээлэл” цонхноос харах боломжтой. ТТД нь хэрэв толгой татвар төлөгч эсвэл хувь хүн бол 11 орон бүхий бүхэл тоон дугаар байна. Харин салбараар бүртгэлтэй татвар төлөгч нь Аж ахуйн нэгжийн орлогын албан татварын тухай хууль, Нэмэгдсэн өртгийн албан татварын тухай хуулийн дагуу баримт үүсгэх боломжгүй болохыг анхаарна уу.\r\n  </p>\r\n</details>"
+                  example: '37900846788'
+                consumerNo:
+                  type:
+                    - string
+                    - 'null'
+                  description: "Худалдан авагч иргэний ebarimt-н бүртгэлийн дугаар /Зөвхөн B2C_RECEIPT үед бөглөх боломжтой/\r\n<details>\r\n  <summary>\U0001F4C4 Дэлгэрэнгүй үзэх</summary>\r\n  <p>\r\n    8 оронтой бүхэл тоо Хэрэв тухайн төлбөрийн баримтийн төрөл нь B2C_RECEIPT бөгөөд consumerNo талбарын утга нь ebarimt.mn системд нэвтрэх 11****** код бүхий утгатай бол PosAPI нь уг баримтыг шууд Нэгдсэн системд илгээнэ. Илгээх үйлдэл амжилттай болсон нөхцөлд easy талбарын утга нь true, амжилтгүй болсон нөхцөлд false байна. Хэрэв easy талбарын утга true бол цаасан баримт хэвлэх эсэхийг хэрэглэгчийн систем нь тохиргоогоор шийдвэрлэж болно.\r\n  </p>\r\n</details>"
+                  example: '10038071'
+                type:
+                  type: string
+                  description: "Баримтын төрөл\r\n <!--\r\ntype: tab\r\ntitle: B2C_RECEIPT\r\n-->\r\n\r\nБизнес эрхлэгчээс хувь хүнд борлуулсан бүтээгдэхүүн, үйлчилгээний төлбөрийн баримт\r\n\r\n```json \r\n{\r\n  \"branchNo\": \"001\",\r\n  \"totalAmount\": 5600,\r\n  \"totalVAT\": 500,    \r\n  \"totalCityTax\": 100,    \r\n  \"districtCode\": \"2501\",\r\n  \"merchantTin\": \"110718991986\",\r\n  \"posNo\": \"001\",\r\n  \"customerTin\" : null,\r\n  \"consumerNo\": \"10038071\",\r\n  \"type\": \"B2C_RECEIPT\",\r\n  \"inactiveId\": null,\r\n  \"reportMonth\": null,\r\n  \"billIdSuffix\": \"01\",\r\n  \"receipts\": [\r\n    {\r\n      \"totalAmount\": 5600,\r\n      \"taxType\": \"VAT_ABLE\",\r\n      \"merchantTin\": \"110718991986\",\r\n      \"customerTin\" : null,\r\n      \"totalVAT\": 500.00,\r\n      \"totalCityTax\": 100,\r\n      \"bankAccountNo\": \"\",\r\n      \"invoiceId\": null,\r\n      \"iBan\": \"\",\r\n      \"items\": [\r\n        {\r\n          \"name\": \"Талх\",\r\n          \"barCode\": \"19059010880001\",\r\n          \"barCodeType\": \"GS1\",\r\n          \"classificationCode\": \"2349010\",\r\n          \"taxProductCode\": null,\r\n          \"measureUnit\": \"senlovesfits\",\r\n          \"qty\": 1,\r\n          \"unitPrice\": 5000,\r\n          \"totalVAT\": 500,\r\n          \"totalCityTax\": 100,\r\n          \"totalAmount\": 5600\r\n        }\r\n \r\n      ]\r\n    }\r\n  ],\r\n  \"payments\": [\r\n    {\r\n    \"code\":\"CASH\",\r\n    \"status\": \"PAID\",\r\n    \"paidAmount\":5600\r\n    }\r\n  ]\r\n}\r\n```\r\n<!--\r\ntype: tab\r\ntitle: B2B_RECEIPT\r\n-->\r\n\r\nБизнес эрхлэгч хооронд борлуулсан бүтээгдэхүүн, үйлчилгээний төлбөрийн баримт\r\n```json \r\n{\r\n  \"branchNo\": \"001\",\r\n  \"totalAmount\": 5000,\r\n  \"totalVAT\": 0,    \r\n  \"totalCityTax\": 0,    \r\n  \"districtCode\": \"2501\",\r\n  \"merchantTin\": \"110718991986\",\r\n  \"posNo\": \"001\",\r\n  \"customerTin\" : \"110718991986\",\r\n  \"consumerNo\": \"\",\r\n  \"type\": \"B2B_RECEIPT\",\r\n  \"inactiveId\": null,\r\n  \"reportMonth\": null,\r\n  \"billIdSuffix\": \"01\",\r\n  \"receipts\": [\r\n    {\r\n      \"totalAmount\": 5000,\r\n      \"taxType\": \"VAT_FREE\",\r\n      \"merchantTin\": \"110718991986\",\r\n      \"customerTin\" : null,\r\n      \"totalVAT\": 0,\r\n      \"totalCityTax\": 0,\r\n      \"bankAccountNo\": null,\r\n      \"invoiceId\": null,\r\n      \"iBan\": null,\r\n      \"items\": [\r\n        {\r\n          \"name\": \":Дээж сүү\",\r\n          \"barCode\": \"8654000102657\",\r\n          \"barCodeType\": \"GS1\",\r\n          \"classificationCode\": \"2349010\",\r\n          \"taxProductCode\": \"320\",\r\n          \"measureUnit\": \"senlovesfits\",\r\n          \"qty\": 1,\r\n          \"unitPrice\": 5000,\r\n          \"totalVAT\": 0,\r\n          \"totalCityTax\": 0,\r\n          \"totalAmount\": 5000\r\n        }\r\n \r\n      ]\r\n    }\r\n  ],\r\n  \"payments\": [\r\n    {\r\n    \"code\":\"CASH\",\r\n    \"status\": \"PAID\",\r\n    \"paidAmount\":5000\r\n    }\r\n  ]\r\n}\r\n\r\n```\r\n<!--\r\ntype: tab\r\ntitle: B2C_INVOICE\r\n-->\r\n\r\nБизнес эрхлэгчээс хувь хүнд борлуулсан бүтээгдэхүүн, үйлчилгээний нэхэмжлэх\r\n```json \r\n{\r\n  \"branchNo\": \"001\",\r\n  \"totalAmount\": 5000,\r\n  \"totalVAT\": 0,    \r\n  \"totalCityTax\": 0,    \r\n  \"districtCode\": \"2501\",\r\n  \"merchantTin\": \"110718991986\",\r\n  \"posNo\": \"001\",\r\n  \"customerTin\" : null,\r\n  \"consumerNo\": \"\",\r\n  \"type\": \"B2C_INVOICE\",\r\n  \"inactiveId\": null,\r\n  \"reportMonth\": null,\r\n  \"billIdSuffix\": \"01\",\r\n  \"receipts\": [\r\n    {\r\n      \"totalAmount\": 5000,\r\n      \"taxType\": \"VAT_ZERO\",\r\n      \"merchantTin\": \"110718991986\",\r\n      \"customerTin\" : null,\r\n      \"totalVAT\": 0,\r\n      \"totalCityTax\": 0,\r\n      \"bankAccountNo\": \"1111111111\",\r\n      \"iBan\": \"1001000151111111111\",\r\n      \"items\": [\r\n        {\r\n          \"name\": \"Таван толгой - Хятад улсын Ганц модны боомт\",\r\n          \"barCode\": null,\r\n          \"barCodeType\": \"UNDEFINED\",\r\n          \"classificationCode\": \"6511905\",\r\n          \"measureUnit\": \"senlovesfits\",\r\n          \"taxProductCode\": \"502\",\r\n          \"qty\": 1,\r\n          \"unitPrice\": 5000,\r\n          \"totalVAT\": 0,\r\n          \"totalCityTax\": 0,\r\n          \"totalAmount\": 5000\r\n        }\r\n \r\n      ]\r\n    }\r\n  ],\r\n  \"payments\": [\r\n    {\r\n    \"code\":\"CASH\",\r\n    \"status\": \"PAID\",\r\n    \"paidAmount\":5000\r\n    }\r\n  ]\r\n}\r\n```\r\n<!--\r\ntype: tab\r\ntitle: B2B_INVOICE\r\n-->\r\n\r\nБизнес эрхлэгч хооронд борлуулсан бүтээгдэхүүн, үйлчилгээний нэхэмжлэх\r\n\r\n```json \r\n{\r\n    \"branchNo\": \"001\",\r\n    \"totalAmount\": 5000,\r\n    \"totalVAT\": 0,\r\n    \"totalCityTax\": 0,\r\n    \"districtCode\": \"2501\",\r\n    \"merchantTin\": \"110718991986\",\r\n    \"posNo\": \"001\",\r\n    \"customerTin\": \"110718991986\",\r\n    \"consumerNo\": \"\",\r\n    \"branchNo\": \"001\",\r\n    \"type\": \"B2B_INVOICE\",\r\n    \"inactiveId\": null,\r\n    \"reportMonth\": null,\r\n    \"receipts\": [\r\n        {\r\n            \"totalAmount\": 5000,\r\n            \"taxType\": \"NOT_VAT\",\r\n            \"merchantTin\": \"110718991986\",\r\n            \"customerTin\": null,\r\n            \"totalVAT\": 0,\r\n            \"totalCityTax\": 0,\r\n            \"bankAccountNo\": \"1111111111\",\r\n            \"iBan\": \"1001000151111111111\",\r\n            \"items\": [\r\n                {\r\n                    \"name\": \"Jack Daniel's Whiskey Old No.7 Tennessee 2x1 Liter\",\r\n                    \"barCode\": \"5099873145258\",\r\n                    \"barCodeType\": \"GS1\",\r\n                    \"classificationCode\": \"6511905\",\r\n                    \"measureUnit\": \"senlovesfits\",\r\n                    \"taxProductCode\": \"0000414\",\r\n                    \"qty\": 1,\r\n                    \"unitPrice\": 5000,\r\n                    \"totalVAT\": 0,\r\n                    \"totalCityTax\": 0,\r\n                    \"totalAmount\": 5000\r\n                }\r\n            ]\r\n        }\r\n    ],\r\n    \"payments\": [\r\n        {\r\n            \"code\": \"CASH\",\r\n            \"status\": \"PAID\",\r\n            \"paidAmount\": 5000\r\n        }\r\n    ]\r\n}\r\n```\r\n\r\n <!--\r\ntype: tab\r\ntitle: STOCK_QR\r\n-->\r\n\r\nОнцгой албан татварын тэмдэг бүхий барааны борлуулалт илгээх\r\n\r\n```json \r\n{\r\n  \"totalAmount\": \"1100\",\r\n  \"totalVAT\": \"0\",\r\n  \"totalCityTax\": \"0.00\",\r\n  \"districtCode\": \"2501\",\r\n  \"merchantTin\": \"37900846788\",\r\n  \"branchNo\": \"01\",\r\n  \"posNo\": \"10009335\",\r\n  \"customerTin\": \"\",\r\n  \"consumerNo\": \"\",\r\n  \"type\": \"B2C_RECEIPT\",\r\n  \"inactiveId\": \"\",\r\n  \"reportMonth\": null,\r\n  \"receipts\": [\r\n    {\r\n      \"totalAmount\": \"1100\",\r\n      \"totalVAT\": \"0\",\r\n      \"totalCityTax\": \"0.00\",\r\n      \"taxType\": \"VAT_FREE\",\r\n      \"merchantTin\": \"37900846788\",\r\n      \"items\": [\r\n        {\r\n          \"barCode\": \"0709013\",\r\n          \"name\": \"Байцаа\",\r\n          \"measureUnit\": \"Ш\",\r\n          \"qty\": \"2\",\r\n          \"unitPrice\": \"1000\",\r\n          \"totalAmount\": \"1100\",\r\n          \"totalVAT\": \"0\",\r\n          \"barCodeType\": \"UNDEFINED\",\r\n          \"totalCityTax\": \"0.00\",\r\n          \"classificationCode\": \"0709013\",\r\n          \"taxProductCode\": \"0000414\",\r\n          \"data\": {\r\n            \"stockQR\": [\r\n              \"A17F974BE497F14CE0536F50A8C057A7\",\r\n              \"A17F974BE495F14CE0536F50A8C057A7\"\r\n            ]\r\n          }\r\n        }\r\n      ]\r\n    }\r\n  ],\r\n  \"payments\": [\r\n    {\r\n      \"code\": \"CASH\",\r\n      \"paidAmount\": 1100,\r\n      \"status\": \"PAID\"\r\n    }\r\n  ]\r\n}\r\n```\r\n<!-- type: tab-end -->\r\n"
+                  example: B2B_RECEIPT
+                inactiveId:
+                  type:
+                    - string
+                    - 'null'
+                  description: "Засварлах баримтын ДДТД\r\n<details>\r\n  <summary>\U0001F4C4 Дэлгэрэнгүй үзэх</summary>\r\n  <p>\r\n    Баримтыг засварлах буюу хэсэгчилсэн буцаалт хийх тохиолдолд “inactiveId” талбарт засварлах баримтын дугаарыг оруулан баримтын шинэ бичилтийг хийнэ. Баримт засварлаж буй тохиолдолд тухайн хэвлэгдсэн сугалаа хүчингүй болохгүй бөгөөд засварлагдсан баримтад сугалаа ахин олгохгүй. Иймд өмнөх баримтан дээрх сугалааны дугаараар нэгдсэн системд бүртгүүлнэ. Хэрэв нэг төлбөрийн баримтын хувьд хэсэгчилсэн буцаалтыг олон удаа үйлдэж буй үед inactiveId талбарт тухайн баримтын өмнөх баримтын ДДТД-г дамжуулж буцаана. Өөрөөр хэлбэл эхний засварт анхны ДДТД-г ашиглах ба дараагийн засварт 2 дахь төлбөрийн баримтын ДДТД-г ашиглана мөн дахин засвар оруулбал 3 дахь баримтын ДДТД-г ашиглана гэх мэтээр гинжин хэлбэрээр цувуулан засварлана.\r\n  </p>\r\n</details>"
+                reportMonth:
+                  type:
+                    - string
+                    - 'null'
+                  description: "Баримт харьяалагдах тайлант сар\r\nЗөвхөн B2B_RECEIPT, B2B_INVOICE төрлийн баримтуудыг нөхөн үүсгэх ба зөвхөн сар бүрийн 1-7-ны өдрүүдийн хооронд, өмнөх сарын баримтыг нөхөн үүсгэх боломжтой."
+                billIdSuffix:
+                  type: string
+                  x-stoplight:
+                    id: zi951akhmw2bm
+                  description: "Баримтын дугаарлалт\r\n<details>\r\n  <summary>\U0001F4C4 Дэлгэрэнгүй үзэх</summary>\r\n  <p>\r\n    Баримтын ДДТД-ыг давхцуулахгүйн тулд олгох дотоод дугаарлалт. Тухайн өдөртөө дахин давтагдашгүй дугаар байна\r\n  </p>\r\n</details>"
+                data:
+                  type: object
+                  x-stoplight:
+                    id: f8a82juczwc7i
+                  description: Багц төлбөрийн баримтын нэмэлт өгөгдөл.
+                receipts:
+                  type: array
+                  description: Дэд төлбөрийн баримтууд
+                  items:
+                    type: object
+                    required:
+                      - totalAmount
+                      - taxType
+                      - merchantTin
+                      - items
+                    properties:
+                      totalAmount:
+                        type: number
+                        description: "Дэд төлбөрийн баримтын гүйлгээний нийт дүн\r\nБүх төрлийн татвар шингэсэн дүн"
+                        example: 1120
+                      totalVAT:
+                        type:
+                          - number
+                          - 'null'
+                        description: "Дэд төлбөрийн баримтын НӨАТ-н нийт дүн\r\n"
+                        example: 100
+                      totalCityTax:
+                        type:
+                          - number
+                          - 'null'
+                        description: Дэд төлбөрийн баримтын НХАТ-н нийт дүн
+                        example: 20
+                      taxType:
+                        type: string
+                        description: "Татварын төрөл: \r\nХэрэв нийт худалдан авсан бараанд НӨАТ тооцох, НӨАТ-аас чөлөөлөгдөх болон НӨАТ-н 0 хувь тооцох бараа, ажил, үйлчилгээг хамтад нь худалдан авсан тохиолдолд татварын төрөл тус бүрээр дэд баримт үйлдэнэ!!!\r\nТатварын төрөл\r\n <!--\r\ntype: tab\r\ntitle: VAT_ABLE\r\n-->\r\n\r\nНӨАТ тооцох бүтээгдэхүүн, үйлчилгээ /НӨАТ-н тухай хууль 7-р зүйл/\r\n\r\n```json \r\n{\r\n  \"branchNo\": \"001\",\r\n  \"totalAmount\": 5600,\r\n  \"totalVAT\": 500,    \r\n  \"totalCityTax\": 100,    \r\n  \"districtCode\": \"2501\",\r\n  \"merchantTin\": \"110718991986\",\r\n  \"posNo\": \"001\",\r\n  \"customerTin\" : \"110718991986\",\r\n  \"consumerNo\": \"\",\r\n  \"type\": \"B2B_RECEIPT\",\r\n  \"inactiveId\": null,\r\n  \"reportMonth\": null,\r\n  \"billIdSuffix\": \"01\",\r\n  \"receipts\": [\r\n    {\r\n      \"totalAmount\": 5600,\r\n      \"taxType\": \"VAT_ABLE\",\r\n      \"merchantTin\": \"110718991986\",\r\n      \"customerTin\" : null,\r\n      \"totalVAT\": 500.00,\r\n      \"totalCityTax\": 100,\r\n      \"bankAccountNo\": \"\",\r\n      \"iBan\": \"\",\r\n      \"items\": [\r\n        {\r\n          \"name\": \"Талх\",\r\n          \"barCode\": \"19059010880001\",\r\n          \"barCodeType\": \"GS1\",\r\n          \"classificationCode\": \"2349010\",\r\n          \"taxProductCode\": null,\r\n          \"measureUnit\": \"senlovesfits\",\r\n          \"qty\": 1,\r\n          \"unitPrice\": 5000,\r\n          \"totalVAT\": 500,\r\n          \"totalCityTax\": 100,\r\n          \"totalAmount\": 5600\r\n        }\r\n \r\n      ]\r\n    }\r\n  ],\r\n  \"payments\": [\r\n    {\r\n    \"code\":\"CASH\",\r\n    \"status\": \"PAID\",\r\n    \"paidAmount\":5600\r\n    }\r\n  ]\r\n}\r\n```\r\n<!--\r\ntype: tab\r\ntitle: VAT_FREE\r\n-->\r\n\r\nНӨАТ-аас чөлөөлөгдөх бүтээгдэхүүн, үйлчилгээ /НӨАТ-н тухай хууль 13-р зүйл/\r\n```json \r\n{\r\n  \"branchNo\": \"001\",\r\n  \"totalAmount\": 5000,\r\n  \"totalVAT\": 0,    \r\n  \"totalCityTax\": 0,    \r\n  \"districtCode\": \"2501\",\r\n  \"merchantTin\": \"110718991986\",\r\n  \"posNo\": \"001\",\r\n  \"customerTin\" : \"110718991986\",\r\n  \"consumerNo\": \"\",\r\n  \"type\": \"B2B_RECEIPT\",\r\n  \"inactiveId\": null,\r\n  \"reportMonth\": null,\r\n  \"billIdSuffix\": \"01\",\r\n  \"receipts\": [\r\n    {\r\n      \"totalAmount\": 5000,\r\n      \"taxType\": \"VAT_FREE\",\r\n      \"merchantTin\": \"110718991986\",\r\n      \"customerTin\" : null,\r\n      \"totalVAT\": 0,\r\n      \"totalCityTax\": 0,\r\n      \"bankAccountNo\": null,\r\n      \"iBan\": null,\r\n      \"items\": [\r\n        {\r\n          \"name\": \":Дээж сүү\",\r\n          \"barCode\": \"8654000102657\",\r\n          \"barCodeType\": \"GS1\",\r\n          \"classificationCode\": \"2349010\",\r\n          \"taxProductCode\": \"320\",\r\n          \"measureUnit\": \"senlovesfits\",\r\n          \"qty\": 1,\r\n          \"unitPrice\": 5000,\r\n          \"totalVAT\": 0,\r\n          \"totalCityTax\": 0,\r\n          \"totalAmount\": 5000\r\n        }\r\n \r\n      ]\r\n    }\r\n  ],\r\n  \"payments\": [\r\n    {\r\n    \"code\":\"CASH\",\r\n    \"status\": \"PAID\",\r\n    \"paidAmount\":5000\r\n    }\r\n  ]\r\n}\r\n\r\n```\r\n<!--\r\ntype: tab\r\ntitle: VAT_ZERO\r\n-->\r\n\r\nНӨАТ-н 0 хувь тооцох бүтээгдэхүүн, үйлчилгээ /НӨАТ-н тухай хууль 12-р зүйл/\r\n```json \r\n{\r\n  \"branchNo\": \"001\",\r\n  \"totalAmount\": 5000,\r\n  \"totalVAT\": 0,    \r\n  \"totalCityTax\": 0,    \r\n  \"districtCode\": \"2501\",\r\n  \"merchantTin\": \"110718991986\",\r\n  \"posNo\": \"001\",\r\n  \"customerTin\" : \"110718991986\",\r\n  \"consumerNo\": \"\",\r\n  \"type\": \"B2B_RECEIPT\",\r\n  \"inactiveId\": null,\r\n  \"reportMonth\": null,\r\n  \"billIdSuffix\": \"01\",\r\n  \"receipts\": [\r\n    {\r\n      \"totalAmount\": 5000,\r\n      \"taxType\": \"VAT_ZERO\",\r\n      \"merchantTin\": \"110718991986\",\r\n      \"customerTin\" : null,\r\n      \"totalVAT\": 0,\r\n      \"totalCityTax\": 0,\r\n      \"bankAccountNo\": \"\",\r\n      \"iBan\": \"\",\r\n      \"items\": [\r\n        {\r\n          \"name\": \"Таван толгой - Хятад улсын Ганц модны боомт\",\r\n          \"barCode\": null,\r\n          \"barCodeType\": \"UNDEFINED\",\r\n          \"classificationCode\": \"6511905\",\r\n          \"measureUnit\": \"senlovesfits\",\r\n          \"taxProductCode\": \"502\",\r\n          \"qty\": 1,\r\n          \"unitPrice\": 5000,\r\n          \"totalVAT\": 0,\r\n          \"totalCityTax\": 0,\r\n          \"totalAmount\": 5000\r\n        }\r\n \r\n      ]\r\n    }\r\n  ],\r\n  \"payments\": [\r\n    {\r\n    \"code\":\"CASH\",\r\n    \"status\": \"PAID\",\r\n    \"paidAmount\":5000\r\n    }\r\n  ]\r\n}\r\n```\r\n<!--\r\ntype: tab\r\ntitle: NO_VAT\r\n-->\r\n\r\nМонгол улсын хилийн гадна борлуулсан бүтээгдэхүүн үйлчилгээ / НӨАТ-н тухай хуулийн 3-р зүйлээс бусад\r\n```json \r\n{\r\n    \"branchNo\": \"001\",\r\n \r\n  \"totalAmount\": 5000,\r\n    \"totalVAT\": 0,\r\n    \"totalCityTax\": 0,\r\n    \"districtCode\": \"2501\",\r\n    \"merchantTin\": \"110718991986\",\r\n    \"posNo\": \"001\",\r\n    \"customerTin\": \"110718991986\",\r\n    \"consumerNo\": \"\",\r\n    \"branchNo\": \"001\",\r\n    \"type\": \"B2B_RECEIPT\",\r\n    \"inactiveId\": null,\r\n    \"reportMonth\": null,\r\n    \"receipts\": [\r\n        {\r\n            \"totalAmount\": 5000,\r\n            \"taxType\": \"NOT_VAT\",\r\n            \"merchantTin\": \"110718991986\",\r\n            \"customerTin\": null,\r\n            \"totalVAT\": 0,\r\n            \"totalCityTax\": 0,\r\n            \"bankAccountNo\": \"\",\r\n            \"iBan\": \"\",\r\n            \"items\": [\r\n                {\r\n                    \"name\": \"Jack Daniel's Whiskey Old No.7 Tennessee 2x1 Liter\",\r\n                    \"barCode\": \"5099873145258\",\r\n                    \"barCodeType\": \"GS1\",\r\n                    \"classificationCode\": \"6511905\",\r\n                    \"measureUnit\": \"senlovesfits\",\r\n                    \"taxProductCode\": \"0000414\",\r\n                    \"qty\": 1,\r\n                    \"unitPrice\": 5000,\r\n                    \"totalVAT\": 0,\r\n                    \"totalCityTax\": 0,\r\n                    \"totalAmount\": 5000\r\n                }\r\n            ]\r\n        }\r\n    ],\r\n    \"payments\": [\r\n        {\r\n            \"code\": \"CASH\",\r\n            \"status\": \"PAID\",\r\n            \"paidAmount\": 5000\r\n        }\r\n    ]\r\n}\r\n```\r\n<!-- type: tab-end -->"
+                        example: VAT_ABLE
+                      merchantTin:
+                        type: string
+                        description: Борлуулагчийн ТТД
+                        example: '37900846788'
+                      bankAccountNo:
+                        type:
+                          - string
+                          - 'null'
+                        x-stoplight:
+                          id: 618r48n77poiy
+                        description: Банкны дансны дугаар /Толгой болон дэд баримтын мерчант дээр бүртгэлгтэй дансны аль нэгийг бичиж болно/
+                      iBan:
+                        type: string
+                        x-stoplight:
+                          id: jqtg7mcslcdew
+                        description: "Олон улсын банкны дансны дугаарлалт\r\n<details>\r\n  <summary>\U0001F4C4 Дэлгэрэнгүй үзэх</summary>\r\n  <p>\r\n    Толгой болон дэд баримтын мерчант дээр бүртгэлгтэй IBAN-ы аль нэгийг бичиж болно PosAPI 3.0 системийн receipt сервис дээр iBan талбарыг нэмэх бөгөөд хөгжүүлэлт бүрэн дуусах хүртэл уг талбарыг JSON-д заавал оруулах шаардлагагүй. Мөн Local database-ийн bankaccount хүснэгтэд iban багана нэмэгдэх ба уг баганын өгөгдөл нь баримт илгээх явцад автоматаар бөглөгдөх болно.\r\n  </p>\r\n</details> "
+                        example: '100100015121212121111'
+                      data:
+                        type: object
+                        x-stoplight:
+                          id: muihx0tw1dmfu
+                        description: Дэд төлбөрийн баримтын нэмэлт өгөгдөл
+                      invoiceId:
+                        type:
+                          - string
+                          - 'null'
+                        x-stoplight:
+                          id: d6md44082xiom
+                        description: "Төлбөрийн баримтын харгалзах нэхэмжлэхийн ДДТД\r\n<details>\r\n  <summary>\U0001F4C4 Дэлгэрэнгүй үзэх</summary>\r\n  <p>\r\n    Хэрэв тухайн төлбөрийн баримт нь өмнө үүсгэсэн нэхэмжлэхийн дагуу төлж буй үед “invoiceId” талбарт тухайн нэхэмжлэхийн ДДТД-г дамжуулж өгнө.\r\n  </p>\r\n</details>\r\n"
+                      items:
+                        type: array
+                        description: 'Борлуулсан бүтээгдэхүүн, үйлчилгээний жагсаалт'
+                        items:
+                          x-stoplight:
+                            id: 10h02ff0zg8ec
+                          type: object
+                          required:
+                            - name
+                            - barCode
+                            - measureUnit
+                            - qty
+                            - unitPrice
+                            - totalAmount
+                          properties:
+                            name:
+                              type: string
+                              x-stoplight:
+                                id: vig3e6n6tzisg
+                              description: 'Бүтээгдэхүүн, үйлчилгээний нэр'
+                              example: Бичгийн Цаас А4
+                            barCode:
+                              type: string
+                              x-stoplight:
+                                id: 1o127ix59j51b
+                              description: Бүтээгдэхүүний зураасан код
+                              example: '0123456789012'
+                            barCodeType:
+                              type: string
+                              x-stoplight:
+                                id: yind73cn5zwe6
+                              description: "Зураасан кодын төрөл\r\n| Утга      | Тайлбар                                                                                    |\r\n|-----------|--------------------------------------------------------------------------------------------|\r\n| UNDEFINED | Бар кодгүй эсвэл доорх мөрөнд тодорхойлогдоогүй бар код бүхий бараа эсвэл ажил, үйлчилгээ. |\r\n| GS1       | GS1 зураасан код                                                                           |\r\n| ISBN      | ISBN зураасан код                                                                          |"
+                              example: GS1
+                            classificationCode:
+                              type: string
+                              x-stoplight:
+                                id: 9kki32fuz5jan
+                              description: "Бүтээгдэхүүн, үйлчилгээний ангиллын код [Бүтээгдэхүүн үйлчилгээний нэгдсэн ангиллын код](https://share.itc.gov.mn/share/developer/gs1\\_gs1.xlsx)\r\n<details>\r\n  <summary>\U0001F4C4 Дэлгэрэнгүй үзэх</summary>\r\n  <p>\r\n    Монгол улсын “Үндэсний статистикийн хороо”-ноос батлан гаргасан “Бүтээгдэхүүн, үйлчилгээний нэгдсэн ангилал”-ын кодыг ашиглан уг талбарыг бөглөнө. Уг ангиллын кодын 4 дүгээр баганын дагуу бөглөх ёстой бөгөөд уг талбарын урт нь 7 орон бүхий бүхэл тоон утга байна.\r\n  </p>\r\n</details>"
+                              example: '3212911'
+                            taxProductCode:
+                              type: string
+                              x-stoplight:
+                                id: l5ohlgarr226i
+                              description: "taxType талбарын утга нь VAT_FREE, VAT_ZERO үед татварын харгалзах 3 оронтой тоон кодыг оруулана.\r\n[Сервис харах бол энд дарна уу.](https://developer.itc.gov.mn/docs/ebarimt-api/branches/main/16ukw8k7rdro5-vat-free-vat-zero-no-vat-baraa-jlchilgeenij-kod-lavlah)"
+                            measureUnit:
+                              type: string
+                              x-stoplight:
+                                id: zl92yiqf0ix0m
+                              description: Хэмжих нэгж
+                            qty:
+                              type: number
+                              x-stoplight:
+                                id: bpvzc26nt6t2k
+                              description: 'Борлуулсан тоо, хэмжээ'
+                              example: 1
+                            unitPrice:
+                              type: number
+                              x-stoplight:
+                                id: 8w6uq8nfxhw5y
+                              description: "Нэгж үнэ\r\nБүх төрлийн татвар шингэсэн дүн"
+                              example: 1120
+                            totalVAT:
+                              type:
+                                - number
+                                - 'null'
+                              x-stoplight:
+                                id: 0zc7l0eb8t3bl
+                              description: 'Бүтээгдэхүүн, үйлчилгээний НӨАТ-н нийт дүн'
+                              example: 100
+                            totalCityTax:
+                              type:
+                                - number
+                                - 'null'
+                              x-stoplight:
+                                id: gzbi16ix2rbr1
+                              description: 'Бүтээгдэхүүн, үйлчилгээний НХАТ-н нийт дүн'
+                              example: 20
+                            totalAmount:
+                              type: number
+                              x-stoplight:
+                                id: rqbk10loefk4k
+                              description: "Бүтээгдэхүүн, үйлчилгээний гүйлгээний нийт дүн\r\nБүх төрлийн татвар шингэсэн дүн"
+                              example: 1120
+                            data:
+                              type:
+                                - object
+                                - 'null'
+                              x-stoplight:
+                                id: uicgkuxujyqrl
+                              description: 'Бүтээгдэхүүн, үйлчилгээний нэмэлт өгөгдөл'
+                              properties:
+                                lotNo:
+                                  type: string
+                                  x-stoplight:
+                                    id: fnhvk0voz1r6k
+                                  description: 'Эм, эмнэлгийн хэрэгслийн цувралын дугаар'
+                                stockQR:
+                                  type: array
+                                  x-stoplight:
+                                    id: 6hl4qwxxqu9r7
+                                  description: "ОАТ тэмдэг бүхий барааны QR дата\r\n<details>\r\n  <summary>\U0001F4C4 Дэлгэрэнгүй үзэх</summary>\r\n  <p>\r\n    Онцгой албан татварын тэмдэг бүхий барааг зарж борлуулах үед item-ийн data талбарт stockQR гэсэн array string-ийг нэмэх шаардлагатай. Мөн тухайн тэмдгийн барааны баркодыг үнэн зөв ирүүлэх ба Баркодын мэдээллийг “ОАТ барааны баркодын мэдээлэл лавлах” сервисийг ашиглаж, QR кодыг дамжуулна.\r\n  </p>\r\n</details>\r\n\r\n[ОАТ барааны баркодын мэдээлэл лавлах /QR/ сервис харах бол энд дарна уу](https://developer.itc.gov.mn/docs/ebarimt-api/zxu5zjs7j91db-oat-baraany-barkodyn-medeelel-lavlah-qr)"
+                                  items:
+                                    x-stoplight:
+                                      id: nil8nw5g8xy7q
+                                    type: string
+                                    example: BF6B1FBA86FB4C41ADDBB01C09C024F5
+                invoiceId:
+                  type:
+                    - string
+                    - 'null'
+                  x-stoplight:
+                    id: yxnegxrqmwwpe
+                  description: "Төлбөрийн баримтын харгалзах нэхэмжлэхийн ДДТД\r\nАнхаар: Толгой баримтын “Object” хэсэгт оруулсан нэхэмжлэхийн дугаар нь тухайн баримтад хамаарах бүх баримтын толгой нэхэмжлэх болохыг илэрхийлнэ. Харин ялгаатай нэхэмжлэхүүдийн төлөлт хийж байгаа тохиолдолд тэдгээрийг Receipts хэсэгт тус бүрээр нь оруулна.\r\n<details>\r\n  <summary>\U0001F4C4 Дэлгэрэнгүй үзэх</summary>\r\n  <p>\r\n    Хэрэв тухайн төлбөрийн баримт нь өмнө үүсгэсэн нэхэмжлэхийн дагуу төлж буй үед “invoiceId” талбарт тухайн нэхэмжлэхийн ДДТД-г дамжуулж өгнө.\r\n  </p>\r\n</details>"
+                payments:
+                  type: array
+                  description: Төлбөрийн хэлбэр
+                  items:
+                    type: object
+                    required:
+                      - code
+                      - status
+                      - paidAmount
+                      - data
+                    properties:
+                      code:
+                        type: string
+                        description: "Төлбөрийн хэлбэрийн код\r\n| Утга         | Тайлбар        |\r\n|--------------|----------------|\r\n| CASH         | Бэлнээр        |\r\n| PAYMENT_CARD | Төлбөрийн карт/ |"
+                      exchangeCode:
+                        type: string
+                        x-stoplight:
+                          id: gq9zzctcgx2p5
+                        description: Төлбөр хийж гүйцэтгэх гуравдагч системийн код
+                      status:
+                        type: string
+                        description: "Төлбөрийн хэлбэрийн төлөв\r\n| Утга     | Тайлбар                                                                        |\r\n|----------|--------------------------------------------------------------------------------|\r\n| PAID     | Төлбөр амжилттай хийгдсэнийг тодорхойлоно                                      |\r\n| PAY      | Төлбөрийн мэдээллийг “Баримтын мэдээлэл солилцох сервис”-г ашиглан гүйцэтгэнэ./ Баримтын мэдээлэл солилцох сервис хэсэгийг харан уу./ |\r\n| REVERSED | Төлбөр буцаагдсан /Баримтын мэдээлэл солилцох сервис хэсэгийг харан уу.  /                                                             |\r\n| ERROR    | Төлөлт амжилтгүй болсон /Баримтын мэдээлэл солилцох сервис хэсэгийг харан уу. /"
+                      paidAmount:
+                        type: number
+                        description: Нийт төлсөн дүн
+                        example: 1120
+                      data:
+                        type:
+                          - object
+                          - 'null'
+                        x-stoplight:
+                          id: a4beo5wqsov1d
+                        description: "Төлбөрийн нэмэлт өгөгдөл\r\n\r\ncode талбарын утга PAYMENT_CARD бол дата талбарын нэмэх боломжтой. \r\n\r\n <!--\r\ntype: tab\r\ntitle: EASY_BANK_CARD\r\n-->\r\n\r\nХэрэглэгч банкны картаар төлбөр төлсөн тохиолдолд тухайн картын гүйлгээний мэдээллийг системд дамжуулна. Хэрэглэгч банкны аппликейшнд картаа ИБАРИМТ хялбар бүртгүүлэх тохиргоо хийсэн бол төлбөрийн баримтыг автоматаар баталгаажуулна.\r\n\r\n```json \r\n{\r\n  \"branchNo\": \"001\",\r\n  \"totalAmount\": 5600,\r\n  \"totalVAT\": 500,\r\n  \"totalCityTax\": 100,\r\n  \"districtCode\": \"2501\",\r\n  \"merchantTin\": \"37900846788\",\r\n  \"posNo\": \"001\",\r\n  \"customerTin\": null,\r\n  \"consumerNo\": \"10038071\",\r\n  \"type\": \"B2C_RECEIPT\",\r\n  \"inactiveId\": null,\r\n  \"invoiceId\": null,\r\n  \"reportMonth\": null,\r\n  \"billIdSuffix\": \"01\",\r\n  \"receipts\": [\r\n    {\r\n      \"totalAmount\": 5600,\r\n      \"taxType\": \"VAT_ABLE\",\r\n      \"merchantTin\": \"37900846788\",\r\n      \"customerTin\": null,\r\n      \"totalVAT\": 500,\r\n      \"totalCityTax\": 100,\r\n      \"bankAccountNo\": \"\",\r\n      \"iBan\": \"\",\r\n      \"items\": [\r\n        {\r\n          \"name\": \"Талх\",\r\n          \"barCode\": \"19059010880001\",\r\n          \"barCodeType\": \"GS1\",\r\n          \"classificationCode\": \"2349010\",\r\n          \"taxProductCode\": null,\r\n          \"measureUnit\": \"senlovesfits\",\r\n          \"qty\": 1,\r\n          \"unitPrice\": 5000,\r\n          \"totalVAT\": 500,\r\n          \"totalCityTax\": 100,\r\n          \"totalAmount\": 5600\r\n        }\r\n      ]\r\n    }\r\n  ],\r\n  \"payments\": [\r\n    {\r\n      \"code\": \"CASH\",\r\n      \"status\": \"PAID\",\r\n      \"paidAmount\": 4000\r\n    },\r\n    {\r\n      \"code\": \"PAYMENT_CARD\",\r\n      \"status\": \"PAID\",\r\n      \"paidAmount\": 600,\r\n      \"data\": {\r\n        \"terminalID\": \"11111\",\r\n        \"rrn\": \"123456789123\",\r\n        \"maskedCardNumber\": \"123456XXXXXX7890\",\r\n        \"easy\": true\r\n      }\r\n    },\r\n    {\r\n      \"code\": \"PAYMENT_CARD\",\r\n      \"status\": \"PAID\",\r\n      \"paidAmount\": 1000,\r\n      \"data\": {\r\n        \"terminalID\": \"111\",\r\n        \"rrn\": \"123456789121\",\r\n        \"maskedCardNumber\": \"123456XXXXXX7891\",\r\n        \"easy\": false\r\n      }\r\n    }\r\n  ]\r\n}\r\n```\r\n<!-- type: tab-end -->\r\n"
+                        required:
+                          - terminalID
+                          - rrn
+                          - maskedCardNumber
+                          - easy
+                        properties:
+                          terminalID:
+                            type: string
+                            x-stoplight:
+                              id: jq4fnbwaafgmm
+                            description: "Терминал дугаар\r\ndata талбар хоосон биш бол requiered"
+                          rrn:
+                            type: string
+                            x-stoplight:
+                              id: 5pmev2mmic03m
+                            description: "Гүйлгээний давтагдашгүй дугаар\r\ndata талбар хоосон биш бол requiered"
+                          maskedCardNumber:
+                            type: string
+                            x-stoplight:
+                              id: n3gett6xmslfm
+                            description: "Нуусан эсвэл далдласан картын дугаар\r\ndata талбар хоосон биш бол requiered"
+                            example: 123456XXXXXX7890
+                          easy:
+                            type: boolean
+                            x-stoplight:
+                              id: h3ou68puhnjlb
+                            description: "Хялбар бүртгэл хийх эсэх /Иргэнээс асууна/\r\ntrue: Баримт баталгаажуулах\r\nfalse: Баримт баталгаажуулахгүй\r\ndata талбар хоосон биш бол requiered"
+                          bankCode:
+                            type: string
+                            x-stoplight:
+                              id: 3p27ogf9gsr3o
+                            description: Issuer талын банкны код
+            examples:
+              Төлбөрийн баримт B2C_RECEIPT:
+                value:
+                  branchNo: '001'
+                  totalAmount: 5600
+                  totalVAT: 500
+                  totalCityTax: 100
+                  districtCode: '2501'
+                  merchantTin: '110718991986'
+                  posNo: '001'
+                  customerTin: null
+                  consumerNo: '10038071'
+                  type: B2C_RECEIPT
+                  inactiveId: null
+                  reportMonth: null
+                  billIdSuffix: '01'
+                  receipts:
+                    - totalAmount: 5600
+                      taxType: VAT_ABLE
+                      merchantTin: '110718991986'
+                      customerTin: null
+                      totalVAT: 500
+                      totalCityTax: 100
+                      invoiceId: null
+                      bankAccountNo: ''
+                      iBan: ''
+                      items:
+                        - name: Талх
+                          barCode: '19059010880001'
+                          barCodeType: GS1
+                          classificationCode: '2349010'
+                          taxProductCode: null
+                          measureUnit: senlovesfits
+                          qty: 1
+                          unitPrice: 5000
+                          totalVAT: 500
+                          totalCityTax: 100
+                          totalAmount: 5600
+                  payments:
+                    - code: CASH
+                      status: PAID
+                      paidAmount: 5600
+              Төлбөрийн баримт  B2B_RECEIPT:
+                value:
+                  branchNo: '001'
+                  totalAmount: 5000
+                  totalVAT: 0
+                  totalCityTax: 0
+                  districtCode: '2501'
+                  merchantTin: '110718991986'
+                  posNo: '001'
+                  customerTin: '110718991986'
+                  consumerNo: ''
+                  type: B2B_RECEIPT
+                  inactiveId: null
+                  invoiceId: null
+                  reportMonth: null
+                  billIdSuffix: '01'
+                  receipts:
+                    - totalAmount: 5000
+                      taxType: VAT_FREE
+                      merchantTin: '110718991986'
+                      customerTin: null
+                      totalVAT: 0
+                      totalCityTax: 0
+                      bankAccountNo: null
+                      iBan: null
+                      items:
+                        - name: ':Дээж сүү'
+                          barCode: '8654000102657'
+                          barCodeType: GS1
+                          classificationCode: '2349010'
+                          taxProductCode: '320'
+                          measureUnit: senlovesfits
+                          qty: 1
+                          unitPrice: 5000
+                          totalVAT: 0
+                          totalCityTax: 0
+                          totalAmount: 5000
+                  payments:
+                    - code: CASH
+                      status: PAID
+                      paidAmount: 5000
+              Төлбөрийн баримт B2C_INVOICE:
+                value:
+                  branchNo: '001'
+                  totalAmount: 5000
+                  totalVAT: 0
+                  totalCityTax: 0
+                  districtCode: '2501'
+                  merchantTin: '110718991986'
+                  posNo: '001'
+                  customerTin: null
+                  consumerNo: ''
+                  type: B2C_INVOICE
+                  inactiveId: null
+                  invoiceId: null
+                  reportMonth: null
+                  billIdSuffix: '01'
+                  receipts:
+                    - totalAmount: 5000
+                      taxType: VAT_ZERO
+                      merchantTin: '110718991986'
+                      customerTin: null
+                      totalVAT: 0
+                      totalCityTax: 0
+                      bankAccountNo: '1111111111'
+                      iBan: '1001000151111111111'
+                      items:
+                        - name: Таван толгой - Хятад улсын Ганц модны боомт
+                          barCode: null
+                          barCodeType: UNDEFINED
+                          classificationCode: '6511905'
+                          measureUnit: senlovesfits
+                          taxProductCode: '502'
+                          qty: 1
+                          unitPrice: 5000
+                          totalVAT: 0
+                          totalCityTax: 0
+                          totalAmount: 5000
+                  payments:
+                    - code: CASH
+                      status: PAID
+                      paidAmount: 5000
+              Төлбөрийн баримт B2B_INVOICE:
+                value:
+                  branchNo: '001'
+                  totalAmount: 1120
+                  totalVAT: 100
+                  totalCityTax: 20
+                  districtCode: '0101'
+                  merchantTin: '37900846788'
+                  posNo: '123456'
+                  customerTin: '37900846788'
+                  consumerNo: '10038071'
+                  type: B2B_RECEIPT
+                  inactiveId: string
+                  invoiceId: string
+                  reportMonth: string
+                  billIdSuffix: string
+                  data: {}
+                  receipts:
+                    - totalAmount: 1120
+                      totalVAT: 100
+                      totalCityTax: 20
+                      taxType: VAT_ABLE
+                      merchantTin: '37900846788'
+                      bankAccountNo: string
+                      iBan: '100100015121212121111'
+                      data: {}
+                      items:
+                        - name: Бичгийн Цаас А4
+                          barCode: '0123456789012'
+                          barCodeType: GS1
+                          classificationCode: '3212911'
+                          taxProductCode: string
+                          measureUnit: string
+                          qty: 1
+                          unitPrice: 1120
+                          totalVAT: 100
+                          totalCityTax: 20
+                          totalAmount: 1120
+                          data:
+                            lotNo: string
+                            stockQR:
+                              - BF6B1FBA86FB4C41ADDBB01C09C024F5
+                  payments:
+                    - code: string
+                      exchangeCode: string
+                      status: string
+                      paidAmount: 1120
+                      data: {}
+        description: ' '
+      x-internal: false
+    servers:
+      - url: 'http://{baseUrl}'
+        description: Бодит орчин
+        variables:
+          baseUrl:
+            default: ''
+      - url: 'http://localhost:7080/'
+        description: Хөгжүүлэлтийн орчин
+    delete:
+      summary: Төлбөрийн баримт буцаах
+      tags: []
+      responses: {}
+      operationId: delete-rest-receipt
+      x-stoplight:
+        id: w7pedek4l5nu8
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - id
+                - date
+              properties:
+                id:
+                  type: string
+                  x-stoplight:
+                    id: v5a4tr2krq3s3
+                  description: "Багц төлбөрийн баримтын ДДТД\r\n33 оронтой тоо"
+                date:
+                  type: string
+                  x-stoplight:
+                    id: 2ptd9p86gd0sq
+                  format: date
+                  description: "Баримт хэвлэсэн огноо\r\n\"yyyy-MM-dd HH:mm:ss\" форматтай огноо\r\n"
+      description: ">Энэхүү сервис нь барааны буцаалт хийгдсэн болон алдаатай үүссэн Хувь хүн (B2C_RECEIPT) руу шивсэн төлбөрийн баримтыг системд идэвхгүй болгох зориулалттай.\r\n\r\n\r\n⚠️ Анхаарах зүйлс:\r\n\r\n<!-- theme: warning -->\r\n\r\n* Зөвхөн иргэн баталгаажуулаагүй баримтыг идэвхгүй болгох боломжтой.\r\n* Хэрэв баталгаажсан баримт буцаагдсан бол баримт \"Баталгаажаагүй буцаалт\" гэсэн төлөвтэй болж,\r\n* Иргэн өөрийн ИБАРИМТ аппликейшнээс зөвшөөрсний дараа тухайн баримт идэвхгүй болно."
+      security: []
+  /rest/info:
+    get:
+      summary: Ажиллагааны мэдээлэл хүлээн авах
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                x-examples:
+                  Example 1:
+                    operatorName: f
+                    operatorTIN: f
+                    posId: 0
+                    posNo: f
+                    lastSentDate: f
+                    leftLotteries: 0
+                    appInfo:
+                      applicationDir: f
+                      currentDir: f
+                      database: f
+                      database-host: f
+                      workDir: f
+                    merchants:
+                      - name: f
+                        tin: f
+                        customers:
+                          - name: f
+                            tin: f
+                            vatPayer: f
+                required:
+                  - operatorName
+                  - operatorTIN
+                  - posId
+                  - posNo
+                  - lastSentDate
+                  - leftLotteries
+                  - appInfo
+                  - merchants
+                properties:
+                  operatorName:
+                    type: string
+                    description: Оператор байгууллагын нэр
+                  operatorTIN:
+                    type: string
+                    description: Оператор байгууллагын ТТД
+                  posId:
+                    type: number
+                    description: PosAPI-н систем дэх бүртгэлийн Id
+                  posNo:
+                    type: string
+                    description: PosAPI-н систем дэх бүртгэлийн дугаар
+                  lastSentDate:
+                    type: string
+                    description: Баримт илгээсэн огноо /Сүүлийн байдлаар/
+                  leftLotteries:
+                    type: integer
+                    description: Нийт үлдсэн сугалаа
+                  appInfo:
+                    type: object
+                    required:
+                      - applicationDir
+                      - currentDir
+                      - database
+                      - database-host
+                      - workDir
+                    description: PosAPI-н ерөнхий мэдээлэл
+                    properties:
+                      applicationDir:
+                        type: string
+                        description: Файл байршиж буй хавтас
+                      currentDir:
+                        type: string
+                        description: Файл байршиж буй хавтас
+                      database:
+                        type: string
+                        description: Баазын driver /Qt5 тохиргоогоор/
+                      database-host:
+                        type: string
+                        description: Баазын хаяг /sqlite бол файлын зам/
+                      workDir:
+                        type: string
+                        description: Ажиллаж буй хавтас
+                  merchants:
+                    type: array
+                    description: PosAPI-д бүртгэлтэй ААН-н жагсаалт
+                    items:
+                      type: object
+                      required:
+                        - name
+                        - tin
+                        - customers
+                      properties:
+                        name:
+                          type: string
+                          description: ААН-нэр
+                        tin:
+                          type: string
+                          description: ААН-н ТТД
+                        customers:
+                          type: array
+                          description: Үйлчлүүлэгч ААН-н жагсаалт
+                          items:
+                            type: object
+                            required:
+                              - name
+                              - tin
+                              - vatPayer
+                            properties:
+                              name:
+                                type: string
+                                description: ААН-нэр
+                              tin:
+                                type: string
+                                description: ААН-н ТТД
+                              vatPayer:
+                                type: string
+                                description: "НӨАТ суутган төлөгч мөн эсэх\r\ntrue: НӨАТ суутган төлөгч мөн\r\nfalse: НӨАТ суутган төлөгч биш"
+      operationId: get-rest-info
+      x-stoplight:
+        id: xy84sum9avx4v
+      description: Энэхүү сервис нь "PosAPI 3.0" системийн тохиргоо болон ажиллагааны талаарх мэдээллийг лавлахад зориулагдсан.
+    servers:
+      - url: 'http://{baseUrl}'
+        description: Бодит орчинд
+        variables:
+          baseUrl:
+            default: ''
+      - url: 'http://localhost:7080/'
+        description: Хөгжүүлэлтийн орчин
+    parameters: []
+  /rest/sendData:
+    get:
+      summary: Төлбөрийн баримтын нэгдсэн системд мэдээлэл илгээх
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+      operationId: get-rest-sendData
+      x-stoplight:
+        id: q2dg4cjtbfsdx
+      description: ">Сервисийг заавал дуудах шаардлагагүй бөгөөд PosAPI систем нь тодорхой хугацаанд автоматаар энэхүү үйлдлийг гүйцэтгэдэг. \U0001F504 Хэрэв PosAPI-д хамааралтай өөрчлөлт нэгдсэн систем талд гарсан бол энэ сервисийг дуудснаар тухайн өөрчлөлтийг local баазад хадгалах боломжтой."
+      requestBody:
+        description: ''
+    servers:
+      - url: 'http://{baseUrl}'
+        description: Бодит орчинд
+        variables:
+          baseUrl:
+            default: ''
+      - url: 'http://localhost:7080/'
+        description: Туршилтын орчин
+  /rest/bankAccounts:
+    parameters: []
+    get:
+      summary: Банкны дансны мэдээлэл лавлах
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                x-examples:
+                  Example 1:
+                    - id: 9
+                      tin: u
+                      bankAccountNo: u
+                      bankAccountName: u
+                      bankId: 9
+                      bankName: u
+                items:
+                  type: object
+                  required:
+                    - id
+                    - tin
+                    - bankAccountNo
+                    - bankAccountName
+                    - bankId
+                    - iBan
+                    - bankName
+                  properties:
+                    id:
+                      type: number
+                      description: 'Хувь хүн, хуулийн этгээдийн системд бүртгэсэн банкны дансны ID'
+                    tin:
+                      type: string
+                      description: 'Данс эзэмшигч хувь хүн, хуулийн этгээдийн ТТД'
+                    bankAccountNo:
+                      type: string
+                      description: Банкны дансны дугаар
+                    bankAccountName:
+                      type: string
+                      description: Банкны дансны нэр
+                    bankId:
+                      type: number
+                      description: Банкны ID
+                    iBan:
+                      type: string
+                      x-stoplight:
+                        id: ot3cdc3aofm8j
+                      description: Олон улсын банкны дансны дугаарлалт
+                      example: '100100015121212121111'
+                    bankName:
+                      type: string
+                      description: Банкны нэр
+                    ...:
+                      type: object
+                      x-stoplight:
+                        id: 78a6r5tor528k
+              examples:
+                Example 1:
+                  value:
+                    - id: 0
+                      tin: string
+                      bankAccountNo: string
+                      bankAccountName: string
+                      bankId: 0
+                      bankName: string
+                      data: {}
+      operationId: get-rest-bankAccounts?tin=-TIN
+      x-stoplight:
+        id: i5pt9wo7bxq0y
+      description: ">Банкны дансны мэдээлэл лавлах сервис нь Оператор компанид хэрэглэгчээр бүртгэгдсэн \"Мерчант\" болон түүний \"Түрээслэгч\"-ийн Local баазын \"bankaccount\" хүснэгт-д бүртгэгдсэн идэвхтэй дансны мэдээллийг лавлахад зориулагдсан. \r\n\r\n<!-- theme: warning -->\r\n\r\n>PosAPI 3.0 систем дэх дансны мэдээлэл шинэчлэх тухай\r\n\r\n✅ PosAPI 3.0 систем нь local баазын \"bankaccount\" дээр дансны мэдээллийг хадгалж, уг өгөгдөлд үндэслэн баримтын дансыг үүсгэдэг.\r\n\r\n\U0001F504 Дансны мэдээлэл хэрхэн шинэчлэгддэг вэ?\r\n\r\nПосАПИ дахь дансны мэдээлэл өөрчлөгдвөл баримт илгээх (/senddata/) үйлдэл хийгдэх үед\r\n\r\n1️⃣ Дансны дугааруудыг Оператор-Ибаримт систем дэх бүртгэлтэй тулган шалгана.\r\n\r\n2️⃣ Хэрэв өөрчлөлт илэрвэл автоматаар шинэчлэнэ.\r\n\r\n⚠ Анхаарах зүйлс:\r\n\r\nНэг ПосАПИ баримт илгээх (/senddata/) үйлдэл хийснээр зөвхөн тухайн ПосАПИ-гийн дансны мэдээлэл шинэчлэгдэнэ.\r\n\r\nБусад ПосАПИ-д энэ өөрчлөлт нөлөөлөхгүй тул, хэрэв таны аль нэг бүртгэлтэй Мерчантын дансны мэдээлэл өөрчлөгдвөл тухайн өөрчлөгдсөн Мерчант бүртгэгдсэн ПосАПИ тус бүрт баримт илгээж, шинэчлэл хийх шаардлагатай.\r\n\r\nИймд дансны мэдээлэл өөрчлөгдсөн тохиолдолд бүх холбогдох ПосАПИ дээр шинэчлэл хийхээ\r\n\r\n> \" \"Баримт илгээх\" үйлдэл хийсэн Local бааз дахь дансны мэдээлэл шинэчлэгдэхгүй бол Мерчант болон түүний түрээслэгч нь системд дансаа бүртгээгүй, эсвэл мэдээллээ шинэчлээгүй байх магадлалтай.\r\n\r\n✅ Шийдэл:\r\n\r\n\"Цахим татварын систем\"-д нэвтэрч, дансаа бүртгэх эсвэл өөрчилнө.\r\n\r\nE-invoice системийн \"Баримт үүсгэх\" цонхны \"Банкны мэдээлэл\" хэсгээс <i class=\"fa-solid fa-download\"></i> товчийг дарж, мэдээллээ шинэчлэн татна.\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n"
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: tin
+          description: Хувь хүн хуулийн этгээдийн татвар төлөгчийн дугаар
+    servers:
+      - url: 'http://{baseUrl}'
+        description: Бодит орчин
+        variables:
+          baseUrl:
+            default: ''
+      - url: 'http://localhost:7080/'
+        description: Хөгжүүлэлтийн орчин
+  /api/tpi/receipt/saveOprMerchants:
+    post:
+      summary: Оператороос мерчант бүртгэх хүсэлт илгээх
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                x-examples:
+                  Example 1:
+                    msg: Мерчант бүртгэх хүсэлт амжилттай илгээгдлээ.
+                    status: 200
+                    code: null
+                    data: null
+                required:
+                  - msg
+                  - status
+                properties:
+                  msg:
+                    type: string
+                    description: Сервисийн хариу
+                  status:
+                    type: number
+                    description: Сервисийн хариу
+              examples:
+                Амжилттай:
+                  value:
+                    msg: Мерчант бүртгэх хүсэлт амжилттай илгээгдлээ
+                    status: 200
+                    code: null
+                    data: null
+      operationId: post-api-tpi-receipt-saveOprMerchants
+      x-stoplight:
+        id: 5l5d2e9b18ve0
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              x-examples:
+                Example 1:
+                  posNo: '10005299'
+                  merchantTins:
+                    - 77001059076
+                    - 83000874855
+              required:
+                - posNo
+                - merchantTins
+              properties:
+                posNo:
+                  type: string
+                  description: Посын дугаар
+                merchantTins:
+                  type: array
+                  description: Бүртгэх мерчантын жагсаалт
+                  items:
+                    type: string
+            examples:
+              Оператор бүртгэх JSON:
+                value:
+                  posNo: 10****99
+                  merchantTins:
+                    - 770*****076
+                    - 830*****855
+      description: '>Энэхүү сервис нь "Хэрэглэгчийн систем нийлүүлэгч" (Оператор компани) өөрийн системээс "Мерчант" (Борлуулагч) бүртгэх хүсэлт үүсгэх боломжийг бүрдүүлнэ[Нэгдсэн нэвтрэлтийн token авах бол дарна уу.](reference/auth.yaml/paths/~1protocol~1openid-connect~1token/post)'
+      parameters:
+        - schema:
+            type: string
+            example: 'Туршилтын орчинд ашиглах: 9406e79323ec0fed4e560342bce72221107a808b'
+          in: header
+          name: X-API-KEY
+          description: Posapi@itc.gov.mn рүү хүсэлт илгээн авна
+          required: true
+      security:
+        - auth.yaml: []
+    servers:
+      - url: 'https://api.ebarimt.mn/'
+        description: Бодит орчин
+      - url: 'https://st-api.ebarimt.mn/'
+        description: Хөгжүүлэлтийн орчинд
+  /api/inventory/stock/getStockQr:
+    get:
+      summary: ОАТ барааны баркодын мэдээлэл лавлах /QR/
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                x-examples:
+                  Example 1:
+                    barcode: '8656170014754'
+                    barcodeName: Архи Ерөөл 0.75 л
+                    cpcd: '2413150'
+                    productTypeCode: '02'
+                    productTypeName: 'Цагаан архи, ликёр, кордиал ба спиртлэг бусад ундаа'
+                    productCategory: Эх орны үйлдвэр
+                    productPercent: 38
+                    productSize: 750
+                    unitCode: гр
+                properties:
+                  barcode:
+                    type: string
+                    example: '8656170014754'
+                  barcodeName:
+                    type: string
+                    example: Архи Ерөөл 0.75 л
+                  cpcd:
+                    type: string
+                    example: '2413150'
+                  productTypeCode:
+                    type: string
+                    example: '02'
+                  productTypeName:
+                    type: string
+                    example: 'Цагаан архи, ликёр, кордиал ба спиртлэг бусад ундаа'
+                  productCategory:
+                    type: string
+                    example: Эх орны үйлдвэр
+                  productPercent:
+                    type: number
+                    example: 38
+                  productSize:
+                    type: number
+                    example: 750
+                  unitCode:
+                    type: string
+                    example: гр
+              examples:
+                Амжилттай:
+                  value:
+                    barcode: '8656170014754'
+                    barcodeName: Архи Ерөөл 0.75 л
+                    cpcd: '2413150'
+                    productTypeCode: '02'
+                    productTypeName: 'Цагаан архи, ликёр, кордиал ба спиртлэг бусад ундаа'
+                    productCategory: Эх орны үйлдвэр
+                    productPercent: 38
+                    productSize: 750
+                    unitCode: гр
+      operationId: get-api-inventory-stock-getStockQr
+      x-stoplight:
+        id: zxu5zjs7j91db
+      x-internal: false
+      description: '>Онцгой албан татварын тэмдэг бүхий барааны баркод болон бусад дэлгэрэнгүй мэдээллийг "Тэмдгийн QR ID" ашиглан лавлах бол энэхүү сервисийг ашиглах ба PosAPI 3.0 системийн "PosAPI-руу төлбөрийн баримт хадгалах сервис" /post-rest-receipt/-ийн stockQR талбарт хадгалах өгөгдлийг лавлахад ашиглагдана. [Нэгдсэн нэвтрэлтийн token авах бол дарна уу.](reference/auth_copy.yaml/paths/~1protocol~1openid-connect~1token/post)'
+      requestBody:
+        content: {}
+      security:
+        - auth_copy.yaml: []
+    servers:
+      - url: 'https://st-service.itc.gov.mn/'
+        description: Хөгжүүлэлтийн орчин
+      - url: 'https://service.itc.gov.mn/'
+        description: Бодит орчин
+    parameters:
+      - schema:
+          type: string
+          example: BF6B1FBA86FB4C41ADDBB01C09C024F5
+        in: query
+        name: stockQr
+        description: Тэмдгийн QR
+        required: true
+  /api/info/check/getBranchInfo:
+    get:
+      summary: District_code лавлах
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/javascript:
+              schema:
+                type: object
+                required:
+                  - status
+                  - msg
+                  - data
+                properties:
+                  status:
+                    type: number
+                    x-stoplight:
+                      id: g8zezj0mxree6
+                    description: Service ийн төлөв
+                    example: 200
+                  msg:
+                    type: string
+                    x-stoplight:
+                      id: q6zk59uoyt0pn
+                    description: Сервисийн хариу
+                    example: Амжилттай
+                  data:
+                    type: array
+                    x-stoplight:
+                      id: h182ql9vv4y3h
+                    description: Дата
+                    items:
+                      x-stoplight:
+                        id: 3rkyy652z1uz7
+                      type: object
+                      required:
+                        - branchCode
+                        - branchName
+                        - subBranchCode
+                        - subBranchName
+                      properties:
+                        branchCode:
+                          type: string
+                          x-stoplight:
+                            id: kwstnupf0sc3j
+                          description: Салбарын код
+                          example: '01'
+                        branchName:
+                          type: string
+                          x-stoplight:
+                            id: ts1i2l39g0ynz
+                          description: Салбарын нэр
+                          example: Архангай
+                        subBranchCode:
+                          type: string
+                          x-stoplight:
+                            id: xml1uz0lg4bxx
+                          description: Дэд салбарын код
+                          example: '02'
+                        subBranchName:
+                          type: string
+                          x-stoplight:
+                            id: 9gt8d1i4pvmaf
+                          description: Дэд салбарын нэр
+                          example: Чулуут
+              examples:
+                Амжилттай:
+                  value:
+                    status: 200
+                    msg: Амжилттай
+                    data:
+                      branchCode: '01'
+                      branchName: Архангай
+                      subBranchCode: '02'
+                      subBranchName: Чулуут
+        '500':
+          description: Internal Server Error
+      operationId: get-api-info-check-getBranchInfo
+      x-stoplight:
+        id: fbdleubwxraqa
+      requestBody:
+        description: ''
+        content: {}
+      description: ">Цахим төлбөрийн баримтын систем (PosAPI)-ээс үүсгэж буй төлбөрийн баримтын үйл ажиллагаа явуулж буй байршлын мэдээллийг \"districtCode\" гэсэн баганад бөглөн илгээдэг. Энэ талбарт бөглөсөн байршлын татварын алба болон дэд албаны кодын жагсаалтын мэдээллийг энэхүү сервисээс авах боломжтой.\r\n\r\n>Жишээ: Номин холдинг ХХК-ийн Архангай аймгийн Чулуут сум дахь салбараас үүсгэсэн баримтын \"districtCode\"-г 0102 гэж бөглөн илгээнэ."
+    servers:
+      - url: 'https://api.ebarimt.mn/'
+        description: Бодит орчин
+      - url: 'https://st-api.ebarimt.mn/'
+        description: Хөгжүүлэлтийн орчин
+  /api/info/check/getTinInfo:
+    get:
+      summary: 'Татвар төлөгчийн дугаар лавлах /ТIN, Civil_id/'
+      tags: []
+      responses:
+        '200':
+          description: OK
+          headers: {}
+          content:
+            application/json:
+              schema:
+                type: object
+                x-examples:
+                  Example 1:
+                    status: 200
+                    msg: Амжилттай
+                    data: '31654321554'
+                required:
+                  - status
+                properties:
+                  status:
+                    type: number
+                    description: Service ийн төлөв
+                    example: 200
+                  msg:
+                    type: string
+                    description: Сервисийн хариу
+                    example: Амжилттай
+                  data:
+                    type: number
+                    description: ТИН дугаар
+                    example: '31654321554'
+              examples:
+                Example 1:
+                  value:
+                    status: 200
+                    msg: Амжилттай
+                    data: 31654321554
+      operationId: get-api-info-check-getTinInfo
+      x-stoplight:
+        id: fmm0i9s4dq2t9
+      description: '>Татвар төлөгчийн дугаар лавлах сервис /ТIN, Civil_id/: Шинэчлэн батлагдсан Хувь хүний мэдээлэл хамгаалах тухай хууль, Татварын ерөнхий хуульд заасны дагуу татвар төлөгчийг татварын системүүдэд бүртгэхдээ “Татвар төлөгчийн дугаар” ашиглахаар болсон. Дээрх хуулийн дагуу систем нийлүүлэгч нь PosApi 3.0 системд борлуулагчийг бүртгэхдээ “Хуулийн этгээд”-ийн хувьд ТИН дугаар, “Хувь хүн”-ий хувьд Civil_id-г ашиглах ба энэхүү сервис нь татвар төлөгчийн дугаарыг регистрийн дугаараар лавлах боломжийг бүрдүүлсэн.'
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: regNo
+          description: Татвар төлөгчийн регистрийн дугаар
+    servers:
+      - url: 'https://api.ebarimt.mn'
+        description: Бодит орчин
+      - url: 'https://st-api.ebarimt.mn'
+        description: Хөгжүүлэлтийн орчин
+  /api/info/check/getInfo:
+    get:
+      summary: Бүртгэлийн мэдээлэл лавлах
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                x-examples:
+                  Example 1:
+                    status: 200
+                    msg: Амжилттай
+                    data:
+                      name: Номин
+                      freeProject: true
+                      cityPayer: true
+                      vatPayer: true
+                      found: true
+                      vatpayerRegisteredDate: '2019-08-24'
+                required:
+                  - status
+                  - msg
+                  - data
+                properties:
+                  status:
+                    type: number
+                    example: 200
+                  msg:
+                    type: string
+                    example: Амжилттай
+                  data:
+                    type: object
+                    required:
+                      - name
+                      - freeProject
+                      - cityPayer
+                      - vatPayer
+                      - found
+                      - vatpayerRegisteredDate
+                      - isGovernment
+                    properties:
+                      name:
+                        type: string
+                        example: Номин
+                        description: Татвар төлөгчийн нэр
+                      freeProject:
+                        type: boolean
+                        default: true
+                        description: "НӨАТ-аас чөлөөлөгдөх төсөл эсэхийг илэрхийлнэ. Хэрэв тухайн татвар төлөгч нь НӨАТ-аас чөлөөлөгдөх төсөл мөн бол утгыг true гэж илгээж, Төлбөрийн баримт хадгалах сервисийн (/receipt) items массив дахь taxProductCode талбарт \"304\" гэсэн утгыг дамжуулна.\r\nХарин НӨАТ-аас чөлөөлөгдөх төсөл биш false утгатай байна. "
+                      cityPayer:
+                        type: boolean
+                        default: true
+                        description: "Хэрэв байгууллага нь НХАТ суутган төлөгч бол уг талбарт true утгыг илгээнэ.\r\nЭнэхүү нөхцөл нь зөвхөн Улаанбаатар хотод үйл ажиллагаа явуулж буй салбаруудад хамаарна."
+                      vatPayer:
+                        type: boolean
+                        default: true
+                        description: "НӨАТ суутган төлөгч мөн эсэх\r\ntrue — НӨАТ суутган төлөгч\r\nfalse — НӨАТ суутган төлөгч биш"
+                      found:
+                        type: boolean
+                        default: true
+                        description: Татвар төлөгч мөн эсэх
+                      vatpayerRegisteredDate:
+                        type: string
+                        example: '2019-08-24'
+                        description: НӨАТ суутган төлөгчөөр бүртгэгдсэн огноо
+                      isGovernment:
+                        type: boolean
+                        x-stoplight:
+                          id: t4yu05ert82ff
+                        description: "isGovernmentOrganization — Тухайн байгууллага төрийн байгууллага эсэхийг илтгэнэ.\r\ntrue — Төрийн байгууллага\r\nfalse — Төрийн байгууллага биш"
+              examples:
+                Амжилттай:
+                  value:
+                    msg: Амжилттай
+                    status: 200
+                    data:
+                      name: ТЕСТИЙН ХЭРЭГЛЭГЧ 1
+                      freeProject: false
+                      cityPayer: true
+                      vatPayer: true
+                      found: true
+                      vatpayerRegisteredDate: '2019-02-16'
+                      isGovernment: false
+      operationId: get-api-info-check-getInfo
+      x-stoplight:
+        id: 0lh6tut76i7lb
+      description: ">Энэхүү сервис нь “Татвар төлөгчийн дугаар”-аар тухайн этгээдийн татварын бүртгэл, мэдээллийн нэгдсэн санд байх бүртгэлийн мэдээллийг дамжуулах үүрэгтэй ба хэрэглэгчийн систем нийлүүлэгч нь өөрийн хөгжүүлж буй системд холбон ашиглах боломжтой.\r\n\r\n[Регистрийн дугаар ашилан TIN дугаар авах бол дарна уу.](ebarimt.yaml/paths/~1api~1info~1check~1getTinInfo/get)"
+      parameters:
+        - schema:
+            type: string
+            example: '31654321554'
+          in: query
+          name: tin
+          description: ТИН дугаар
+          required: true
+    servers:
+      - url: 'https://api.ebarimt.mn'
+        description: Бодит орчин
+      - url: 'https://st-api.ebarimt.mn'
+        description: Хөгжүүлэлтийн орчин
+  /api/receipt/receipt/getProductTaxCode:
+    get:
+      summary: 'VAT_FREE, VAT_ZERO, NO_VAT бараа, үйлчилгээний код лавлах'
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                x-examples:
+                  Example 1:
+                    msg: Амжилттай
+                    status: 200
+                    data:
+                      - startDate: '2016-01-01'
+                        endDate: '2024-12-31'
+                        taxProductCode: '43401'
+                        taxProductName: 'Импортоор оруулж байгаа болон дотооддоо худалдан борлуулсан хөдөө аж ахуйн зориулалттай шинэ трактор, комбайн, машин механизм, гурилын болон бордооны үйлдвэрийн тоног төхөөрөмж, усалгааны тоног төхөөрөмж, ойн аж ахуйн техник, тоног төхөөрөмж'
+                        taxTypeCode: 2
+                        taxTypeName: VAT_FREE
+                required:
+                  - msg
+                  - status
+                  - data
+                properties:
+                  msg:
+                    type: string
+                    description: Сервисийн хариу
+                    example: Амжилттай
+                  status:
+                    type: number
+                    description: Сервисийн хариу
+                    example: 200
+                  data:
+                    type: array
+                    description: Хэрэгжиж эхлэх хугацаа
+                    items:
+                      type: object
+                      required:
+                        - startDate
+                        - taxProductCode
+                        - taxProductName
+                        - taxTypeCode
+                        - taxTypeName
+                      properties:
+                        startDate:
+                          type: string
+                          description: Дагаж мөрдөх дуусах огноо
+                          example: '2016-01-01'
+                        endDate:
+                          type: string
+                          description: 'Чөлөөлөгдөх бараа, ажил, үйлчилгээний код'
+                          example: '2024-12-31'
+                        taxProductCode:
+                          type: string
+                          description: 'Чөлөөлөгдөх бараа, ажил, үйлчилгээний код'
+                          example: '43401'
+                        taxProductName:
+                          type: string
+                          description: 'Чөлөөлөгдөх бараа, ажил, үйлчилгээний нэр'
+                          example: 'Импортоор оруулж байгаа болон дотооддоо худалдан борлуулсан хөдөө аж ахуйн зориулалттай шинэ трактор, комбайн, машин механизм, гурилын болон бордооны үйлдвэрийн тоног төхөөрөмж, усалгааны тоног төхөөрөмж, ойн аж ахуйн техник, тоног төхөөрөмж'
+                        taxTypeCode:
+                          type: number
+                          description: Татвараас чөлөөлөгдөх төрөл
+                          example: 2
+                        taxTypeName:
+                          type: string
+                          description: Татвараас чөлөөлөгдөх төрлийн нэр
+                          example: VAT_FREE
+              examples:
+                Амжилттай:
+                  value:
+                    msg: Амжилттай
+                    status: 200
+                    data:
+                      - startDate: '2016-01-01'
+                        endDate: '2024-12-31'
+                        taxProductCode: '43401'
+                        taxProductName: 'Импортоор оруулж байгаа болон дотооддоо худалдан борлуулсан хөдөө аж ахуйн зориулалттай шинэ трактор, комбайн, машин механизм, гурилын болон бордооны үйлдвэрийн тоног төхөөрөмж, усалгааны тоног төхөөрөмж, ойн аж ахуйн техник, тоног төхөөрөмж'
+                        taxTypeCode: 2
+                        taxTypeName: VAT_FREE
+      operationId: get-api-receipt-receipt-getProductTaxCode
+      x-stoplight:
+        id: 16ukw8k7rdro5
+      description: '>Нэмэгдсэн өртгийн албан татвар /НӨАТ-аас чөлөөлөгдөх, НӨАТ-н 0 хувь хэрэглэх/, Аж ахуйн нэгжийн орлогын албан татвараас чөлөөлөгдөх хуулийн кодыг жагсаалтаар авах бол энэхүү сервисийг ашиглах ба PosAPI 3.0 системийн "PosAPI-руу төлбөрийн баримт хадгалах сервис" /post-rest-receipt/-ийн taxProductCode талбарт хадгалах өгөгдлийг лавлахад ашиглагдана. '
+    servers:
+      - url: 'https://api.ebarimt.mn'
+        description: Бодит орчин
+      - url: 'https://st-api.ebarimt.mn'
+        description: Хөгжүүлэлтийн орчин
+  '/api/info/check/barcode/v2/{p4}/{p5}/{p1}/{p2}/{p3}/{p6}':
+    get:
+      summary: 'БҮНА, бараа бүтээгдэхүүний ангилал, баркод лавлах'
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  x-stoplight:
+                    id: fil5gjr1db0hi
+                  type: array
+                  items:
+                    x-stoplight:
+                      id: kvza19tddup5s
+                    type: string
+              examples:
+                Салбарын JSON:
+                  value:
+                    - - '0'
+                      - 'Хөдөө аж ахуй, ойн аж ахуй, загас агнуурын бүтээгдэхүүн '
+                    - - '1'
+                      - 'Хүдэр, эрдэс бодис, цахилгаан, хий, ус'
+                    - - '2'
+                      - 'Хүнсний бүтээгдэхүүн, ундаа, тамхи; нэхмэл даавуу, хувцас, арьс ширэн бүтээгдэхүүн'
+                    - - '3'
+                      - 'Металл бүтээгдэхүүн болон машин, тоног төхөөрөмжөөс бусад төрлийн тээвэрлэж болох бараа, бүтээгдэхүүн'
+                    - - '4'
+                      - 'Металл бүтээгдэхүүн, машин, тоног төхөөрөмж'
+                    - - '5'
+                      - 'Барилга, барилгын ажил, үйлчилгээ'
+                    - - '6'
+                      - 'Худалдаа, зочид буудал, хүнс, ундаа, тээврийн болон ус, цахилгаан хангамжийн үйлчилгээ'
+                    - - '7'
+                      - 'Санхүү, түүнтэй холбогдох үйлчилгээ,үл хөдлөх хөрөнгийн үйлчилгээ, түрээсийн болон лизингийн үйлчилгээ'
+                    - - '8'
+                      - 'Бизнес, үйлдвэрлэлийн үйлчилгээ'
+                    - - '9'
+                      - 'Нийгэм, хамт олон, бие хүнд үзүүлэх үйлчилгээ'
+                Дэд салбар:
+                  value:
+                    - - '01'
+                      - 'Хөдөө аж ахуйн бүтээгдэхүүн, цэцэрлэгжүүлэлт'
+                    - - '02'
+                      - 'Мал, амьтан, тэдгээрийн гаралтай бүтээгдэхүүн махыг оруулахгүйгээр'
+                    - - '03'
+                      - 'Ойн аж ахуй, мод бэлтгэл'
+                    - - '04'
+                      - 'Загас, загасан бүтээгдэхүүн'
+                Бүлэг:
+                  value:
+                    - - '011'
+                      - Үр тариа
+                    - - '012'
+                      - Хүнсний ногоо
+                    - - '013'
+                      - 'Жимс, самар'
+                    - - '014'
+                      - 'Тослог ургамлын үр, жимс'
+                    - - '015'
+                      - Хүнсэнд хэрэглэдэг цардууллаг үндсэн үрт ба булцуут ургамал
+                    - - '016'
+                      - 'Сэргээх, тайвшруулах болон амтлаг, анхилуун ургамал'
+                    - - '017'
+                      - 'Хатаасан төрөл бүрийн буурцагт ургамал '
+                    - - '018'
+                      - Чихрийн ургамал
+                    - - '019'
+                      - 'Тэжээлийн ургамал, хөвөнгийн ургамал, амьд ургамал, бэлтгэсэн цэцэг, цэцгийн баглаа, боловсруулаагүй тамхи болон байгалийн каучук'
+                Анги:
+                  value:
+                    - - '0111'
+                      - Улаан буудай
+                    - - '0112'
+                      - Эрдэнэ шиш
+                    - - '0113'
+                      - Цагаан будаа
+                    - - '0114'
+                      - Сорго будаа
+                    - - '0115'
+                      - Арвай
+                    - - '0116'
+                      - Хөх тариа
+                    - - '0117'
+                      - Хошуу тариа
+                    - - '0118'
+                      - 'Бог будаа, шар будаа'
+                    - - '0119'
+                      - Бусад төрлийн үр тариа
+                Дэд анги:
+                  value:
+                    - - '01111'
+                      - 'Улаан буудай, үрийн'
+                    - - '01112'
+                      - Бусад төрлийн улаан буудай
+                БҮНА код:
+                  value:
+                    - - '0111100'
+                      - Улаан буудай  үрийн
+                Баркод:
+                  value:
+                    - - '800888883000'
+                      - Тест
+                      - '2022-07-17'
+                    - - '8101888888000'
+                      - Тест1
+                      - '2022-07-17'
+      operationId: get-api-info-check-barcode-v2
+      x-stoplight:
+        id: said1mgfz0gb7
+      parameters: []
+      x-internal: false
+      description: ">Энэхүү сервис нь Цахим төлбөрийн баримтын системийн PosAPI 3.0 хувилбарыг ашиглагч хэрэглэгчдэд зориулан Бараа, Үйлчилгээний Нэгдсэн Ангилал (БҮНА)-ын түвшин тус бүр болон тухайн ангилалд хамаарах баркодын мэдээллийг лавлах, ашиглах зориулалттай болно.\r\n\U0001F50D Энэхүү сервис нь Бараа, Үйлчилгээний Нэгдсэн Ангилал (БҮНА)-ын шатлалтай бүтэцтэй ангиллын мэдээллийг үе шаттайгаар лавлах боломжийг хэрэглэгчдэд олгодог.\r\n\r\n1️⃣Сервисийг ямар нэгэн параметргүйгээр дуудсан тохиолдолд хамгийн дээд түвшний ангилал болох \"Салбар\"-ын жагсаалтыг буцаана.\r\n\r\n2️⃣Салбарын код-ыг параметрээр илгээх үед тухайн салбарт хамаарах \"Дэд салбар\"-уудын жагсаалт ирнэ.\r\n\r\n3️⃣Дэд салбарын код-ыг параметрт оруулснаар уг дэд салбарт хамаарах \"Бүлэг\" ангиллын мэдээллийг буцаана.\r\n\r\n4️⃣Бүлгийн код-ыг параметрт оруулахад холбогдох \"Анги\",\"Дэд анги\" цаашлаад \"БҮНА код\", эцэст нь тухайн БҮНА кодын ангилалд багтах барааны баркодын жагсаалтыг харуулна.\r\n\r\n5️⃣Ийм байдлаар шат дараатайгаар ангиллын кодыг параметрт дамжуулан илгээснээр БҮНА-ийн бүтэцтэй уялдсан \"Баркод\"-ын мэдээллийг авах боломжтой."
+    servers:
+      - url: 'https://api.ebarimt.mn'
+        description: Бодит орчин
+      - url: 'https://st-api.ebarimt.mn'
+        description: Хөгжүүлэлтийн орчин
+    parameters:
+      - schema:
+          type: string
+          example: '0'
+        name: p1
+        in: path
+        description: Өмнөх салбарын дугаар
+      - schema:
+          type: string
+          example: '01'
+        name: p2
+        in: path
+        description: Өмнөх дэд салбарын дугаар
+      - schema:
+          type: string
+          example: '011'
+        name: p3
+        in: path
+        description: Өмнөх Бүлгийн дугаар
+      - schema:
+          type: string
+          example: '0111'
+        name: p4
+        in: path
+        description: Өмнөх ангийн дугаар
+      - schema:
+          type: string
+          example: '01111'
+        name: p5
+        in: path
+        description: Өмнөх дэд ангийн дугаар
+      - schema:
+          type: string
+          example: '0111100'
+        name: p6
+        in: path
+        description: Өмнөх БҮНА код
+components:
+  schemas: {}
+  securitySchemes:
+    auth.yaml:
+      type: http
+      scheme: bearer
+    auth_copy.yaml:
+      type: http
+      scheme: bearer
+x-internal: false

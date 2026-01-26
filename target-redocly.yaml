@@ -1,0 +1,35 @@
+apis:
+  posapi:
+    root: spec/openapi/posapi-3.0.yaml
+
+extends:
+  - recommended
+
+rules:
+  #
+  # Environment reality (POS runs locally/VPN)
+  #
+  no-server-example.com: off
+  no-empty-servers: off
+  no-server-trailing-slash: error
+
+  #
+  # SDK correctness / codegen safety (keep strict)
+  #
+  no-unused-components: error
+  operation-operationId: error
+  operation-operationId-unique: error
+  path-not-include-query: error
+
+  #
+  # Contract completeness (warn now, later tighten)
+  #
+  security-defined: warn
+  operation-4xx-response: warn
+  info-license: warn
+
+  #
+  # Vendor examples are noisy (warn or off depending on tolerance)
+  #
+  no-invalid-media-type-examples: warn
+  no-invalid-schema-examples: warn

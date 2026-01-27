@@ -2,7 +2,7 @@ import httpx
 import pytest
 import respx
 
-from ebarimt_pos_sdk import PosApiClient, PosApiSettings
+from ebarimt_pos_sdk import CreateReceiptRequest, Item, PosApiClient, PosApiSettings, Receipt
 
 
 @pytest.mark.asyncio
@@ -29,16 +29,31 @@ async def test_receipt_create_async_ok():
     )
 
     async with PosApiClient(settings) as client:
-        payload = {
-            "branchNo": "001",
-            "totalAmount": 1000,
-            "merchantTin": "12345678901",
-            "posNo": "001",
-            "type": "B2C_RECEIPT",
-            "billIdSuffix": "01",
-            "receipts": [{"items": [{"name": "x"}]}],
-            "payments": [{"code": "CASH", "status": "PAID", "paidAmount": 1000}],
-        }
+        payload = CreateReceiptRequest(
+            branchNo="001",
+            totalAmount=1000,
+            merchantTin="12345678901",
+            posNo="001",
+            type="B2C_RECEIPT",
+            billIdSuffix="01",
+            receipts=[
+                Receipt(
+                    totalAmount=1000,
+                    taxType="VAT_ABLE",
+                    merchantTin="12345678901",
+                    items=[
+                        Item(
+                            name="Bread",
+                            barCode="19059010880001",
+                            measureUnit="senlovesfits",
+                            qty=1,
+                            unitPrice=1000,
+                            totalAmount=1000,
+                        )
+                    ],
+                )
+            ],
+        )
 
         resp = await client.receipt.acreate(payload)
         assert resp.status == "SUCCESS"

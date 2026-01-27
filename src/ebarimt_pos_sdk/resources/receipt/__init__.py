@@ -1,7 +1,4 @@
-__version__ = "0.0.0"
-
-from .client import PosApiClient
-from .resources.receipt import (
+from .schema import (
     BarCodeType,
     CreateReceiptRequest,
     CreateReceiptResponse,
@@ -17,14 +14,11 @@ from .resources.receipt import (
     ReceiptType,
     TaxType,
 )
-from .settings import PosApiSettings
 
 __all__ = [
-    "PosApiClient",
-    "PosApiSettings",
-    "BarCodeType",
     "CreateReceiptRequest",
     "CreateReceiptResponse",
+    "ReceiptItemResponse",
     "Item",
     "Payment",
     "PaymentCardData",
@@ -33,7 +27,7 @@ __all__ = [
     "Receipt",
     "ReceiptCreateStatus",
     "ReceiptItemData",
-    "ReceiptItemResponse",
+    "BarCodeType",
     "ReceiptType",
     "TaxType",
 ]

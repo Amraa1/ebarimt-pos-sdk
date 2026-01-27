@@ -2,9 +2,9 @@ from __future__ import annotations
 
 import httpx
 
-from ._http import AsyncTransport, SyncTransport, _merge_headers
-from .resources.receipt import ReceiptResource
+from .resources.receipt.receipt import ReceiptResource
 from .settings import PosApiSettings
+from .transport import AsyncTransport, SyncTransport
 
 
 class PosApiClient:
@@ -25,16 +25,15 @@ class PosApiClient:
         *,
         sync_client: httpx.Client | None = None,
         async_client: httpx.AsyncClient | None = None,
-        headers: dict[str, str] | None = None,
+        headers: httpx.Headers | None = None,
     ) -> None:
         self._settings = settings
-        self._base_url = settings.normalized_base_url()
-
-        merged_headers = _merge_headers(settings.default_headers, headers)
-        self._headers: dict[str, str] = dict(merged_headers)
+        self._headers = headers
 
         self._owns_sync = sync_client is None
         self._owns_async = async_client is None
+
+        self._base_url = self._settings.base_url
 
         self._sync_client = sync_client or httpx.Client(
             base_url=self._base_url,
@@ -52,10 +51,9 @@ class PosApiClient:
 
         # Resources
         self.receipt = ReceiptResource(
-            base_url=self._base_url,
-            headers=self._headers,
             sync=self._sync_transport,
             async_=self._async_transport,
+            headers=self._headers,
         )
 
     def close(self) -> None:
@@ -71,3 +69,9 @@ class PosApiClient:
 
     async def __aexit__(self, exc_type, exc, tb) -> None:
         await self.aclose()
+
+    def __enter__(self) -> PosApiClient:
+        return self
+
+    def __exit__(self, exc_type, exc, tb) -> None:
+        self.close()

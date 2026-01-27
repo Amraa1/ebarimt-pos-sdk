@@ -1,7 +1,8 @@
 from __future__ import annotations
 
-from collections.abc import Mapping
 from dataclasses import dataclass
+
+import httpx
 
 
 @dataclass(frozen=True)
@@ -20,8 +21,12 @@ class PosApiSettings:
 
     # auth is intentionally flexible until spec is clearer:
     # e.g. {"Authorization": "Bearer ..."} or {"X-API-KEY": "..."}
-    default_headers: Mapping[str, str] | None = None
+    default_headers: httpx.Headers | None = None
 
     def normalized_base_url(self) -> str:
-        # keep normalization in one place; client uses this
+        """Normalizes base_url for clients to use.
+
+        Returns:
+            str: Normalized base_url.
+        """
         return self.base_url.strip().rstrip("/")

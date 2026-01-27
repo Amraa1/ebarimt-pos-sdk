@@ -1,23 +1,8 @@
+"""Ebarimt Pos API sdk errors."""
+
 from __future__ import annotations
 
-from collections.abc import Mapping
-from dataclasses import dataclass
-from typing import Any
-
-
-@dataclass(frozen=True)
-class HttpRequestContext:
-    method: str
-    url: str
-    headers: Mapping[str, str] | None = None
-
-
-@dataclass(frozen=True)
-class HttpResponseContext:
-    status_code: int
-    headers: Mapping[str, str]
-    body_text: str | None = None
-    json: Any | None = None
+import httpx
 
 
 class PosApiError(Exception):
@@ -27,8 +12,8 @@ class PosApiError(Exception):
         self,
         message: str,
         *,
-        request: HttpRequestContext | None = None,
-        response: HttpResponseContext | None = None,
+        request: httpx.Request | None = None,
+        response: httpx.Response | None = None,
     ) -> None:
         super().__init__(message)
         self.request = request
@@ -53,8 +38,9 @@ class PosApiHttpError(PosApiError):
     def __init__(
         self,
         message: str,
-        request: HttpRequestContext,
-        response: HttpResponseContext,
+        *,
+        request: httpx.Request,
+        response: httpx.Response,
     ) -> None:
         super().__init__(message, request=request, response=response)
 
@@ -71,8 +57,8 @@ class PosApiBusinessError(PosApiError):
         *,
         status: str | None = None,
         code: str | int | None = None,
-        request: HttpRequestContext | None = None,
-        response: HttpResponseContext | None = None,
+        request: httpx.Request | None = None,
+        response: httpx.Response | None = None,
     ) -> None:
         super().__init__(message, request=request, response=response)
         self.status = status

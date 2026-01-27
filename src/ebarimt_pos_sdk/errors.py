@@ -1,7 +1,8 @@
 from __future__ import annotations
 
+from collections.abc import Mapping
 from dataclasses import dataclass
-from typing import Any, Mapping, Optional
+from typing import Any
 
 
 @dataclass(frozen=True)
@@ -21,6 +22,17 @@ class HttpResponseContext:
 
 class PosApiError(Exception):
     """Base error for the SDK."""
+
+    def __init__(
+        self,
+        message: str,
+        *,
+        request: HttpRequestContext | None = None,
+        response: HttpResponseContext | None = None,
+    ) -> None:
+        super().__init__(message)
+        self.request = request
+        self.response = response
 
 
 class PosApiTransportError(PosApiError):
@@ -44,6 +56,24 @@ class PosApiHttpError(PosApiError):
         request: HttpRequestContext,
         response: HttpResponseContext,
     ) -> None:
-        super().__init__(message)
-        self.request = request
-        self.response = response
+        super().__init__(message, request=request, response=response)
+
+
+class PosApiBusinessError(PosApiError):
+    """
+    2xx HTTP but domain-level failure indicated by payload fields
+    (e.g. {"status":"ERROR", "message":"..."}).
+    """
+
+    def __init__(
+        self,
+        message: str,
+        *,
+        status: str | None = None,
+        code: str | int | None = None,
+        request: HttpRequestContext | None = None,
+        response: HttpResponseContext | None = None,
+    ) -> None:
+        super().__init__(message, request=request, response=response)
+        self.status = status
+        self.code = code

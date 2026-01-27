@@ -1,6 +1,7 @@
 from __future__ import annotations
 
-from typing import Any, Mapping, Optional, TypeVar
+from collections.abc import Mapping
+from typing import Any, TypeVar
 
 import httpx
 from pydantic import BaseModel, ValidationError
@@ -21,9 +22,7 @@ def _join_url(base_url: str, path: str) -> str:
     return f"{base_url.rstrip('/')}/{path.lstrip('/')}"
 
 
-def _merge_headers(
-    a: Optional[Mapping[str, str]], b: Optional[Mapping[str, str]]
-) -> dict[str, str]:
+def _merge_headers(a: Mapping[str, str] | None, b: Mapping[str, str] | None) -> dict[str, str]:
     out: dict[str, str] = {}
     if a:
         out.update(dict(a))
@@ -32,17 +31,36 @@ def _merge_headers(
     return out
 
 
-def _raise_http_error(
-    method: str, url: str, req_headers: Mapping[str, str], r: httpx.Response
-) -> None:
-    body_text: str | None = None
-    json_body: Any | None = None
+def _extract_response_json(r: httpx.Response) -> Any | None:
+    """
+    Best-effort JSON parse. Returns None if not JSON.
+    """
     try:
-        body_text = r.text
-        # try json best-effort
-        json_body = r.json()
+        # Fast-path: only attempt if content-type hints JSON
+        ct = r.headers.get("content-type", "")
+        if "json" not in ct.lower():
+            return None
+        return r.json()
     except Exception:
-        pass
+        return None
+
+
+def _extract_body_text(r: httpx.Response) -> str | None:
+    try:
+        # note: may raise for streamed responses, but httpx buffers by default
+        return r.text
+    except Exception:
+        return None
+
+
+def _raise_http_error(
+    method: str,
+    url: str,
+    req_headers: Mapping[str, str],
+    r: httpx.Response,
+) -> None:
+    json_body = _extract_response_json(r)
+    body_text = _extract_body_text(r) if json_body is None else None
 
     raise PosApiHttpError(
         f"HTTP {r.status_code} for {method} {url}",
@@ -57,12 +75,30 @@ def _raise_http_error(
 
 
 def _parse_json_or_raise(
-    method: str, url: str, req_headers: Mapping[str, str], r: httpx.Response
+    method: str,
+    url: str,
+    req_headers: Mapping[str, str],
+    r: httpx.Response,
 ) -> Any:
+    # 204/empty is legal sometimes; treat as None
+    if r.status_code == 204 or not r.content:
+        return None
+
+    # First try JSON even if content-type is wrong (vendor specs often are)
     try:
         return r.json()
     except Exception as e:
-        raise PosApiDecodeError(f"Invalid JSON response for {method} {url}: {e}") from e
+        body_text = _extract_body_text(r)
+        raise PosApiDecodeError(
+            f"Invalid JSON response for {method} {url}: {e}",
+            request=HttpRequestContext(method=method, url=url, headers=req_headers),
+            response=HttpResponseContext(
+                status_code=r.status_code,
+                headers=dict(r.headers),
+                body_text=body_text,
+                json=None,
+            ),
+        ) from e
 
 
 def _validate_model(model: type[T], data: Any, *, where: str) -> T:
@@ -88,7 +124,9 @@ class AsyncTransport:
             r = await self._client.request(method, url, headers=headers, json=json_body)
         except httpx.HTTPError as e:
             raise PosApiTransportError(
-                f"Transport error for {method} {url}: {e}"
+                f"Transport error for {method} {url}: {e}",
+                request=HttpRequestContext(method=method, url=url, headers=headers),
+                response=None,
             ) from e
 
         if r.status_code < 200 or r.status_code >= 300:
@@ -113,7 +151,9 @@ class SyncTransport:
             r = self._client.request(method, url, headers=headers, json=json_body)
         except httpx.HTTPError as e:
             raise PosApiTransportError(
-                f"Transport error for {method} {url}: {e}"
+                f"Transport error for {method} {url}: {e}",
+                request=HttpRequestContext(method=method, url=url, headers=headers),
+                response=None,
             ) from e
 
         if r.status_code < 200 or r.status_code >= 300:

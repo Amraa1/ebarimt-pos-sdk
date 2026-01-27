@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from typing import Optional
-
 import httpx
 
 from ._http import AsyncTransport, SyncTransport, _merge_headers
@@ -17,7 +15,7 @@ class PosApiClient:
         client = PosApiClient(PosApiSettings(...))
         resp = client.receipt.create({...})
 
-        async with client:
+        async with PosApiClient(...) as client:
             resp = await client.receipt.acreate({...})
     """
 
@@ -27,7 +25,7 @@ class PosApiClient:
         *,
         sync_client: httpx.Client | None = None,
         async_client: httpx.AsyncClient | None = None,
-        headers: Optional[dict[str, str]] = None,
+        headers: dict[str, str] | None = None,
     ) -> None:
         self._settings = settings
         self._base_url = settings.normalized_base_url()
@@ -52,27 +50,13 @@ class PosApiClient:
         self._sync_transport = SyncTransport(self._sync_client)
         self._async_transport = AsyncTransport(self._async_client)
 
-        # Resources: expose both sync & async methods
+        # Resources
         self.receipt = ReceiptResource(
             base_url=self._base_url,
             headers=self._headers,
-            transport=self._sync_transport,
+            sync=self._sync_transport,
+            async_=self._async_transport,
         )
-        self.arecipt = ReceiptResource(
-            base_url=self._base_url,
-            headers=self._headers,
-            transport=self._async_transport,
-        )  # optional alias
-
-        # Preferred: keep one resource, with .create (sync) + .acreate (async)
-        # We'll do that by reusing the async transport when calling .acreate:
-        self.receipt._transport_async = self._async_transport  # internal
-
-    async def __aenter__(self) -> "PosApiClient":
-        return self
-
-    async def __aexit__(self, exc_type, exc, tb) -> None:
-        await self.aclose()
 
     def close(self) -> None:
         if self._owns_sync:
@@ -81,3 +65,9 @@ class PosApiClient:
     async def aclose(self) -> None:
         if self._owns_async:
             await self._async_client.aclose()
+
+    async def __aenter__(self) -> PosApiClient:
+        return self
+
+    async def __aexit__(self, exc_type, exc, tb) -> None:
+        await self.aclose()

@@ -1,14 +1,14 @@
 from __future__ import annotations
 
-from typing import Any, Literal, Optional
+from typing import Any, Literal
 
 from pydantic import BaseModel, Field
 
-from .._http import _join_url, _merge_headers, _validate_model
+from .._http import AsyncTransport, SyncTransport, _join_url, _validate_model
 
 
 class ReceiptCreateRequest(BaseModel):
-    # Minimal subset to get real integrations working; we will expand from spec later.
+    # Minimal subset; expand from spec later
     branchNo: str
     totalAmount: float
     merchantTin: str
@@ -16,16 +16,14 @@ class ReceiptCreateRequest(BaseModel):
     type: str
     billIdSuffix: str
     receipts: list[dict[str, Any]]
-    payments: Optional[list[dict[str, Any]]] = None
+    payments: list[dict[str, Any]] | None = None
 
-    # allow extra fields from real payloads
     model_config = {"extra": "allow"}
 
 
 class ReceiptItemResponse(BaseModel):
     id: str
     bankAccountId: int
-
     model_config = {"extra": "allow"}
 
 
@@ -45,25 +43,29 @@ class ReceiptCreateResponse(BaseModel):
 
 class ReceiptResource:
     def __init__(
-        self, *, base_url: str, headers: dict[str, str], transport: Any
+        self,
+        *,
+        base_url: str,
+        headers: dict[str, str],
+        sync: SyncTransport,
+        async_: AsyncTransport,
     ) -> None:
         self._base_url = base_url
         self._headers = headers
-        self._transport = transport
+        self._sync = sync
+        self._async = async_
 
     def _url(self) -> str:
         return _join_url(self._base_url, "/rest/receipt")
 
     # Sync
-    def create(
-        self, payload: ReceiptCreateRequest | dict[str, Any]
-    ) -> ReceiptCreateResponse:
+    def create(self, payload: ReceiptCreateRequest | dict[str, Any]) -> ReceiptCreateResponse:
         req = (
             payload
             if isinstance(payload, ReceiptCreateRequest)
             else _validate_model(ReceiptCreateRequest, payload, where="request")
         )
-        data = self._transport.request_json(
+        data = self._sync.request_json(
             "POST",
             self._url(),
             headers=self._headers,
@@ -80,7 +82,7 @@ class ReceiptResource:
             if isinstance(payload, ReceiptCreateRequest)
             else _validate_model(ReceiptCreateRequest, payload, where="request")
         )
-        data = await self._transport.request_json(
+        data = await self._async.request_json(
             "POST",
             self._url(),
             headers=self._headers,

@@ -73,3 +73,6 @@ class ReceiptResource:
         raise_for_status(*result.as_tuple())
 
         return CreateReceiptResponse.model_validate(result.response.json())
+
+    def delete(self, payload: dict[str, Any], *, headers: HeaderTypes | None = None): ...
+    def adelete(self, payload: dict[str, Any], *, headers: HeaderTypes | None = None): ...

@@ -17,14 +17,14 @@ class HttpRequestResponse:
     request: httpx.Request
     response: httpx.Response
 
-    def as_tuple(self):
-        return self.request, self.response
+    def as_tuple(self) -> tuple[httpx.Request, httpx.Response]:
+        return (self.request, self.response)
 
 
 def build_transport_error(
     request: httpx.Request,
     exc: httpx.HTTPError,
-):
+) -> PosApiTransportError:
     """Build Pos Api Transport layer error."""
     return PosApiTransportError(
         f"Transport error for {request.method} {request.url}: {exc}",

@@ -166,3 +166,16 @@ class CreateReceiptResponse(BaseModel):
     date: datetime
     easy: bool
     receipts: list[ReceiptItemResponse]
+
+
+class DeleteReceiptRequest(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+
+    id: str
+    date: datetime
+
+
+class DeleteReceiptResponse(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+
+    # TODO

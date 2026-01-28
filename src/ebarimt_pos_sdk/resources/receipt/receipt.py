@@ -1,16 +1,17 @@
 from __future__ import annotations
 
-from collections.abc import Mapping
 from typing import Any
 
 import httpx
 
 from ...transport import AsyncTransport, SyncTransport
-from ..http import raise_for_status, validate_payload
-from .schema import CreateReceiptRequest, CreateReceiptResponse
-
-HeaderTypes = httpx.Headers | Mapping[str, Any]
-
+from ..resource import HeaderTypes, _ensure_http_success, _validate_payload
+from .schema import (
+    CreateReceiptRequest,
+    CreateReceiptResponse,
+    DeleteReceiptRequest,
+    DeleteReceiptResponse,
+)
 
 _DEFAULT_HEADERS = {"Accept": "application/json"}
 
@@ -42,7 +43,7 @@ class ReceiptResource:
         *,
         headers: HeaderTypes | None = None,
     ) -> CreateReceiptResponse:
-        payload = validate_payload(model=CreateReceiptRequest, payload=payload)
+        payload = _validate_payload(model=CreateReceiptRequest, payload=payload)
 
         result = self._sync.send(
             "POST",
@@ -51,7 +52,7 @@ class ReceiptResource:
             payload=payload.model_dump(mode="json", by_alias=True, exclude_none=True),
         )
 
-        raise_for_status(*result.as_tuple())
+        _ensure_http_success(result.response)
 
         return CreateReceiptResponse.model_validate(result.response.json())
 
@@ -61,7 +62,7 @@ class ReceiptResource:
         *,
         headers: HeaderTypes | None = None,
     ) -> CreateReceiptResponse:
-        payload = validate_payload(model=CreateReceiptRequest, payload=payload)
+        payload = _validate_payload(model=CreateReceiptRequest, payload=payload)
 
         result = await self._async.send(
             "POST",
@@ -70,9 +71,38 @@ class ReceiptResource:
             payload=payload.model_dump(mode="json", by_alias=True, exclude_none=True),
         )
 
-        raise_for_status(*result.as_tuple())
+        _ensure_http_success(result.response)
 
         return CreateReceiptResponse.model_validate(result.response.json())
 
-    def delete(self, payload: dict[str, Any], *, headers: HeaderTypes | None = None): ...
-    def adelete(self, payload: dict[str, Any], *, headers: HeaderTypes | None = None): ...
+    def delete(
+        self, payload: DeleteReceiptRequest | dict[str, Any], *, headers: HeaderTypes | None = None
+    ) -> DeleteReceiptResponse:
+        payload = _validate_payload(model=DeleteReceiptRequest, payload=payload)
+
+        result = self._sync.send(
+            "POST",
+            self._path,
+            headers=self._build_headers(headers),
+            payload=payload.model_dump(mode="json", by_alias=True, exclude_none=True),
+        )
+
+        _ensure_http_success(result.response)
+
+        return DeleteReceiptResponse.model_validate(result.response.json())
+
+    async def adelete(
+        self, payload: DeleteReceiptRequest | dict[str, Any], *, headers: HeaderTypes | None = None
+    ) -> DeleteReceiptResponse:
+        payload = _validate_payload(model=DeleteReceiptRequest, payload=payload)
+
+        result = await self._async.send(
+            "POST",
+            self._path,
+            headers=self._build_headers(headers),
+            payload=payload.model_dump(mode="json", by_alias=True, exclude_none=True),
+        )
+
+        _ensure_http_success(result.response)
+
+        return DeleteReceiptResponse.model_validate(result.response.json())

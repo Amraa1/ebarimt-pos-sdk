@@ -1,8 +1,10 @@
 from __future__ import annotations
 
+from types import TracebackType
+
 import httpx
 
-from .resources.receipt.receipt import ReceiptResource
+from .resources import InfoResource, ReceiptResource
 from .settings import PosApiSettings
 from .transport import AsyncTransport, SyncTransport
 
@@ -55,6 +57,11 @@ class PosApiClient:
             async_=self._async_transport,
             headers=self._headers,
         )
+        self.info = InfoResource(
+            sync=self._sync_transport,
+            async_=self._async_transport,
+            headers=self._headers,
+        )
 
     def close(self) -> None:
         if self._owns_sync:
@@ -67,11 +74,21 @@ class PosApiClient:
     async def __aenter__(self) -> PosApiClient:
         return self
 
-    async def __aexit__(self, exc_type, exc, tb) -> None:
+    async def __aexit__(
+        self,
+        exc_type: type[BaseException] | None,
+        exc: BaseException | None,
+        tb: TracebackType | None,
+    ) -> None:
         await self.aclose()
 
     def __enter__(self) -> PosApiClient:
         return self
 
-    def __exit__(self, exc_type, exc, tb) -> None:
+    def __exit__(
+        self,
+        exc_type: type[BaseException] | None,
+        exc: BaseException | None,
+        tb: TracebackType | None,
+    ) -> None:
         self.close()

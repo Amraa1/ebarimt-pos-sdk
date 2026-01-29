@@ -212,3 +212,5 @@ spec/openapi/.normalized/
 # Node
 node_modules/
 
+# workspace settings
+.vscode/

@@ -16,7 +16,7 @@ class SyncTransport:
         *,
         headers: httpx.Headers | None = None,
         payload: dict[str, Any] | None = None,
-        **kwargs,
+        **kwargs: Any,
     ) -> HttpRequestResponse:
         request = self._client.build_request(
             method=method,

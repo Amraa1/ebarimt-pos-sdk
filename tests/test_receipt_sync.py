@@ -1,7 +1,16 @@
+import datetime
+
 import httpx
 import respx
 
-from ebarimt_pos_sdk import CreateReceiptRequest, Item, PosApiClient, PosApiSettings, Receipt
+from ebarimt_pos_sdk import (
+    CreateReceiptRequest,
+    DeleteReceiptRequest,
+    Item,
+    PosApiClient,
+    PosApiSettings,
+    Receipt,
+)
 
 
 @respx.mock
@@ -57,3 +66,24 @@ def test_receipt_create_sync_ok():
     resp = client.receipt.create(payload)
     assert resp.status == "SUCCESS"
     assert route.called
+
+
+@respx.mock
+async def test_receipt_delete_async_ok():
+    base_url = "http://localhost:7080"
+    settings = PosApiSettings(base_url=base_url)
+
+    route = respx.post(f"{base_url}/rest/receipt").mock(
+        return_value=httpx.Response(
+            200,
+            json={"status": "SUCCESS"},
+        )
+    )
+
+    async with PosApiClient(settings) as client:
+        payload = DeleteReceiptRequest(
+            id="1234567890123412319237123123", date=datetime.datetime.now()
+        )
+
+        await client.receipt.adelete(payload)
+        assert route.called

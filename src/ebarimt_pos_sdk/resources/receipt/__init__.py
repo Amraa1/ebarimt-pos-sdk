@@ -2,6 +2,8 @@ from .schema import (
     BarCodeType,
     CreateReceiptRequest,
     CreateReceiptResponse,
+    DeleteReceiptRequest,
+    DeleteReceiptResponse,
     Item,
     Payment,
     PaymentCardData,
@@ -18,6 +20,8 @@ from .schema import (
 __all__ = [
     "CreateReceiptRequest",
     "CreateReceiptResponse",
+    "DeleteReceiptRequest",
+    "DeleteReceiptResponse",
     "ReceiptItemResponse",
     "Item",
     "Payment",

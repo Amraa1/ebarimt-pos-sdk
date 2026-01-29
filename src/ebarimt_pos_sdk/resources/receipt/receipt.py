@@ -2,10 +2,14 @@ from __future__ import annotations
 
 from typing import Any
 
-import httpx
-
 from ...transport import AsyncTransport, SyncTransport
-from ..resource import HeaderTypes, _ensure_http_success, _validate_payload
+from ..resource import (
+    BaseResource,
+    HeaderTypes,
+    _build_headers,
+    _ensure_http_success,
+    _validate_payload,
+)
 from .schema import (
     CreateReceiptRequest,
     CreateReceiptResponse,
@@ -16,7 +20,7 @@ from .schema import (
 _DEFAULT_HEADERS = {"Accept": "application/json"}
 
 
-class ReceiptResource:
+class ReceiptResource(BaseResource):
     def __init__(
         self,
         *,
@@ -24,18 +28,8 @@ class ReceiptResource:
         async_: AsyncTransport,
         headers: HeaderTypes | None = None,
     ) -> None:
-        self._sync = sync
-        self._async = async_
+        super().__init__(sync=sync, async_=async_, headers=headers)
         self._path = "/rest/receipt"
-        self._headers = headers
-
-    def _build_headers(self, headers: HeaderTypes | None) -> httpx.Headers:
-        out = httpx.Headers(_DEFAULT_HEADERS)
-        if self._headers is not None:
-            out.update(self._headers)  # client
-        if headers is not None:
-            out.update(headers)  # call-level
-        return out
 
     def create(
         self,
@@ -48,7 +42,7 @@ class ReceiptResource:
         result = self._sync.send(
             "POST",
             self._path,
-            headers=self._build_headers(headers),
+            headers=_build_headers(self._headers, headers),
             payload=payload.model_dump(mode="json", by_alias=True, exclude_none=True),
         )
 
@@ -67,7 +61,7 @@ class ReceiptResource:
         result = await self._async.send(
             "POST",
             self._path,
-            headers=self._build_headers(headers),
+            headers=_build_headers(self._headers, headers),
             payload=payload.model_dump(mode="json", by_alias=True, exclude_none=True),
         )
 
@@ -83,7 +77,7 @@ class ReceiptResource:
         result = self._sync.send(
             "POST",
             self._path,
-            headers=self._build_headers(headers),
+            headers=_build_headers(self._headers, headers),
             payload=payload.model_dump(mode="json", by_alias=True, exclude_none=True),
         )
 
@@ -99,7 +93,7 @@ class ReceiptResource:
         result = await self._async.send(
             "POST",
             self._path,
-            headers=self._build_headers(headers),
+            headers=_build_headers(self._headers, headers),
             payload=payload.model_dump(mode="json", by_alias=True, exclude_none=True),
         )
 

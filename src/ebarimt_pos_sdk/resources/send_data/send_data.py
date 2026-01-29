@@ -1,20 +1,21 @@
-from ...transport import AsyncTransport, SyncTransport
+from ebarimt_pos_sdk.transport.async_transport import AsyncTransport
+from ebarimt_pos_sdk.transport.sync_transport import SyncTransport
+
 from ..resource import BaseResource, HeaderTypes, _build_headers, _ensure_http_success
-from .schema import ReadInfoResponse
 
 
-class InfoResource(BaseResource):
+class SendDataResource(BaseResource):
     def __init__(
         self,
         *,
         sync: SyncTransport,
         async_: AsyncTransport,
         headers: HeaderTypes | None = None,
-    ):
+    ) -> None:
         super().__init__(sync=sync, async_=async_, headers=headers)
-        self._path = "/rest/info"
+        self._path = "/rest/sendData"
 
-    def read(self, *, headers: HeaderTypes | None = None) -> ReadInfoResponse:
+    def send(self, headers: HeaderTypes | None = None) -> None:
         result = self._sync.send(
             "GET",
             self._path,
@@ -23,9 +24,9 @@ class InfoResource(BaseResource):
 
         _ensure_http_success(result.response)
 
-        return ReadInfoResponse.model_validate(result.response.json())
+        return None
 
-    async def aread(self, *, headers: HeaderTypes | None = None) -> ReadInfoResponse:
+    async def asend(self, headers: HeaderTypes | None = None) -> None:
         result = await self._async.send(
             "GET",
             self._path,
@@ -34,4 +35,4 @@ class InfoResource(BaseResource):
 
         _ensure_http_success(result.response)
 
-        return ReadInfoResponse.model_validate(result.response.json())
+        return None

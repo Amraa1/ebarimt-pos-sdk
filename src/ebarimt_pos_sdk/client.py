@@ -4,7 +4,7 @@ from types import TracebackType
 
 import httpx
 
-from .resources import InfoResource, ReceiptResource
+from .resources import InfoResource, ReceiptResource, SendDataResource
 from .settings import PosApiSettings
 from .transport import AsyncTransport, SyncTransport
 
@@ -58,6 +58,11 @@ class PosApiClient:
             headers=self._headers,
         )
         self.info = InfoResource(
+            sync=self._sync_transport,
+            async_=self._async_transport,
+            headers=self._headers,
+        )
+        self.send_data = SendDataResource(
             sync=self._sync_transport,
             async_=self._async_transport,
             headers=self._headers,

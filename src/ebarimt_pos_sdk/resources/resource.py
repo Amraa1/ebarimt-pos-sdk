@@ -8,10 +8,24 @@ import httpx
 from pydantic import BaseModel
 
 from ..errors import PosApiHttpError
+from ..transport import AsyncTransport, SyncTransport
 
 T = TypeVar("T", bound=BaseModel)
 
 HeaderTypes = httpx.Headers | Mapping[str, Any]
+
+
+class BaseResource:
+    def __init__(
+        self,
+        *,
+        sync: SyncTransport,
+        async_: AsyncTransport,
+        headers: HeaderTypes | None = None,
+    ) -> None:
+        self._sync = sync
+        self._async = async_
+        self._headers = headers
 
 
 def _ensure_http_success(response: httpx.Response) -> httpx.Response:

@@ -44,3 +44,4 @@ disallow_untyped_defs = true
 check_untyped_defs = true
 mypy_path = ["src"]
 files = ["src"]
+exclude = '^tests/'

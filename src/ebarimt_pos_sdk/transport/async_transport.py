@@ -3,8 +3,10 @@ from typing import Any
 import httpx
 
 from .http import (
+    HeaderTypes,
     HttpMethod,
     HttpRequestResponse,
+    QueryParamTypes,
     build_transport_error,
 )
 
@@ -20,7 +22,8 @@ class AsyncTransport:
         method: HttpMethod,
         url: httpx.URL | str,
         *,
-        headers: httpx.Headers | None = None,
+        params: QueryParamTypes | None = None,
+        headers: HeaderTypes | None = None,
         payload: dict[str, Any] | None = None,
         **kwargs: Any,
     ) -> HttpRequestResponse:
@@ -28,6 +31,7 @@ class AsyncTransport:
         request = self._client.build_request(
             method=method,
             url=url,
+            params=params,
             headers=headers,
             json=payload,
             **kwargs,

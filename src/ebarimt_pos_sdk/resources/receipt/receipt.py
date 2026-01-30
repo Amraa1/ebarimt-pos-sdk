@@ -2,7 +2,6 @@ from __future__ import annotations
 
 from typing import Any
 
-from ...transport import AsyncTransport, SyncTransport
 from ..resource import (
     BaseResource,
     HeaderTypes,
@@ -21,15 +20,9 @@ _DEFAULT_HEADERS = {"Accept": "application/json"}
 
 
 class ReceiptResource(BaseResource):
-    def __init__(
-        self,
-        *,
-        sync: SyncTransport,
-        async_: AsyncTransport,
-        headers: HeaderTypes | None = None,
-    ) -> None:
-        super().__init__(sync=sync, async_=async_, headers=headers)
-        self._path = "/rest/receipt"
+    @property
+    def _path(self) -> str:
+        return "/rest/receipt"
 
     def create(
         self,

@@ -1,18 +1,16 @@
 # src/ebarimt_pos_sdk/resources/receipt.py
 from __future__ import annotations
 
-from collections.abc import Mapping
+from abc import abstractmethod
 from typing import Any, TypeVar
 
 import httpx
 from pydantic import BaseModel
 
 from ..errors import PosApiHttpError
-from ..transport import AsyncTransport, SyncTransport
+from ..transport import AsyncTransport, HeaderTypes, SyncTransport
 
 T = TypeVar("T", bound=BaseModel)
-
-HeaderTypes = httpx.Headers | Mapping[str, Any]
 
 
 class BaseResource:
@@ -26,6 +24,10 @@ class BaseResource:
         self._sync = sync
         self._async = async_
         self._headers = headers
+
+    @property
+    @abstractmethod
+    def _path(self) -> str: ...
 
 
 def _ensure_http_success(response: httpx.Response) -> httpx.Response:

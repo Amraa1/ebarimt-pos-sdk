@@ -1,7 +1,8 @@
 from __future__ import annotations
 
+from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
-from typing import Literal
+from typing import Literal, TypeAlias
 
 import httpx
 
@@ -30,3 +31,21 @@ def build_transport_error(
         f"Transport error for {request.method} {request.url}: {exc}",
         request=request,
     )
+
+
+PrimitiveData = str | int | float | bool | None
+
+QueryParamTypes: TypeAlias = (
+    httpx.QueryParams
+    | Mapping[str, PrimitiveData | Sequence[PrimitiveData]]
+    | list[tuple[str, PrimitiveData]]
+    | tuple[tuple[str, PrimitiveData], ...]
+    | str
+)
+HeaderTypes: TypeAlias = (
+    httpx.Headers
+    | Mapping[str, str]
+    | Mapping[bytes, bytes]
+    | Sequence[tuple[str, str]]
+    | Sequence[tuple[bytes, bytes]]
+)

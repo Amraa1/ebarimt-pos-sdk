@@ -1,18 +1,11 @@
-from ...transport import AsyncTransport, SyncTransport
 from ..resource import BaseResource, HeaderTypes, _build_headers, _ensure_http_success
 from .schema import ReadInfoResponse
 
 
 class InfoResource(BaseResource):
-    def __init__(
-        self,
-        *,
-        sync: SyncTransport,
-        async_: AsyncTransport,
-        headers: HeaderTypes | None = None,
-    ):
-        super().__init__(sync=sync, async_=async_, headers=headers)
-        self._path = "/rest/info"
+    @property
+    def _path(self) -> str:
+        return "/rest/info"
 
     def read(self, *, headers: HeaderTypes | None = None) -> ReadInfoResponse:
         result = self._sync.send(

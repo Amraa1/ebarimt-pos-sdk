@@ -8,11 +8,13 @@ This is the transport layer. It concerns with:
 """
 
 from .async_transport import AsyncTransport
-from .http import HttpRequestResponse
+from .http import HeaderTypes, HttpRequestResponse, QueryParamTypes
 from .sync_transport import SyncTransport
 
 __all__ = [
     "AsyncTransport",
     "SyncTransport",
     "HttpRequestResponse",
+    "HeaderTypes",
+    "QueryParamTypes",
 ]

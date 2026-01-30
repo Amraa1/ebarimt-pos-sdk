@@ -4,9 +4,9 @@ from types import TracebackType
 
 import httpx
 
-from .resources import InfoResource, ReceiptResource, SendDataResource
+from .resources import BankAccountsResource, InfoResource, ReceiptResource, SendDataResource
 from .settings import PosApiSettings
-from .transport import AsyncTransport, SyncTransport
+from .transport import AsyncTransport, HeaderTypes, SyncTransport
 
 
 class PosApiClient:
@@ -27,7 +27,7 @@ class PosApiClient:
         *,
         sync_client: httpx.Client | None = None,
         async_client: httpx.AsyncClient | None = None,
-        headers: httpx.Headers | None = None,
+        headers: HeaderTypes | None = None,
     ) -> None:
         self._settings = settings
         self._headers = headers
@@ -63,6 +63,11 @@ class PosApiClient:
             headers=self._headers,
         )
         self.send_data = SendDataResource(
+            sync=self._sync_transport,
+            async_=self._async_transport,
+            headers=self._headers,
+        )
+        self.bank_accounts = BankAccountsResource(
             sync=self._sync_transport,
             async_=self._async_transport,
             headers=self._headers,

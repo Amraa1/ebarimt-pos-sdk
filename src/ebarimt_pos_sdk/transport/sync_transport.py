@@ -2,7 +2,7 @@ from typing import Any
 
 import httpx
 
-from .http import HttpMethod, HttpRequestResponse, build_transport_error
+from .http import HttpMethod, HttpRequestResponse, QueryParamTypes, build_transport_error
 
 
 class SyncTransport:
@@ -14,6 +14,7 @@ class SyncTransport:
         method: HttpMethod,
         url: httpx.URL | str,
         *,
+        params: QueryParamTypes | None = None,
         headers: httpx.Headers | None = None,
         payload: dict[str, Any] | None = None,
         **kwargs: Any,
@@ -21,6 +22,7 @@ class SyncTransport:
         request = self._client.build_request(
             method=method,
             url=url,
+            params=params,
             headers=headers,
             json=payload,
             **kwargs,

@@ -1,58 +1,58 @@
 name: Python Dev Tools
 
 on:
-  pull_request:
-    branches: [main]
-    paths:
-      - "src/**"
-      - "tests/**"
-      - "pyproject.toml"
-      - "uv.lock"
-      - ".github/workflows/python-dev-tools.yaml"
+    pull_request:
+        branches: [main]
+        paths:
+            - "src/**"
+            - "tests/**"
+            - "pyproject.toml"
+            - "uv.lock"
+            - ".github/workflows/python-dev-tools.yaml"
 
-  push:
-    branches: [main]
-    paths:
-      - "src/**"
-      - "tests/**"
-      - "pyproject.toml"
-      - "uv.lock"
-      - ".github/workflows/python-dev-tools.yaml"
+    push:
+        branches: [main]
+        paths:
+            - "src/**"
+            - "tests/**"
+            - "pyproject.toml"
+            - "uv.lock"
+            - ".github/workflows/python-dev-tools.yaml"
 
 jobs:
-  dev-tools:
-    name: python (uv + ruff + mypy + pytest)
-    runs-on: ubuntu-latest
+    dev-tools:
+        name: python (uv + ruff + mypy + pytest)
+        runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v6
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v6
 
-      - name: Set up Python
-        uses: actions/setup-python@v6
-        with:
-          python-version-file: ".python-version"
+            - name: Set up Python
+              uses: actions/setup-python@v6
+              with:
+                  python-version-file: ".python-version"
 
-      - name: Install uv
-        uses: astral-sh/setup-uv@v7
-        with:
-          # Install a specific version of uv.
-          version: "0.9.27"
-          enable-cache: true
+            - name: Install uv
+              uses: astral-sh/setup-uv@v7
+              with:
+                  # Install a specific version of uv.
+                  version: "0.9.27"
+                  enable-cache: true
 
-      - name: Sync dependencies (frozen)
-        run: uv sync --dev --frozen
+            - name: Sync dependencies (frozen)
+              run: uv sync --dev --frozen
 
-      - name: Ruff
-        run: uv run ruff check .
+            - name: Ruff
+              run: uv run ruff check .
 
-      - name: Mypy
-        run: uv run mypy src
+            - name: Mypy
+              run: uv run mypy src
 
-      - name: Pytest
-        run: uv run pytest --cov --cov-branch --cov-report=xml
+            - name: Pytest
+              run: uv run pytest --cov --cov-branch --cov-report=xml
 
-      - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v5
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
+            - name: Upload coverage reports to Codecov
+              uses: codecov/codecov-action@v5
+              with:
+                  token: ${{ secrets.CODECOV_TOKEN }}

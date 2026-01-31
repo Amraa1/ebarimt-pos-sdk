@@ -1,86 +1,85 @@
 name: OpenAPI Breaking Change Gate
 
 on:
-  pull_request:
-    branches: [main]
-    paths:
-      - "spec/**"
-      - "tools/**"
-      - "package.json"
-      - "package-lock.json"
-      - "redocly.yaml"
+    pull_request:
+        branches: [main]
+        paths:
+            - "spec/**"
+            - "tools/**"
+            - "package.json"
+            - "package-lock.json"
 
 jobs:
-  breaking:
-    runs-on: ubuntu-latest
+    breaking:
+        runs-on: ubuntu-latest
 
-    steps:
-      # Checkout BASE branch into ./base
-      - name: Checkout base
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ github.base_ref }}
-          path: base
+        steps:
+            # Checkout BASE branch into ./base
+            - name: Checkout base
+              uses: actions/checkout@v4
+              with:
+                  ref: ${{ github.base_ref }}
+                  path: base
 
-      # Checkout PR branch into ./head
-      - name: Checkout head
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ github.head_ref }}
-          path: head
+            # Checkout PR branch into ./head
+            - name: Checkout head
+              uses: actions/checkout@v4
+              with:
+                  ref: ${{ github.head_ref }}
+                  path: head
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version-file: "head/.nvmrc"
-          cache: "npm"
-          cache-dependency-path: |
-            base/package-lock.json
-            head/package-lock.json
+            - name: Setup Node
+              uses: actions/setup-node@v4
+              with:
+                  node-version-file: "head/.nvmrc"
+                  cache: "npm"
+                  cache-dependency-path: |
+                      base/package-lock.json
+                      head/package-lock.json
 
-      # Install + bundle base
-      - name: Install tooling (base)
-        working-directory: base
-        run: npm ci
+            # Install + bundle base
+            - name: Install tooling (base)
+              working-directory: base
+              run: npm ci
 
-      - name: Bundle spec (base)
-        working-directory: base
-        run: npm run spec:bundle
+            - name: Bundle spec (base)
+              working-directory: base
+              run: npm run spec:bundle
 
-      # Install + bundle head
-      - name: Install tooling (head)
-        working-directory: head
-        run: npm ci
+            # Install + bundle head
+            - name: Install tooling (head)
+              working-directory: head
+              run: npm ci
 
-      - name: Bundle spec (head)
-        working-directory: head
-        run: npm run spec:bundle
+            - name: Bundle spec (head)
+              working-directory: head
+              run: npm run spec:bundle
 
-      # Download oasdiff binary
-      - name: Install oasdiff
-        run: |
-          curl -L https://github.com/Tufin/oasdiff/releases/latest/download/oasdiff-linux-amd64 -o oasdiff
-          chmod +x oasdiff
-          ./oasdiff version
+            # Download oasdiff binary
+            - name: Install oasdiff
+              run: |
+                  curl -L https://github.com/Tufin/oasdiff/releases/latest/download/oasdiff-linux-amd64 -o oasdiff
+                  chmod +x oasdiff
+                  ./oasdiff version
 
-      # Run breaking-change detection
-      - name: Check for breaking changes
-        run: |
-          ./oasdiff breaking \
-            base/spec/openapi/.normalized/posapi-3.0.json \
-            head/spec/openapi/.normalized/posapi-3.0.json
+            # Run breaking-change detection
+            - name: Check for breaking changes
+              run: |
+                  ./oasdiff breaking \
+                    base/spec/openapi/.normalized/posapi-3.0.json \
+                    head/spec/openapi/.normalized/posapi-3.0.json
 
-      - name: Generate changelog report
-        if: always()
-        run: |
-          ./oasdiff changelog \
-            base/spec/openapi/.normalized/posapi-3.0.json \
-            head/spec/openapi/.normalized/posapi-3.0.json \
-            --format markdown > oasdiff-changelog.md
+            - name: Generate changelog report
+              if: always()
+              run: |
+                  ./oasdiff changelog \
+                    base/spec/openapi/.normalized/posapi-3.0.json \
+                    head/spec/openapi/.normalized/posapi-3.0.json \
+                    --format markdown > oasdiff-changelog.md
 
-      - name: Upload oasdiff report
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: oasdiff-changelog
-          path: oasdiff-changelog.md
+            - name: Upload oasdiff report
+              if: always()
+              uses: actions/upload-artifact@v4
+              with:
+                  name: oasdiff-changelog
+                  path: oasdiff-changelog.md

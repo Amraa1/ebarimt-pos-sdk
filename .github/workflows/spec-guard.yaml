@@ -1,26 +1,25 @@
 name: OpenAPI Spec Check
 
 on:
-  pull_request:
-    paths:
-      - "spec/**"
-      - "tools/**"
-      - "package.json"
-      - "package-lock.json"
-      - "redocly.yaml"
-  push:
-    branches: [main]
+    pull_request:
+        paths:
+            - "spec/**"
+            - "tools/**"
+            - "package.json"
+            - "package-lock.json"
+    push:
+        branches: [main]
 
 jobs:
-  spec:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
+    spec:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
-        with:
-          node-version-file: ".nvmrc"
-          cache: "npm"
+            - uses: actions/setup-node@v4
+              with:
+                  node-version-file: ".nvmrc"
+                  cache: "npm"
 
-      - run: npm ci
-      - run: npm run spec:check
+            - run: npm ci
+            - run: npm run spec:check

@@ -1,11 +1,13 @@
 import httpx
+import pytest
 import respx
 
 from ebarimt_pos_sdk import PosApiClient, PosApiSettings
 
 
+@pytest.mark.asyncio
 @respx.mock
-def test_bank_accounts_read_ok():
+async def test_bank_accounts_read_ok():
     base_url = "http://localhost:7080"
     settings = PosApiSettings(base_url=base_url)
     tin = "37900846788"
@@ -73,6 +75,6 @@ def test_bank_accounts_read_ok():
     )
 
     with PosApiClient(settings) as client:
-        resp = client.bank_accounts.read(tin=tin)
+        resp = await client.bank_accounts.aread(tin=tin)
         assert resp[0].tin == tin
         assert route.called

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-import httpx
+from .transport import HeaderTypes
 
 
 @dataclass(frozen=True)
@@ -21,7 +21,7 @@ class PosApiSettings:
 
     # auth is intentionally flexible until spec is clearer:
     # e.g. {"Authorization": "Bearer ..."} or {"X-API-KEY": "..."}
-    default_headers: httpx.Headers | None = None
+    default_headers: HeaderTypes | None = None
 
     def normalized_base_url(self) -> str:
         """Normalizes base_url for clients to use.

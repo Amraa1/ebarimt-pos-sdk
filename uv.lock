@@ -158,7 +158,7 @@ toml = [
 
 [[package]]
 name = "ebarimt-pos-sdk"
-version = "0.0.0"
+version = "0.0.1b1"
 source = { editable = "." }
 dependencies = [
     { name = "httpx" },

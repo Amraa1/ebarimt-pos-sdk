@@ -5,13 +5,12 @@ permissions:
 
 on:
     pull_request:
+        branches: [main]
         paths:
             - "spec/**"
             - "tools/**"
             - "package.json"
             - "package-lock.json"
-    push:
-        branches: [main]
 
 jobs:
     spec:

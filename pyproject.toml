@@ -1,6 +1,6 @@
 [project]
 name = "ebarimt-pos-sdk"
-version = "0.0.1b1"
+version = "0.0.1b2"
 description = "Python SDK for Ebarimt POS API 3.0"
 readme = "README.md"
 requires-python = ">=3.10"

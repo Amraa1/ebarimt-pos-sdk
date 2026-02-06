@@ -4,6 +4,7 @@
 
 Modern async-first Python SDK for Ebarimt Pos API 3.0.
 
+> [Project doc](https://ebarimt-pos-sdk.readthedocs.io/mn/latest/)  
 > Ebarimt Pos API 3.0 [documentation](https://developer.itc.gov.mn/docs/ebarimt-api/inbishdm2zj3x-pos-api-3-0-sistemijn-api-holbolt-zaavruud)
 
 ## Development setup
@@ -13,7 +14,7 @@ uv sync --dev
 uv run pytest
 ```
 
-# PosAPI тохируулах:
+## PosAPI тохируулах
 
 PosAPI нь суусны дараа анхны байдлаар тохируулах шаардлагатай. “posapi.ini”
 файлд тухайн PosAPI-н үндсэн тохиргоо байрлах ба “P101.poi, P102.poi” файлуудад

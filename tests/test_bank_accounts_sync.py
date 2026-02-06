@@ -7,7 +7,7 @@ from ebarimt_pos_sdk import PosApiClient, PosApiSettings
 @respx.mock
 def test_bank_accounts_read_ok():
     base_url = "http://localhost:7080"
-    settings = PosApiSettings(base_url=base_url)
+    settings = PosApiSettings(base_url=base_url, default_headers=None)
     tin = "37900846788"
 
     route = respx.get(f"{base_url}/rest/bankAccounts").mock(

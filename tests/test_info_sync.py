@@ -66,6 +66,5 @@ def test_info_read_ok():
     client = PosApiClient(settings)
 
     resp = client.info.read()
-    print(resp.operator_name)
     assert resp.operator_name == "TEST OPERATOR 1"
     assert route.called

@@ -16,8 +16,6 @@ from .schema import (
     DeleteReceiptResponse,
 )
 
-_DEFAULT_HEADERS = {"Accept": "application/json"}
-
 
 class ReceiptResource(BaseResource):
     @property

@@ -23,6 +23,7 @@ class PosApiSettings:
     # e.g. {"Authorization": "Bearer ..."} or {"X-API-KEY": "..."}
     default_headers: HeaderTypes | None = None
 
+    @property
     def normalized_base_url(self) -> str:
         """Normalizes base_url for clients to use.
 

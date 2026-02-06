@@ -32,14 +32,13 @@ class BaseResource:
 
 def _ensure_http_success(response: httpx.Response) -> httpx.Response:
     try:
-        response.raise_for_status()
+        return response.raise_for_status()
     except httpx.HTTPStatusError as exc:
         raise PosApiHttpError(
             f"HTTP {exc.response.status_code}",
             request=exc.request,
             response=exc.response,
         ) from exc
-    return response
 
 
 def _validate_payload(model: type[T], payload: T | dict[str, Any]) -> T:
@@ -59,7 +58,8 @@ def _build_headers(*headers: HeaderTypes | None) -> httpx.Headers:
     """
     out = httpx.Headers()
     for header in headers:
-        out.update(header)
+        if header is not None:
+            out.update(header)
     return out
 
 

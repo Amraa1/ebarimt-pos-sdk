@@ -69,7 +69,7 @@ def test_receipt_create_sync_ok():
 
 
 @respx.mock
-async def test_receipt_delete_async_ok():
+def test_receipt_delete_sync_ok():
     base_url = "http://localhost:7080"
     settings = PosApiSettings(base_url=base_url)
 
@@ -80,10 +80,10 @@ async def test_receipt_delete_async_ok():
         )
     )
 
-    async with PosApiClient(settings) as client:
+    with PosApiClient(settings) as client:
         payload = DeleteReceiptRequest(
             id="1234567890123412319237123123", date=datetime.datetime.now()
         )
 
-        await client.receipt.adelete(payload)
+        client.receipt.delete(payload)
         assert route.called

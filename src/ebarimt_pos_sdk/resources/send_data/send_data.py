@@ -1,5 +1,4 @@
-
-from ..resource import BaseResource, HeaderTypes, _build_headers, _ensure_http_success
+from ..resource import BaseResource, HeaderTypes
 
 
 class SendDataResource(BaseResource):
@@ -11,10 +10,10 @@ class SendDataResource(BaseResource):
         result = self._sync.send(
             "GET",
             self._path,
-            headers=_build_headers(self._headers, headers),
+            headers=self._build_headers(self._headers, headers),
         )
 
-        _ensure_http_success(result.response)
+        self._ensure_http_success(result.response)
 
         return None
 
@@ -22,9 +21,9 @@ class SendDataResource(BaseResource):
         result = await self._async.send(
             "GET",
             self._path,
-            headers=_build_headers(self._headers, headers),
+            headers=self._build_headers(self._headers, headers),
         )
 
-        _ensure_http_success(result.response)
+        self._ensure_http_success(result.response)
 
         return None

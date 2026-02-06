@@ -5,9 +5,9 @@ from abc import abstractmethod
 from typing import Any, TypeVar
 
 import httpx
-from pydantic import BaseModel
+from pydantic import BaseModel, ValidationError
 
-from ..errors import PosApiHttpError
+from ..errors import PosApiDecodeError, PosApiHttpError, PosApiValidationError
 from ..transport import AsyncTransport, HeaderTypes, SyncTransport
 
 T = TypeVar("T", bound=BaseModel)
@@ -29,38 +29,63 @@ class BaseResource:
     @abstractmethod
     def _path(self) -> str: ...
 
+    @staticmethod
+    def _decode_json(response: httpx.Response) -> Any:
+        try:
+            return response.json()
+        except Exception as exc:
+            raise PosApiDecodeError(
+                "Failed to decode JSON response",
+                response=response,
+            ) from exc
 
-def _ensure_http_success(response: httpx.Response) -> httpx.Response:
-    try:
-        response.raise_for_status()
-    except httpx.HTTPStatusError as exc:
-        raise PosApiHttpError(
-            f"HTTP {exc.response.status_code}",
-            request=exc.request,
-            response=exc.response,
-        ) from exc
-    return response
+    @staticmethod
+    def _ensure_http_success(response: httpx.Response) -> httpx.Response:
+        try:
+            return response.raise_for_status()
+        except httpx.HTTPStatusError as exc:
+            raise PosApiHttpError(
+                f"HTTP {exc.response.status_code}",
+                request=exc.request,
+                response=exc.response,
+            ) from exc
 
+    @staticmethod
+    def _validate_payload(model: type[T], payload: T | dict[str, Any]) -> T:
+        if isinstance(payload, model):
+            return payload
+        try:
+            return model.model_validate(payload)
+        except ValidationError as exc:
+            raise PosApiValidationError(
+                stage="request",
+                model=model,
+                validation_error=exc,
+            ) from exc
 
-def _validate_payload(model: type[T], payload: T | dict[str, Any]) -> T:
-    if isinstance(payload, model):
-        return payload
-    return model.model_validate(payload)
+    @staticmethod
+    def _validate_response(model: type[T], response: Any) -> T:
+        try:
+            return model.model_validate(response)
+        except ValidationError as exc:
+            raise PosApiValidationError(
+                stage="response",
+                model=model,
+                validation_error=exc,
+            ) from exc
 
+    @staticmethod
+    def _build_headers(*headers: HeaderTypes | None) -> httpx.Headers:
+        """Merges headers and returns one header.
 
-def _build_headers(*headers: HeaderTypes | None) -> httpx.Headers:
-    """Merges headers and returns one header.
+        Note:
+            Highest priority header should be the last.
 
-    Note:
-        Highest priority header should be the last.
-
-    Returns:
-        httpx.Headers: Merged header.
-    """
-    out = httpx.Headers()
-    for header in headers:
-        out.update(header)
-    return out
-
-
-__all__ = ["_ensure_http_success", "_validate_payload", "_build_headers"]
+        Returns:
+            httpx.Headers: Merged header.
+        """
+        out = httpx.Headers()
+        for header in headers:
+            if header is not None:
+                out.update(header)
+        return out

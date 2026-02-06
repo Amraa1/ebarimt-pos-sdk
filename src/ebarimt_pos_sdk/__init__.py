@@ -1,4 +1,12 @@
 from .client import PosApiClient
+from .errors import (
+    PosApiBusinessError,
+    PosApiDecodeError,
+    PosApiError,
+    PosApiHttpError,
+    PosApiTransportError,
+    PosApiValidationError,
+)
 from .resources.receipt import (
     BarCodeType,
     CreateReceiptRequest,
@@ -38,4 +46,10 @@ __all__ = [
     "ReceiptItemResponse",
     "ReceiptType",
     "TaxType",
+    "PosApiBusinessError",
+    "PosApiDecodeError",
+    "PosApiError",
+    "PosApiHttpError",
+    "PosApiTransportError",
+    "PosApiValidationError",
 ]

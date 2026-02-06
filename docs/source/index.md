@@ -7,5 +7,5 @@ Modern async-first Python SDK for **Ebarimt POS API 3.0**.
 
 installation
 quickstart
-api
+api/modules
 ```

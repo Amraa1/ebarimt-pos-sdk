@@ -214,7 +214,7 @@ def test_receipt_create_sync_decode_error():
 
     with pytest.raises(PosApiDecodeError):
         client.receipt.create(payload)
-
+    
 
 @respx.mock
 def test_receipt_delete_sync_ok():

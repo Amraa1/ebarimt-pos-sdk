@@ -1,6 +1,6 @@
 import httpx
 
-from ..resource import BaseResource, HeaderTypes, _build_headers, _ensure_http_success
+from ..resource import BaseResource, HeaderTypes
 from .schema import BankAccount
 
 
@@ -19,14 +19,14 @@ class BankAccountsResource(BaseResource):
             "GET",
             self._path,
             params=httpx.QueryParams({"tin": tin}),
-            headers=_build_headers(self._headers, headers),
+            headers=self._build_headers(self._headers, headers),
         )
 
-        success_response = _ensure_http_success(result.response)
+        response = self._ensure_http_success(result.response)
 
         output: list[BankAccount] = []
 
-        for data in success_response.json():
+        for data in self._decode_json(response):
             output.append(BankAccount.model_validate(data))
 
         return output
@@ -41,14 +41,14 @@ class BankAccountsResource(BaseResource):
             "GET",
             self._path,
             params=httpx.QueryParams({"tin": tin}),
-            headers=_build_headers(self._headers, headers),
+            headers=self._build_headers(self._headers, headers),
         )
 
-        success_response = _ensure_http_success(result.response)
+        response = self._ensure_http_success(result.response)
 
         output: list[BankAccount] = []
 
-        for data in success_response.json():
+        for data in self._decode_json(response):
             output.append(BankAccount.model_validate(data))
 
         return output

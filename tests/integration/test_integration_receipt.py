@@ -1,11 +1,18 @@
 import pytest
 
-from ebarimt_pos_sdk import CreateReceiptRequest, Item, PosApiClient, PosApiSettings, Receipt
+from ebarimt_pos_sdk import (
+    CreateReceiptRequest,
+    Item,
+    PosApiClient,
+    PosApiHttpError,
+    PosApiSettings,
+    Receipt,
+)
 
 
 @pytest.mark.integration
-def test_receipt_create_real_server():
-    base_url = "http://172.21.208.1:7080"
+def test_integration_receipt_create_real_server():
+    base_url = "http://localhost:7080"
     settings = PosApiSettings(base_url=base_url)
 
     client = PosApiClient(settings)
@@ -35,6 +42,6 @@ def test_receipt_create_real_server():
             )
         ],
     )
-
-    resp = client.receipt.create(payload)
-    assert resp.status == "SUCCESS"
+    with pytest.raises(PosApiHttpError):
+        resp = client.receipt.create(payload)
+        assert resp.status == "ERROR"

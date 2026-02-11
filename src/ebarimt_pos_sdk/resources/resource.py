@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from abc import abstractmethod
+from datetime import datetime
 from typing import Any, TypeVar
 
 import httpx
@@ -37,17 +38,6 @@ class BaseResource:
             raise PosApiDecodeError(
                 "Failed to decode JSON response",
                 response=response,
-            ) from exc
-
-    @staticmethod
-    def _ensure_http_success(response: httpx.Response) -> httpx.Response:
-        try:
-            return response.raise_for_status()
-        except httpx.HTTPStatusError as exc:
-            raise PosApiHttpError(
-                f"HTTP {exc.response.status_code}",
-                request=exc.request,
-                response=exc.response,
             ) from exc
 
     @staticmethod
@@ -89,3 +79,17 @@ class BaseResource:
             if header is not None:
                 out.update(header)
         return out
+
+    def _ensure_http_success(self, response: httpx.Response) -> httpx.Response:
+        try:
+            return response.raise_for_status()
+        except httpx.HTTPStatusError as exc:
+            error = self._decode_json(response)
+            raise PosApiHttpError(
+                status=error["status"],
+                message=str(error["message"]),
+                date=datetime.fromisoformat(error["date"]),
+                request=exc.request,
+                response=exc.response,
+                cause=exc,
+            ) from exc

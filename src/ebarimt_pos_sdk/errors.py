@@ -26,7 +26,14 @@ class PosApiError(Exception):
         self.cause = cause
 
     def __str__(self) -> str:
-        return self.message
+        lines = [
+            f"Message: {self.message}",
+            f"Request: {self.request}",
+            f"Response: {self.response}",
+            f"Cause: {self.cause}",
+        ]
+
+        return "\n".join(lines)
 
 
 class PosApiTransportError(PosApiError):

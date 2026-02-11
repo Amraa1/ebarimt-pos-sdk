@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from datetime import datetime
 from typing import Literal
 
 import httpx
@@ -88,6 +89,27 @@ class PosApiValidationError(PosApiError):
 
 class PosApiHttpError(PosApiError):
     """Non-2xx response from server."""
+
+    def __init__(
+        self,
+        *,
+        status: str | int | None = None,
+        message: str,
+        date: datetime | None = None,
+        request: httpx.Request,
+        response: httpx.Response,
+        cause: Exception | None = None,
+    ) -> None:
+        self.status = status
+        self.date = date
+        lines = [
+            f"HTTP {response.status_code}",
+            f"Status: {self.status}",
+            f"Error: {message}",
+            f"Date: {self.date}",
+        ]
+
+        super().__init__("\n".join(lines), request=request, response=response, cause=cause)
 
 
 class PosApiBusinessError(PosApiError):

@@ -66,7 +66,7 @@ SUCCESS_RESPONSE = httpx.Response(
 
 
 @respx.mock
-def test_bank_accounts_read_sync_ok():
+def test_bank_accounts_read_sync_ok() -> None:
     base_url = "http://localhost:7080"
     settings = PosApiSettings(base_url=base_url, default_headers=None)
     tin = "37900846788"
@@ -81,7 +81,7 @@ def test_bank_accounts_read_sync_ok():
 
 @pytest.mark.asyncio
 @respx.mock
-async def test_bank_accounts_read_async_ok():
+async def test_bank_accounts_read_async_ok()-> None:
     base_url = "http://localhost:7080"
     settings = PosApiSettings(base_url=base_url)
     tin = "37900846788"

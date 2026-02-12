@@ -12,31 +12,100 @@ from ebarimt_pos_sdk import (
     PosApiDecodeError,
     PosApiSettings,
     PosApiValidationError,
+    ReceiptType,
     Receipt,
 )
 
 CREATE_RECEIPT_SUCCESS_RESPONSE = httpx.Response(
     200,
     json={
-        "id": "1" * 33,
-        "posId": 1,
-        "status": "SUCCESS",
-        "message": "OK",
-        "qrDate": "qr",
-        "lottery": "lot",
-        "date": "2026-01-27",
-        "easy": "true",
-        "receipts": [{"id": "sub1", "bankAccountId": 10}],
-    },
+    "id": "037900846788001095330000010012619",
+    "version": "3.2.39",
+    "totalAmount": 5600,
+    "totalVAT": 500,
+    "totalCityTax": 100,
+    "branchNo": "001",
+    "districtCode": "2501",
+    "merchantTin": "37900846788",
+    "posNo": "001",
+    "consumerNo": "10038071",
+    "type": "B2C_RECEIPT",
+    "receipts": [
+        {
+            "id": "037900846788001095330000110012619",
+            "totalAmount": 5600,
+            "taxType": "VAT_ABLE",
+            "items": [
+                {
+                    "name": "Талх",
+                    "barCode": "19059010880001",
+                    "barCodeType": "GS1",
+                    "classificationCode": "2349010",
+                    "measureUnit": "senlovesfits",
+                    "qty": 1,
+                    "unitPrice": 5000,
+                    "totalAmount": 5600,
+                    "totalVAT": 500,
+                    "totalCityTax": 100
+                }
+            ],
+            "merchantTin": "37900846788",
+            "totalVAT": 500,
+            "totalCityTax": 100
+        }
+    ],
+    "payments": [
+        {
+            "code": "CASH",
+            "paidAmount": 5600,
+            "status": "PAID"
+        }
+    ],
+    "posId": 101321077,
+    "status": "SUCCESS",
+    "qrData": "30892326524546672474592603677629267669202520788666570091176582304861979527775302772692166239698276252024697295297031948644121173043640072110272573911246153670156937219597386482037042663801023934072070",
+    "lottery": "SN 47461258",
+    "date": "2026-02-12 15:31:42",
+    "easy": True,
+    }
 )
 
+create_receipt_payload = CreateReceiptRequest(
+        branch_no="001",
+        total_amount=1000,
+        merchant_tin="12345678901",
+        pos_no="001",
+        type="B2C_RECEIPT",
+        bill_id_suffix="01",
+        receipts=[
+            Receipt(
+                total_amount=1000,
+                tax_type="VAT_ABLE",
+                merchant_tin="12345678901",
+                items=[
+                    Item(
+                        name="Bread",
+                        bar_code="19059010880001",
+                        measure_unit="senlovesfits",
+                        qty=1,
+                        unit_price=1000,
+                        total_amount=1000,
+                    )
+                ],
+            )
+        ],
+    )
+
+delete_receipt_payload = DeleteReceiptRequest(
+            id="1234567890123412319237123123", date=datetime.datetime.now(), type=ReceiptType.B2C_RECEIPT
+        )
 
 DECODE_ERROR_RECEIPT_SUCCESS_RESPONSE = httpx.Response(200, text="Decode error")
 
 
 @pytest.mark.asyncio
 @respx.mock
-async def test_receipt_create_async_ok():
+async def test_receipt_create_async_ok() -> None:
     base_url = "http://localhost:7080"
     settings = PosApiSettings(base_url=base_url)
 
@@ -45,31 +114,7 @@ async def test_receipt_create_async_ok():
     )
 
     async with PosApiClient(settings) as client:
-        payload = CreateReceiptRequest(
-            branchNo="001",
-            totalAmount=1000,
-            merchantTin="12345678901",
-            posNo="001",
-            type="B2C_RECEIPT",
-            billIdSuffix="01",
-            receipts=[
-                Receipt(
-                    totalAmount=1000,
-                    taxType="VAT_ABLE",
-                    merchantTin="12345678901",
-                    items=[
-                        Item(
-                            name="Bread",
-                            barCode="19059010880001",
-                            measureUnit="senlovesfits",
-                            qty=1,
-                            unitPrice=1000,
-                            totalAmount=1000,
-                        )
-                    ],
-                )
-            ],
-        )
+        payload = create_receipt_payload
 
         resp = await client.receipt.acreate(payload)
         assert resp.status == "SUCCESS"
@@ -78,7 +123,7 @@ async def test_receipt_create_async_ok():
 
 @pytest.mark.asyncio
 @respx.mock
-async def test_receipt_delete_async_ok():
+async def test_receipt_delete_async_ok() -> None:
     base_url = "http://localhost:7080"
     settings = PosApiSettings(base_url=base_url)
 
@@ -91,7 +136,7 @@ async def test_receipt_delete_async_ok():
 
     async with PosApiClient(settings) as client:
         payload = DeleteReceiptRequest(
-            id="1234567890123412319237123123", date=datetime.datetime.now()
+            id="1234567890123412319237123123", date=datetime.datetime.now(), type=ReceiptType.B2C_RECEIPT
         )
 
         await client.receipt.adelete(payload)
@@ -99,7 +144,7 @@ async def test_receipt_delete_async_ok():
 
 
 @respx.mock
-def test_receipt_create_sync_ok():
+def test_receipt_create_sync_ok() -> None:
     base_url = "http://localhost:7080"
     settings = PosApiSettings(base_url=base_url)
 
@@ -109,31 +154,7 @@ def test_receipt_create_sync_ok():
 
     client = PosApiClient(settings)
 
-    payload = CreateReceiptRequest(
-        branchNo="001",
-        totalAmount=1000,
-        merchantTin="12345678901",
-        posNo="001",
-        type="B2C_RECEIPT",
-        billIdSuffix="01",
-        receipts=[
-            Receipt(
-                totalAmount=1000,
-                taxType="VAT_ABLE",
-                merchantTin="12345678901",
-                items=[
-                    Item(
-                        name="Bread",
-                        barCode="19059010880001",
-                        measureUnit="senlovesfits",
-                        qty=1,
-                        unitPrice=1000,
-                        totalAmount=1000,
-                    )
-                ],
-            )
-        ],
-    )
+    payload = create_receipt_payload
 
     resp = client.receipt.create(payload)
     assert resp.status == "SUCCESS"
@@ -141,7 +162,7 @@ def test_receipt_create_sync_ok():
 
 
 @respx.mock
-def test_receipt_create_sync_validation_error():
+def test_receipt_create_sync_validation_error() -> None:
     base_url = "http://localhost:7080"
     settings = PosApiSettings(base_url=base_url)
 
@@ -176,7 +197,7 @@ def test_receipt_create_sync_validation_error():
 
 
 @respx.mock
-def test_receipt_create_sync_decode_error():
+def test_receipt_create_sync_decode_error() -> None:
     base_url = "http://localhost:7080"
     settings = PosApiSettings(base_url=base_url)
 
@@ -217,7 +238,7 @@ def test_receipt_create_sync_decode_error():
     
 
 @respx.mock
-def test_receipt_delete_sync_ok():
+def test_receipt_delete_sync_ok() -> None:
     base_url = "http://localhost:7080"
     settings = PosApiSettings(base_url=base_url)
 
@@ -229,9 +250,7 @@ def test_receipt_delete_sync_ok():
     )
 
     with PosApiClient(settings) as client:
-        payload = DeleteReceiptRequest(
-            id="1234567890123412319237123123", date=datetime.datetime.now()
-        )
+        payload = delete_receipt_payload
 
         client.receipt.delete(payload)
         assert route.called

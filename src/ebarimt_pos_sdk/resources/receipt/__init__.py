@@ -12,7 +12,6 @@ from .schema import (
     Receipt,
     ReceiptCreateStatus,
     ReceiptItemData,
-    ReceiptItemResponse,
     ReceiptType,
     TaxType,
 )
@@ -22,7 +21,6 @@ __all__ = [
     "CreateReceiptResponse",
     "DeleteReceiptRequest",
     "DeleteReceiptResponse",
-    "ReceiptItemResponse",
     "Item",
     "Payment",
     "PaymentCardData",

@@ -1,61 +1,51 @@
 from __future__ import annotations
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import Field
+
+from ..resource import BaseEbarimtModel
 
 
-class AppInfo(BaseModel):
-    """
-    PosAPI-н ерөнхий мэдээлэл.
-    """
+class AppInfo(BaseEbarimtModel):
+    """Runtime and environment information of the PosAPI application."""
 
-    model_config = ConfigDict(populate_by_name=True, extra="ignore")
-
-    application_dir: str = Field(alias="applicationDir", description="Файл байршиж буй хавтас")
-    current_dir: str = Field(alias="currentDir", description="Файл байршиж буй хавтас")
-    database: str = Field(description="Баазын driver /Qt5 тохиргоогоор/")
-    database_host: str = Field(
-        alias="database-host", description="Баазын хаяг /sqlite бол файлын зам/"
-    )
-    work_dir: str = Field(alias="workDir", description="Ажиллаж буй хавтас")
+    application_dir: str = Field(description="Installation directory of the PosAPI application.")
+    current_dir: str = Field(description="Current working directory of the PosAPI process.")
+    database: str = Field(description="Database driver currently in use.")
+    database_host: str = Field(description="Database host or file path (for SQLite).")
+    supported_databases: list[str] = Field(description="List of supported database types.")
+    work_dir: str = Field(description="Working directory used by PosAPI.")
 
 
-class RestInfoCustomer(BaseModel):
-    """
-    Үйлчлүүлэгч ААН.
-    """
+class RestInfoCustomer(BaseEbarimtModel):
+    """Customer organization registered under the merchant."""
 
-    name: str = Field(description="ААН-нэр")
-    tin: str = Field(description="ААН-н ТТД")
+    name: str = Field(description="Customer organization name.")
+    tin: str = Field(description="Customer Tax Identification Number (TIN).")
     vat_payer: bool = Field(
-        alias="vatPayer",
-        description="НӨАТ суутган төлөгч мөн эсэх\ntrue: НӨАТ суутган төлөгч мөн\nfalse: НӨАТ суутган төлөгч биш",
+        description="Indicates whether the customer is registered as a VAT payer."
     )
 
 
-class Merchant(BaseModel):
-    """
-    PosAPI-д бүртгэлтэй ААН.
-    """
+class Merchant(BaseEbarimtModel):
+    """Merchant organization registered in PosAPI."""
 
-    name: str = Field(description="ААН-нэр")
-    tin: str = Field(description="ААН-н ТТД")
-    customers: list[RestInfoCustomer] = Field(description="Үйлчлүүлэгч ААН-н жагсаалт")
-
-
-class ReadInfoResponse(BaseModel):
-    """
-    GET /rest/info (200 OK) response schema.
-    """
-
-    operator_name: str = Field(alias="operatorName", description="Оператор байгууллагын нэр")
-    operator_tin: str = Field(alias="operatorTIN", description="Оператор байгууллагын ТТД")
-    pos_id: float = Field(alias="posId", description="PosAPI-н систем дэх бүртгэлийн Id")
-    pos_no: str = Field(alias="posNo", description="PosAPI-н систем дэх бүртгэлийн дугаар")
-    last_sent_date: str = Field(
-        alias="lastSentDate", description="Баримт илгээсэн огноо /Сүүлийн байдлаар/"
+    name: str = Field(description="Merchant organization name.")
+    tin: str = Field(description="Merchant Tax Identification Number (TIN).")
+    customers: list[RestInfoCustomer] = Field(
+        description="List of customer organizations associated with the merchant."
     )
-    left_lotteries: int = Field(alias="leftLotteries", description="Нийт үлдсэн сугалаа")
-    app_info: AppInfo = Field(alias="appInfo", description="PosAPI-н ерөнхий мэдээлэл")
-    merchants: list[Merchant] = Field(description="PosAPI-д бүртгэлтэй ААН-н жагсаалт")
 
-    model_config = ConfigDict(populate_by_name=True)
+
+class ReadInfoResponse(BaseEbarimtModel):
+    """Response returned from GET /rest/info containing PosAPI system information."""
+
+    operator_name: str = Field(description="Name of the PosAPI operator organization.")
+    operator_tin: str = Field(description="Tax Identification Number (TIN) of the operator.")
+    pos_id: float = Field(description="Unique identifier of the PosAPI instance.")
+    pos_no: str = Field(description="POS number assigned to this PosAPI instance.")
+    last_sent_date: str = Field(description="Timestamp of the last successfully submitted receipt.")
+    left_lotteries: int = Field(description="Number of remaining lottery codes available.")
+    app_info: AppInfo = Field(description="PosAPI application runtime information.")
+    merchants: list[Merchant] = Field(
+        description="List of merchant organizations registered in this PosAPI instance."
+    )

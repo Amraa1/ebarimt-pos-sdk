@@ -21,7 +21,6 @@ from .resources.receipt import (
     Receipt,
     ReceiptCreateStatus,
     ReceiptItemData,
-    ReceiptItemResponse,
     ReceiptType,
     TaxType,
 )
@@ -43,7 +42,6 @@ __all__ = [
     "Receipt",
     "ReceiptCreateStatus",
     "ReceiptItemData",
-    "ReceiptItemResponse",
     "ReceiptType",
     "TaxType",
     "PosApiBusinessError",

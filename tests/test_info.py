@@ -59,7 +59,7 @@ SUCCESS_RESPONSE = httpx.Response(
 
 @pytest.mark.asyncio
 @respx.mock
-async def test_info_read_async_ok():
+async def test_info_read_async_ok() -> None:
     base_url = "http://localhost:7080"
     settings = PosApiSettings(base_url=base_url)
 
@@ -72,7 +72,7 @@ async def test_info_read_async_ok():
 
 
 @respx.mock
-def test_info_read_sync_ok():
+def test_info_read_sync_ok() -> None:
     base_url = "http://localhost:7080"
     settings = PosApiSettings(base_url=base_url)
 

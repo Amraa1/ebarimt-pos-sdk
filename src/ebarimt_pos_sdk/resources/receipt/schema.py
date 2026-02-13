@@ -120,7 +120,7 @@ class Receipt(BaseEbarimtModel):
     customer_tin: str | None = None
 
     bank_account_no: str | None = None
-    iBan: str | None = None
+    iban: str | None = None
     invoice_id: str | None = None
     data: dict[str, Any] | None = None
 

@@ -16,6 +16,7 @@ T = TypeVar("T", bound=BaseModel)
 WHITE_LIST = {
     "terminal_id": "terminalID",
     "iban": "iBan",
+    "total_vat": "totalVAT",
     "operator_tin": "operatorTIN",
     "database_host": "database-host",
     "supported_databases": "supported-databases",

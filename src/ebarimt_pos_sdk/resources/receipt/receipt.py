@@ -28,7 +28,7 @@ class ReceiptResource(BaseResource):
             "POST",
             self._path,
             headers=self._build_headers(self._headers, headers),
-            payload=payload.model_dump(mode="json", by_alias=True, exclude_none=True),
+            payload=self._model_dump(payload),
         )
 
         self._ensure_http_success(result.response)
@@ -47,7 +47,7 @@ class ReceiptResource(BaseResource):
             "POST",
             self._path,
             headers=self._build_headers(self._headers, headers),
-            payload=payload.model_dump(mode="json", by_alias=True, exclude_none=True),
+            payload=self._model_dump(payload),
         )
 
         self._ensure_http_success(result.response)
@@ -63,7 +63,7 @@ class ReceiptResource(BaseResource):
             "POST",
             self._path,
             headers=self._build_headers(self._headers, headers),
-            payload=payload.model_dump(mode="json", by_alias=True, exclude_none=True),
+            payload=self._model_dump(payload),
         )
 
         self._ensure_http_success(result.response)
@@ -79,7 +79,7 @@ class ReceiptResource(BaseResource):
             "POST",
             self._path,
             headers=self._build_headers(self._headers, headers),
-            payload=payload.model_dump(mode="json", by_alias=True, exclude_none=True),
+            payload=self._model_dump(payload),
         )
 
         self._ensure_http_success(result.response)

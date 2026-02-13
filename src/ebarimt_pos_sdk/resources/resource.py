@@ -112,6 +112,10 @@ class BaseResource:
                 out.update(header)
         return out
 
+    @staticmethod
+    def _model_dump(payload: BaseModel) -> dict[str, Any]:
+        return payload.model_dump(mode="json", by_alias=True, exclude_none=True)
+
     def _ensure_http_success(self, response: httpx.Response) -> httpx.Response:
         try:
             return response.raise_for_status()

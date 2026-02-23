@@ -1,4 +1,4 @@
-from ..resource import BaseResource, HeaderTypes
+from ...resource import BaseResource, HeaderTypes
 
 
 class SendDataResource(BaseResource):

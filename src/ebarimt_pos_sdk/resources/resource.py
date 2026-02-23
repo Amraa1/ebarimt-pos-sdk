@@ -1,17 +1,17 @@
-# src/ebarimt_pos_sdk/resources/receipt.py
 from __future__ import annotations
 
 from abc import abstractmethod
 from datetime import datetime
-from typing import Any, TypeVar
+from typing import Any, TypeVar, overload
 
 import httpx
 from pydantic import BaseModel, ConfigDict, ValidationError
 
 from ..errors import PosApiDecodeError, PosApiHttpError, PosApiValidationError
-from ..transport import AsyncTransport, HeaderTypes, SyncTransport
+from ..transport import AsyncTransport, HeaderTypes, HttpMethod, QueryParamTypes, SyncTransport
 
 T = TypeVar("T", bound=BaseModel)
+N = TypeVar("N", bound=BaseModel)
 
 WHITE_LIST = {
     "terminal_id": "terminalID",
@@ -129,3 +129,143 @@ class BaseResource:
                 response=exc.response,
                 cause=exc,
             ) from exc
+
+    @overload
+    def send_sync_request(
+        self,
+        method: HttpMethod,
+        *,
+        params: QueryParamTypes | None = None,
+        payload_model: type[T] | None = None,
+        payload: T | dict[str, Any] | None = None,
+        response_model: None = None,
+        headers: HeaderTypes | None = None,
+    ) -> None: ...
+
+    @overload
+    def send_sync_request(
+        self,
+        method: HttpMethod,
+        *,
+        params: QueryParamTypes | None = None,
+        payload_model: type[T] | None = None,
+        payload: T | dict[str, Any] | None = None,
+        response_model: type[N],
+        headers: HeaderTypes | None = None,
+    ) -> N: ...
+
+    def send_sync_request(
+        self,
+        method: HttpMethod,
+        *,
+        params: QueryParamTypes | None = None,
+        payload_model: type[T] | None = None,
+        payload: T | dict[str, Any] | None = None,
+        response_model: type[N] | None = None,
+        headers: HeaderTypes | None = None,
+    ) -> N | None:
+        payload = None
+        if payload_model and payload:
+            payload = self._validate_payload(model=payload_model, payload=payload)
+        elif not (payload_model or payload):
+            pass
+        else:
+            raise ValueError("Both request model and payload must have a valid value.")
+
+        if payload:
+            result = self._sync.send(
+                method,
+                self._path,
+                params=params,
+                headers=self._build_headers(
+                    self._headers,
+                    headers,
+                ),
+                payload=self._model_dump(payload),
+            )
+        else:
+            result = self._sync.send(
+                method,
+                self._path,
+                params=params,
+                headers=self._build_headers(
+                    self._headers,
+                    headers,
+                ),
+            )
+
+        self._ensure_http_success(result.response)
+
+        if response_model:
+            return response_model.model_validate(self._decode_json(result.response))
+        return None
+
+    @overload
+    async def send_async_request(
+        self,
+        method: HttpMethod,
+        *,
+        params: QueryParamTypes | None = None,
+        payload_model: type[T] | None = None,
+        payload: T | dict[str, Any] | None = None,
+        response_model: None = None,
+        headers: HeaderTypes | None = None,
+    ) -> None: ...
+
+    @overload
+    async def send_async_request(
+        self,
+        method: HttpMethod,
+        *,
+        params: QueryParamTypes | None = None,
+        payload_model: type[T] | None = None,
+        payload: T | dict[str, Any] | None = None,
+        response_model: type[N],
+        headers: HeaderTypes | None = None,
+    ) -> N: ...
+
+    async def send_async_request(
+        self,
+        method: HttpMethod,
+        *,
+        params: QueryParamTypes | None = None,
+        payload_model: type[T] | None = None,
+        payload: T | dict[str, Any] | None = None,
+        response_model: type[N] | None = None,
+        headers: HeaderTypes | None = None,
+    ) -> N | None:
+        payload = None
+        if payload_model and payload:
+            payload = self._validate_payload(model=payload_model, payload=payload)
+        elif not (payload_model or payload):
+            pass
+        else:
+            raise ValueError("Both request model and payload must have a valid value.")
+
+        if payload:
+            result = await self._async.send(
+                method,
+                self._path,
+                params=params,
+                headers=self._build_headers(
+                    self._headers,
+                    headers,
+                ),
+                payload=self._model_dump(payload),
+            )
+        else:
+            result = await self._async.send(
+                method,
+                self._path,
+                params=params,
+                headers=self._build_headers(
+                    self._headers,
+                    headers,
+                ),
+            )
+
+        self._ensure_http_success(result.response)
+
+        if response_model:
+            return response_model.model_validate(self._decode_json(result.response))
+        return None

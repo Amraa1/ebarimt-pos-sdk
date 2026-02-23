@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from ..resource import BaseResource, HeaderTypes
+from ...resource import BaseResource, HeaderTypes
 from .schema import (
     CreateReceiptRequest,
     CreateReceiptResponse,

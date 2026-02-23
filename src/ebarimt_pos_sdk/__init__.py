@@ -7,7 +7,7 @@ from .errors import (
     PosApiTransportError,
     PosApiValidationError,
 )
-from .resources.receipt import (
+from .resources import (
     BarCodeType,
     CreateReceiptRequest,
     CreateReceiptResponse,

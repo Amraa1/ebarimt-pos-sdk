@@ -1,5 +1,5 @@
 """
-This is the transport layer. It concerns with:
+HTTP transport layer. It concerns with:
 * send request
 * handle network errors
 * handle non-2xx HTTP errors
@@ -8,12 +8,13 @@ This is the transport layer. It concerns with:
 """
 
 from .async_transport import AsyncTransport
-from .http import HeaderTypes, HttpRequestResponse, QueryParamTypes
+from .http import HeaderTypes, HttpMethod, HttpRequestResponse, QueryParamTypes
 from .sync_transport import SyncTransport
 
 __all__ = [
     "AsyncTransport",
     "SyncTransport",
+    "HttpMethod",
     "HttpRequestResponse",
     "HeaderTypes",
     "QueryParamTypes",

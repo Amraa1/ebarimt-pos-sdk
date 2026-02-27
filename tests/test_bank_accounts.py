@@ -2,7 +2,7 @@ import httpx
 import pytest
 import respx
 
-from ebarimt_pos_sdk import PosApiClient, PosApiSettings
+from ebarimt_pos_sdk import EbarimtRestClient, RestClientSettings
 
 SUCCESS_RESPONSE = httpx.Response(
     200,
@@ -68,12 +68,12 @@ SUCCESS_RESPONSE = httpx.Response(
 @respx.mock
 def test_bank_accounts_read_sync_ok() -> None:
     base_url = "http://localhost:7080"
-    settings = PosApiSettings(base_url=base_url, default_headers=None)
+    settings = RestClientSettings(base_url=base_url, headers=None)
     tin = "37900846788"
 
     route = respx.get(f"{base_url}/rest/bankAccounts").mock(return_value=SUCCESS_RESPONSE)
 
-    with PosApiClient(settings) as client:
+    with EbarimtRestClient(settings) as client:
         resp = client.bank_accounts.read(tin=tin)
         assert resp[0].tin == tin
         assert route.called
@@ -83,12 +83,12 @@ def test_bank_accounts_read_sync_ok() -> None:
 @respx.mock
 async def test_bank_accounts_read_async_ok()-> None:
     base_url = "http://localhost:7080"
-    settings = PosApiSettings(base_url=base_url)
+    settings = RestClientSettings(base_url=base_url)
     tin = "37900846788"
 
     route = respx.get(f"{base_url}/rest/bankAccounts").mock(return_value=SUCCESS_RESPONSE)
 
-    with PosApiClient(settings) as client:
+    with EbarimtRestClient(settings) as client:
         resp = await client.bank_accounts.aread(tin=tin)
         assert resp[0].tin == tin
         assert route.called

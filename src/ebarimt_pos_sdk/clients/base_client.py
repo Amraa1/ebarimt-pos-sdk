@@ -1,32 +1,26 @@
 from __future__ import annotations
 
 from types import TracebackType
+from typing import Self
 
 import httpx
 
-from .resources import BankAccountsResource, InfoResource, ReceiptResource, SendDataResource
-from .settings import PosApiSettings
-from .transport import AsyncTransport, HeaderTypes, SyncTransport
+from .._types import HeaderTypes
+from ..settings.base_settings import BaseSettings
+from ..transport import AsyncTransport, SyncTransport
 
 
-class PosApiClient:
+class EbarimtBaseClient:
     """
-    Dual sync/async client.
-
-    Usage:
-        client = PosApiClient(PosApiSettings(...))
-        resp = client.receipt.create({...})
-
-        async with PosApiClient(...) as client:
-            resp = await client.receipt.acreate({...})
+    Base client for Ebarimt SDK.
     """
 
     def __init__(
         self,
-        settings: PosApiSettings,
         *,
         sync_client: httpx.Client | None = None,
         async_client: httpx.AsyncClient | None = None,
+        settings: BaseSettings,
         headers: HeaderTypes | None = None,
     ) -> None:
         self._settings = settings
@@ -51,28 +45,6 @@ class PosApiClient:
         self._sync_transport = SyncTransport(self._sync_client)
         self._async_transport = AsyncTransport(self._async_client)
 
-        # Resources
-        self.receipt = ReceiptResource(
-            sync=self._sync_transport,
-            async_=self._async_transport,
-            headers=self._headers,
-        )
-        self.info = InfoResource(
-            sync=self._sync_transport,
-            async_=self._async_transport,
-            headers=self._headers,
-        )
-        self.send_data = SendDataResource(
-            sync=self._sync_transport,
-            async_=self._async_transport,
-            headers=self._headers,
-        )
-        self.bank_accounts = BankAccountsResource(
-            sync=self._sync_transport,
-            async_=self._async_transport,
-            headers=self._headers,
-        )
-
     def close(self) -> None:
         if self._owns_sync:
             self._sync_client.close()
@@ -81,7 +53,7 @@ class PosApiClient:
         if self._owns_async:
             await self._async_client.aclose()
 
-    async def __aenter__(self) -> PosApiClient:
+    async def __aenter__(self) -> Self:
         return self
 
     async def __aexit__(
@@ -92,7 +64,7 @@ class PosApiClient:
     ) -> None:
         await self.aclose()
 
-    def __enter__(self) -> PosApiClient:
+    def __enter__(self) -> Self:
         return self
 
     def __exit__(

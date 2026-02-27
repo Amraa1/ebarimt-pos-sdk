@@ -1,0 +1,3206 @@
+SUCCESS_RESPONSE = {
+    "msg": "Амжилттай",
+    "status": 200,
+    "data": [
+        {
+            "branchCode": "01",
+            "branchName": "Архангай",
+            "subBranchCode": "02",
+            "subBranchName": "Чулуут"
+        },
+        {
+            "branchCode": "01",
+            "branchName": "Архангай",
+            "subBranchCode": "08",
+            "subBranchName": "Цэцэрлэг"
+        },
+        {
+            "branchCode": "01",
+            "branchName": "Архангай",
+            "subBranchCode": "19",
+            "subBranchName": "Цахир"
+        },
+        {
+            "branchCode": "01",
+            "branchName": "Архангай",
+            "subBranchCode": "18",
+            "subBranchName": "Цэцэрлэг хот"
+        },
+        {
+            "branchCode": "01",
+            "branchName": "Архангай",
+            "subBranchCode": "17",
+            "subBranchName": "Булган"
+        },
+        {
+            "branchCode": "01",
+            "branchName": "Архангай",
+            "subBranchCode": "16",
+            "subBranchName": "Төвширүүлэх"
+        },
+        {
+            "branchCode": "01",
+            "branchName": "Архангай",
+            "subBranchCode": "15",
+            "subBranchName": "Цэнхэр"
+        },
+        {
+            "branchCode": "01",
+            "branchName": "Архангай",
+            "subBranchCode": "14",
+            "subBranchName": "Хотонт"
+        },
+        {
+            "branchCode": "01",
+            "branchName": "Архангай",
+            "subBranchCode": "13",
+            "subBranchName": "Хашаат"
+        },
+        {
+            "branchCode": "01",
+            "branchName": "Архангай",
+            "subBranchCode": "12",
+            "subBranchName": "Өгийнуур"
+        },
+        {
+            "branchCode": "01",
+            "branchName": "Архангай",
+            "subBranchCode": "11",
+            "subBranchName": "Өлзийт"
+        },
+        {
+            "branchCode": "01",
+            "branchName": "Архангай",
+            "subBranchCode": "10",
+            "subBranchName": "Батцэнгэл"
+        },
+        {
+            "branchCode": "01",
+            "branchName": "Архангай",
+            "subBranchCode": "09",
+            "subBranchName": "Хайрхан"
+        },
+        {
+            "branchCode": "01",
+            "branchName": "Архангай",
+            "subBranchCode": "01",
+            "subBranchName": "Их тамир ."
+        },
+        {
+            "branchCode": "01",
+            "branchName": "Архангай",
+            "subBranchCode": "07",
+            "subBranchName": "Жаргалант"
+        },
+        {
+            "branchCode": "01",
+            "branchName": "Архангай",
+            "subBranchCode": "06",
+            "subBranchName": "Эрдэнэмандал"
+        },
+        {
+            "branchCode": "01",
+            "branchName": "Архангай",
+            "subBranchCode": "05",
+            "subBranchName": "Өндөр-Улаан"
+        },
+        {
+            "branchCode": "01",
+            "branchName": "Архангай",
+            "subBranchCode": "04",
+            "subBranchName": "Тариат"
+        },
+        {
+            "branchCode": "01",
+            "branchName": "Архангай",
+            "subBranchCode": "03",
+            "subBranchName": "Хангай"
+        },
+        {
+            "branchCode": "01",
+            "branchName": "Архангай",
+            "subBranchCode": "20",
+            "subBranchName": "Эрдэнэбулган"
+        },
+        {
+            "branchCode": "02",
+            "branchName": "Баян-өлгий",
+            "subBranchCode": "01",
+            "subBranchName": "Алтай"
+        },
+        {
+            "branchCode": "02",
+            "branchName": "Баян-өлгий",
+            "subBranchCode": "03",
+            "subBranchName": "Баяннуун"
+        },
+        {
+            "branchCode": "02",
+            "branchName": "Баян-өлгий",
+            "subBranchCode": "04",
+            "subBranchName": "Бугат"
+        },
+        {
+            "branchCode": "02",
+            "branchName": "Баян-өлгий",
+            "subBranchCode": "02",
+            "subBranchName": "Алтанцөгц"
+        },
+        {
+            "branchCode": "02",
+            "branchName": "Баян-өлгий",
+            "subBranchCode": "06",
+            "subBranchName": "Буянт"
+        },
+        {
+            "branchCode": "02",
+            "branchName": "Баян-өлгий",
+            "subBranchCode": "07",
+            "subBranchName": "Дэлүүн"
+        },
+        {
+            "branchCode": "02",
+            "branchName": "Баян-өлгий",
+            "subBranchCode": "08",
+            "subBranchName": "Ногоннуур"
+        },
+        {
+            "branchCode": "02",
+            "branchName": "Баян-өлгий",
+            "subBranchCode": "09",
+            "subBranchName": "Сагсай"
+        },
+        {
+            "branchCode": "02",
+            "branchName": "Баян-өлгий",
+            "subBranchCode": "10",
+            "subBranchName": "Толбо"
+        },
+        {
+            "branchCode": "02",
+            "branchName": "Баян-өлгий",
+            "subBranchCode": "11",
+            "subBranchName": "Улаан хус"
+        },
+        {
+            "branchCode": "02",
+            "branchName": "Баян-өлгий",
+            "subBranchCode": "12",
+            "subBranchName": "Цэнгэл"
+        },
+        {
+            "branchCode": "02",
+            "branchName": "Баян-өлгий",
+            "subBranchCode": "13",
+            "subBranchName": "Цагааннуур"
+        },
+        {
+            "branchCode": "02",
+            "branchName": "Баян-өлгий",
+            "subBranchCode": "14",
+            "subBranchName": "Өлгий"
+        },
+        {
+            "branchCode": "02",
+            "branchName": "Баян-өлгий",
+            "subBranchCode": "05",
+            "subBranchName": "Булган"
+        },
+        {
+            "branchCode": "03",
+            "branchName": "Баянхонгор",
+            "subBranchCode": "07",
+            "subBranchName": "Баянцагаан"
+        },
+        {
+            "branchCode": "03",
+            "branchName": "Баянхонгор",
+            "subBranchCode": "06",
+            "subBranchName": "Баян-Өндөр"
+        },
+        {
+            "branchCode": "03",
+            "branchName": "Баянхонгор",
+            "subBranchCode": "05",
+            "subBranchName": "Баян-Овоо"
+        },
+        {
+            "branchCode": "03",
+            "branchName": "Баянхонгор",
+            "subBranchCode": "04",
+            "subBranchName": "Баянлиг"
+        },
+        {
+            "branchCode": "03",
+            "branchName": "Баянхонгор",
+            "subBranchCode": "03",
+            "subBranchName": "Баянговь"
+        },
+        {
+            "branchCode": "03",
+            "branchName": "Баянхонгор",
+            "subBranchCode": "02",
+            "subBranchName": "Баянбулаг"
+        },
+        {
+            "branchCode": "03",
+            "branchName": "Баянхонгор",
+            "subBranchCode": "01",
+            "subBranchName": "Баацагаан"
+        },
+        {
+            "branchCode": "03",
+            "branchName": "Баянхонгор",
+            "subBranchCode": "20",
+            "subBranchName": "Баянхонгор хот"
+        },
+        {
+            "branchCode": "03",
+            "branchName": "Баянхонгор",
+            "subBranchCode": "19",
+            "subBranchName": "Эрдэнэцогт"
+        },
+        {
+            "branchCode": "03",
+            "branchName": "Баянхонгор",
+            "subBranchCode": "18",
+            "subBranchName": "Шинэжинст"
+        },
+        {
+            "branchCode": "03",
+            "branchName": "Баянхонгор",
+            "subBranchCode": "17",
+            "subBranchName": "Хүрээмарал"
+        },
+        {
+            "branchCode": "03",
+            "branchName": "Баянхонгор",
+            "subBranchCode": "16",
+            "subBranchName": "Өлзийт"
+        },
+        {
+            "branchCode": "03",
+            "branchName": "Баянхонгор",
+            "subBranchCode": "15",
+            "subBranchName": "Заг"
+        },
+        {
+            "branchCode": "03",
+            "branchName": "Баянхонгор",
+            "subBranchCode": "14",
+            "subBranchName": "Жинст"
+        },
+        {
+            "branchCode": "03",
+            "branchName": "Баянхонгор",
+            "subBranchCode": "13",
+            "subBranchName": "Жаргалант"
+        },
+        {
+            "branchCode": "03",
+            "branchName": "Баянхонгор",
+            "subBranchCode": "12",
+            "subBranchName": "Гурванбулаг"
+        },
+        {
+            "branchCode": "03",
+            "branchName": "Баянхонгор",
+            "subBranchCode": "11",
+            "subBranchName": "Галуут"
+        },
+        {
+            "branchCode": "03",
+            "branchName": "Баянхонгор",
+            "subBranchCode": "08",
+            "subBranchName": "Богд"
+        },
+        {
+            "branchCode": "03",
+            "branchName": "Баянхонгор",
+            "subBranchCode": "09",
+            "subBranchName": "Бөмбөгөр"
+        },
+        {
+            "branchCode": "03",
+            "branchName": "Баянхонгор",
+            "subBranchCode": "10",
+            "subBranchName": "Бууцагаан"
+        },
+        {
+            "branchCode": "04",
+            "branchName": "Булган",
+            "subBranchCode": "12",
+            "subBranchName": "Сэлэнгэ"
+        },
+        {
+            "branchCode": "04",
+            "branchName": "Булган",
+            "subBranchCode": "13",
+            "subBranchName": "Хангал"
+        },
+        {
+            "branchCode": "04",
+            "branchName": "Булган",
+            "subBranchCode": "14",
+            "subBranchName": "Рашаант"
+        },
+        {
+            "branchCode": "04",
+            "branchName": "Булган",
+            "subBranchCode": "15",
+            "subBranchName": "Хишиг-Өндөр"
+        },
+        {
+            "branchCode": "04",
+            "branchName": "Булган",
+            "subBranchCode": "16",
+            "subBranchName": "Булган хот"
+        },
+        {
+            "branchCode": "04",
+            "branchName": "Булган",
+            "subBranchCode": "17",
+            "subBranchName": "Өлзийт"
+        },
+        {
+            "branchCode": "04",
+            "branchName": "Булган",
+            "subBranchCode": "18",
+            "subBranchName": "Хялганат"
+        },
+        {
+            "branchCode": "04",
+            "branchName": "Булган",
+            "subBranchCode": "01",
+            "subBranchName": "Сайхан"
+        },
+        {
+            "branchCode": "04",
+            "branchName": "Булган",
+            "subBranchCode": "02",
+            "subBranchName": "Тэшиг"
+        },
+        {
+            "branchCode": "04",
+            "branchName": "Булган",
+            "subBranchCode": "03",
+            "subBranchName": "Хутаг"
+        },
+        {
+            "branchCode": "04",
+            "branchName": "Булган",
+            "subBranchCode": "04",
+            "subBranchName": "Баян-Агт"
+        },
+        {
+            "branchCode": "04",
+            "branchName": "Булган",
+            "subBranchCode": "05",
+            "subBranchName": "Баяннуур"
+        },
+        {
+            "branchCode": "04",
+            "branchName": "Булган",
+            "subBranchCode": "06",
+            "subBranchName": "Бугат"
+        },
+        {
+            "branchCode": "04",
+            "branchName": "Булган",
+            "subBranchCode": "07",
+            "subBranchName": "Бүрэгхангай"
+        },
+        {
+            "branchCode": "04",
+            "branchName": "Булган",
+            "subBranchCode": "08",
+            "subBranchName": "Гурванбулаг"
+        },
+        {
+            "branchCode": "04",
+            "branchName": "Булган",
+            "subBranchCode": "09",
+            "subBranchName": "Дашинчилэн"
+        },
+        {
+            "branchCode": "04",
+            "branchName": "Булган",
+            "subBranchCode": "10",
+            "subBranchName": "Могод"
+        },
+        {
+            "branchCode": "04",
+            "branchName": "Булган",
+            "subBranchCode": "11",
+            "subBranchName": "Орхон"
+        },
+        {
+            "branchCode": "05",
+            "branchName": "Говь-Алтай",
+            "subBranchCode": "01",
+            "subBranchName": "Алтай хот"
+        },
+        {
+            "branchCode": "05",
+            "branchName": "Говь-Алтай",
+            "subBranchCode": "21",
+            "subBranchName": "Аймгийн төв"
+        },
+        {
+            "branchCode": "05",
+            "branchName": "Говь-Алтай",
+            "subBranchCode": "03",
+            "subBranchName": "Баян-Уул"
+        },
+        {
+            "branchCode": "05",
+            "branchName": "Говь-Алтай",
+            "subBranchCode": "04",
+            "subBranchName": "Бигэр"
+        },
+        {
+            "branchCode": "05",
+            "branchName": "Говь-Алтай",
+            "subBranchCode": "05",
+            "subBranchName": "Бугат"
+        },
+        {
+            "branchCode": "05",
+            "branchName": "Говь-Алтай",
+            "subBranchCode": "06",
+            "subBranchName": "Жаргалан"
+        },
+        {
+            "branchCode": "05",
+            "branchName": "Говь-Алтай",
+            "subBranchCode": "07",
+            "subBranchName": "Дарив"
+        },
+        {
+            "branchCode": "05",
+            "branchName": "Говь-Алтай",
+            "subBranchCode": "08",
+            "subBranchName": "Дэлгэр"
+        },
+        {
+            "branchCode": "05",
+            "branchName": "Говь-Алтай",
+            "subBranchCode": "09",
+            "subBranchName": "Тайшир"
+        },
+        {
+            "branchCode": "05",
+            "branchName": "Говь-Алтай",
+            "subBranchCode": "10",
+            "subBranchName": "Тонхил"
+        },
+        {
+            "branchCode": "05",
+            "branchName": "Говь-Алтай",
+            "subBranchCode": "11",
+            "subBranchName": "Төгрөг"
+        },
+        {
+            "branchCode": "05",
+            "branchName": "Говь-Алтай",
+            "subBranchCode": "12",
+            "subBranchName": "Халиун"
+        },
+        {
+            "branchCode": "05",
+            "branchName": "Говь-Алтай",
+            "subBranchCode": "13",
+            "subBranchName": "Хөхморьт"
+        },
+        {
+            "branchCode": "05",
+            "branchName": "Говь-Алтай",
+            "subBranchCode": "14",
+            "subBranchName": "Цогт"
+        },
+        {
+            "branchCode": "05",
+            "branchName": "Говь-Алтай",
+            "subBranchCode": "15",
+            "subBranchName": "Цээл"
+        },
+        {
+            "branchCode": "05",
+            "branchName": "Говь-Алтай",
+            "subBranchCode": "16",
+            "subBranchName": "Чандмань"
+        },
+        {
+            "branchCode": "05",
+            "branchName": "Говь-Алтай",
+            "subBranchCode": "17",
+            "subBranchName": "Шарга"
+        },
+        {
+            "branchCode": "05",
+            "branchName": "Говь-Алтай",
+            "subBranchCode": "18",
+            "subBranchName": "Эрдэнэ"
+        },
+        {
+            "branchCode": "05",
+            "branchName": "Говь-Алтай",
+            "subBranchCode": "19",
+            "subBranchName": "Гуулин хороо"
+        },
+        {
+            "branchCode": "05",
+            "branchName": "Говь-Алтай",
+            "subBranchCode": "20",
+            "subBranchName": "Баянтоорой"
+        },
+        {
+            "branchCode": "05",
+            "branchName": "Говь-Алтай",
+            "subBranchCode": "02",
+            "subBranchName": "Алтай сум"
+        },
+        {
+            "branchCode": "06",
+            "branchName": "Дорноговь",
+            "subBranchCode": "01",
+            "subBranchName": "Айраг"
+        },
+        {
+            "branchCode": "06",
+            "branchName": "Дорноговь",
+            "subBranchCode": "17",
+            "subBranchName": "Сайншанд"
+        },
+        {
+            "branchCode": "06",
+            "branchName": "Дорноговь",
+            "subBranchCode": "03",
+            "subBranchName": "Даланжаргалан"
+        },
+        {
+            "branchCode": "06",
+            "branchName": "Дорноговь",
+            "subBranchCode": "04",
+            "subBranchName": "Дэлгэрэх"
+        },
+        {
+            "branchCode": "06",
+            "branchName": "Дорноговь",
+            "subBranchCode": "05",
+            "subBranchName": "Их хэт"
+        },
+        {
+            "branchCode": "06",
+            "branchName": "Дорноговь",
+            "subBranchCode": "06",
+            "subBranchName": "Мандах"
+        },
+        {
+            "branchCode": "06",
+            "branchName": "Дорноговь",
+            "subBranchCode": "07",
+            "subBranchName": "Өргөн"
+        },
+        {
+            "branchCode": "06",
+            "branchName": "Дорноговь",
+            "subBranchCode": "08",
+            "subBranchName": "Сайхандулаан"
+        },
+        {
+            "branchCode": "06",
+            "branchName": "Дорноговь",
+            "subBranchCode": "09",
+            "subBranchName": "Улаанбадрах"
+        },
+        {
+            "branchCode": "06",
+            "branchName": "Дорноговь",
+            "subBranchCode": "10",
+            "subBranchName": "Хатанбулаг"
+        },
+        {
+            "branchCode": "06",
+            "branchName": "Дорноговь",
+            "subBranchCode": "11",
+            "subBranchName": "Хөвсгөл"
+        },
+        {
+            "branchCode": "06",
+            "branchName": "Дорноговь",
+            "subBranchCode": "12",
+            "subBranchName": "Эрдэнэ"
+        },
+        {
+            "branchCode": "06",
+            "branchName": "Дорноговь",
+            "subBranchCode": "13",
+            "subBranchName": "Зүүнбаян"
+        },
+        {
+            "branchCode": "06",
+            "branchName": "Дорноговь",
+            "subBranchCode": "14",
+            "subBranchName": "Замын-Үүд"
+        },
+        {
+            "branchCode": "06",
+            "branchName": "Дорноговь",
+            "subBranchCode": "15",
+            "subBranchName": "Зүлэгт"
+        },
+        {
+            "branchCode": "06",
+            "branchName": "Дорноговь",
+            "subBranchCode": "16",
+            "subBranchName": "Аймгийн төв"
+        },
+        {
+            "branchCode": "06",
+            "branchName": "Дорноговь",
+            "subBranchCode": "02",
+            "subBranchName": "Алтанширээ"
+        },
+        {
+            "branchCode": "07",
+            "branchName": "Дорнод",
+            "subBranchCode": "13",
+            "subBranchName": "Чулуунхороот"
+        },
+        {
+            "branchCode": "07",
+            "branchName": "Дорнод",
+            "subBranchCode": "12",
+            "subBranchName": "Цагаан-Овоо"
+        },
+        {
+            "branchCode": "07",
+            "branchName": "Дорнод",
+            "subBranchCode": "15",
+            "subBranchName": "Хэрлэн"
+        },
+        {
+            "branchCode": "07",
+            "branchName": "Дорнод",
+            "subBranchCode": "01",
+            "subBranchName": "Баян-Уул"
+        },
+        {
+            "branchCode": "07",
+            "branchName": "Дорнод",
+            "subBranchCode": "02",
+            "subBranchName": "Баяндун"
+        },
+        {
+            "branchCode": "07",
+            "branchName": "Дорнод",
+            "subBranchCode": "03",
+            "subBranchName": "Баянтүмэн"
+        },
+        {
+            "branchCode": "07",
+            "branchName": "Дорнод",
+            "subBranchCode": "04",
+            "subBranchName": "Гурванзагал"
+        },
+        {
+            "branchCode": "07",
+            "branchName": "Дорнод",
+            "subBranchCode": "05",
+            "subBranchName": "Дашбалбар"
+        },
+        {
+            "branchCode": "07",
+            "branchName": "Дорнод",
+            "subBranchCode": "06",
+            "subBranchName": "Матад"
+        },
+        {
+            "branchCode": "07",
+            "branchName": "Дорнод",
+            "subBranchCode": "07",
+            "subBranchName": "Хөлөнбуйр"
+        },
+        {
+            "branchCode": "07",
+            "branchName": "Дорнод",
+            "subBranchCode": "08",
+            "subBranchName": "Булган"
+        },
+        {
+            "branchCode": "07",
+            "branchName": "Дорнод",
+            "subBranchCode": "09",
+            "subBranchName": "Сэргэлэн"
+        },
+        {
+            "branchCode": "07",
+            "branchName": "Дорнод",
+            "subBranchCode": "10",
+            "subBranchName": "Сүмбэр"
+        },
+        {
+            "branchCode": "07",
+            "branchName": "Дорнод",
+            "subBranchCode": "11",
+            "subBranchName": "Халхгол"
+        },
+        {
+            "branchCode": "07",
+            "branchName": "Дорнод",
+            "subBranchCode": "14",
+            "subBranchName": "Чойбалсан"
+        },
+        {
+            "branchCode": "08",
+            "branchName": "Дундговь",
+            "subBranchCode": "01",
+            "subBranchName": "Адаацаг"
+        },
+        {
+            "branchCode": "08",
+            "branchName": "Дундговь",
+            "subBranchCode": "16",
+            "subBranchName": "Эрдэнэдалай"
+        },
+        {
+            "branchCode": "08",
+            "branchName": "Дундговь",
+            "subBranchCode": "03",
+            "subBranchName": "Говь-Угтаал"
+        },
+        {
+            "branchCode": "08",
+            "branchName": "Дундговь",
+            "subBranchCode": "04",
+            "subBranchName": "Дэлгэрцогт"
+        },
+        {
+            "branchCode": "08",
+            "branchName": "Дундговь",
+            "subBranchCode": "05",
+            "subBranchName": "Дэрэн"
+        },
+        {
+            "branchCode": "08",
+            "branchName": "Дундговь",
+            "subBranchCode": "06",
+            "subBranchName": "Гурвансайхан"
+        },
+        {
+            "branchCode": "08",
+            "branchName": "Дундговь",
+            "subBranchCode": "07",
+            "subBranchName": "Дэлгэрхангай"
+        },
+        {
+            "branchCode": "08",
+            "branchName": "Дундговь",
+            "subBranchCode": "08",
+            "subBranchName": "Луус"
+        },
+        {
+            "branchCode": "08",
+            "branchName": "Дундговь",
+            "subBranchCode": "09",
+            "subBranchName": "Мандалговь"
+        },
+        {
+            "branchCode": "08",
+            "branchName": "Дундговь",
+            "subBranchCode": "10",
+            "subBranchName": "Сайнцагаан"
+        },
+        {
+            "branchCode": "08",
+            "branchName": "Дундговь",
+            "subBranchCode": "11",
+            "subBranchName": "Сайхан-Овоо"
+        },
+        {
+            "branchCode": "08",
+            "branchName": "Дундговь",
+            "subBranchCode": "12",
+            "subBranchName": "Өлзийт"
+        },
+        {
+            "branchCode": "08",
+            "branchName": "Дундговь",
+            "subBranchCode": "13",
+            "subBranchName": "Өндөршил"
+        },
+        {
+            "branchCode": "08",
+            "branchName": "Дундговь",
+            "subBranchCode": "14",
+            "subBranchName": "Хулд"
+        },
+        {
+            "branchCode": "08",
+            "branchName": "Дундговь",
+            "subBranchCode": "15",
+            "subBranchName": "Цагаандэлгэр"
+        },
+        {
+            "branchCode": "08",
+            "branchName": "Дундговь",
+            "subBranchCode": "02",
+            "subBranchName": "Баянжаргалан"
+        },
+        {
+            "branchCode": "09",
+            "branchName": "Завхан",
+            "subBranchCode": "23",
+            "subBranchName": "Завханмандал"
+        },
+        {
+            "branchCode": "09",
+            "branchName": "Завхан",
+            "subBranchCode": "22",
+            "subBranchName": "Яруу"
+        },
+        {
+            "branchCode": "09",
+            "branchName": "Завхан",
+            "subBranchCode": "25",
+            "subBranchName": "Тосонцэнгэл"
+        },
+        {
+            "branchCode": "09",
+            "branchName": "Завхан",
+            "subBranchCode": "01",
+            "subBranchName": "Алдархаан"
+        },
+        {
+            "branchCode": "09",
+            "branchName": "Завхан",
+            "subBranchCode": "02",
+            "subBranchName": "Асгат"
+        },
+        {
+            "branchCode": "09",
+            "branchName": "Завхан",
+            "subBranchCode": "03",
+            "subBranchName": "Баянтэс"
+        },
+        {
+            "branchCode": "09",
+            "branchName": "Завхан",
+            "subBranchCode": "04",
+            "subBranchName": "Баянхайрхан"
+        },
+        {
+            "branchCode": "09",
+            "branchName": "Завхан",
+            "subBranchCode": "05",
+            "subBranchName": "Булнай"
+        },
+        {
+            "branchCode": "09",
+            "branchName": "Завхан",
+            "subBranchCode": "06",
+            "subBranchName": "Дөрвөлжин"
+        },
+        {
+            "branchCode": "09",
+            "branchName": "Завхан",
+            "subBranchCode": "07",
+            "subBranchName": "Идэр"
+        },
+        {
+            "branchCode": "09",
+            "branchName": "Завхан",
+            "subBranchCode": "08",
+            "subBranchName": "Их-Уул"
+        },
+        {
+            "branchCode": "09",
+            "branchName": "Завхан",
+            "subBranchCode": "09",
+            "subBranchName": "Нөмрөг"
+        },
+        {
+            "branchCode": "09",
+            "branchName": "Завхан",
+            "subBranchCode": "10",
+            "subBranchName": "Отгон"
+        },
+        {
+            "branchCode": "09",
+            "branchName": "Завхан",
+            "subBranchCode": "11",
+            "subBranchName": "Сантмаргац"
+        },
+        {
+            "branchCode": "09",
+            "branchName": "Завхан",
+            "subBranchCode": "12",
+            "subBranchName": "Сонгино"
+        },
+        {
+            "branchCode": "09",
+            "branchName": "Завхан",
+            "subBranchCode": "13",
+            "subBranchName": "Түдэвтэй"
+        },
+        {
+            "branchCode": "09",
+            "branchName": "Завхан",
+            "subBranchCode": "14",
+            "subBranchName": "Тэс"
+        },
+        {
+            "branchCode": "09",
+            "branchName": "Завхан",
+            "subBranchCode": "15",
+            "subBranchName": "Тэлмэн"
+        },
+        {
+            "branchCode": "09",
+            "branchName": "Завхан",
+            "subBranchCode": "16",
+            "subBranchName": "Улиастай"
+        },
+        {
+            "branchCode": "09",
+            "branchName": "Завхан",
+            "subBranchCode": "17",
+            "subBranchName": "Цагаанхайрхан"
+        },
+        {
+            "branchCode": "09",
+            "branchName": "Завхан",
+            "subBranchCode": "18",
+            "subBranchName": "Цагаан чулуут"
+        },
+        {
+            "branchCode": "09",
+            "branchName": "Завхан",
+            "subBranchCode": "19",
+            "subBranchName": "Цэцэн-Уул"
+        },
+        {
+            "branchCode": "09",
+            "branchName": "Завхан",
+            "subBranchCode": "20",
+            "subBranchName": "Шүлүүстэй"
+        },
+        {
+            "branchCode": "09",
+            "branchName": "Завхан",
+            "subBranchCode": "21",
+            "subBranchName": "Эрдэнэхайрхан"
+        },
+        {
+            "branchCode": "09",
+            "branchName": "Завхан",
+            "subBranchCode": "24",
+            "subBranchName": "Ургамал"
+        },
+        {
+            "branchCode": "10",
+            "branchName": "Өвөрхангай",
+            "subBranchCode": "01",
+            "subBranchName": "Баян-Өндөр"
+        },
+        {
+            "branchCode": "10",
+            "branchName": "Өвөрхангай",
+            "subBranchCode": "19",
+            "subBranchName": "Арвайхээр"
+        },
+        {
+            "branchCode": "10",
+            "branchName": "Өвөрхангай",
+            "subBranchCode": "03",
+            "subBranchName": "Бат-Өлзий"
+        },
+        {
+            "branchCode": "10",
+            "branchName": "Өвөрхангай",
+            "subBranchCode": "04",
+            "subBranchName": "Баруун баян-Улаан"
+        },
+        {
+            "branchCode": "10",
+            "branchName": "Өвөрхангай",
+            "subBranchCode": "05",
+            "subBranchName": "Баянгол"
+        },
+        {
+            "branchCode": "10",
+            "branchName": "Өвөрхангай",
+            "subBranchCode": "06",
+            "subBranchName": "Гучин-Ус"
+        },
+        {
+            "branchCode": "10",
+            "branchName": "Өвөрхангай",
+            "subBranchCode": "07",
+            "subBranchName": "Есөн зүйл"
+        },
+        {
+            "branchCode": "10",
+            "branchName": "Өвөрхангай",
+            "subBranchCode": "08",
+            "subBranchName": "Өлзийт"
+        },
+        {
+            "branchCode": "10",
+            "branchName": "Өвөрхангай",
+            "subBranchCode": "09",
+            "subBranchName": "Зүүн баян-Уул"
+        },
+        {
+            "branchCode": "10",
+            "branchName": "Өвөрхангай",
+            "subBranchCode": "10",
+            "subBranchName": "Богд"
+        },
+        {
+            "branchCode": "10",
+            "branchName": "Өвөрхангай",
+            "subBranchCode": "11",
+            "subBranchName": "Нарийн тээл"
+        },
+        {
+            "branchCode": "10",
+            "branchName": "Өвөрхангай",
+            "subBranchCode": "12",
+            "subBranchName": "Сант"
+        },
+        {
+            "branchCode": "10",
+            "branchName": "Өвөрхангай",
+            "subBranchCode": "13",
+            "subBranchName": "Тарагт"
+        },
+        {
+            "branchCode": "10",
+            "branchName": "Өвөрхангай",
+            "subBranchCode": "14",
+            "subBranchName": "Төгрөг"
+        },
+        {
+            "branchCode": "10",
+            "branchName": "Өвөрхангай",
+            "subBranchCode": "15",
+            "subBranchName": "Уянга"
+        },
+        {
+            "branchCode": "10",
+            "branchName": "Өвөрхангай",
+            "subBranchCode": "16",
+            "subBranchName": "Хайрхан дулаан"
+        },
+        {
+            "branchCode": "10",
+            "branchName": "Өвөрхангай",
+            "subBranchCode": "17",
+            "subBranchName": "Хужирт"
+        },
+        {
+            "branchCode": "10",
+            "branchName": "Өвөрхангай",
+            "subBranchCode": "18",
+            "subBranchName": "Хархорин"
+        },
+        {
+            "branchCode": "10",
+            "branchName": "Өвөрхангай",
+            "subBranchCode": "02",
+            "subBranchName": "Бүрд"
+        },
+        {
+            "branchCode": "11",
+            "branchName": "Өмнөговь",
+            "subBranchCode": "01",
+            "subBranchName": "Баяндалай"
+        },
+        {
+            "branchCode": "11",
+            "branchName": "Өмнөговь",
+            "subBranchCode": "15",
+            "subBranchName": "Даланзадгад"
+        },
+        {
+            "branchCode": "11",
+            "branchName": "Өмнөговь",
+            "subBranchCode": "03",
+            "subBranchName": "Булган"
+        },
+        {
+            "branchCode": "11",
+            "branchName": "Өмнөговь",
+            "subBranchCode": "04",
+            "subBranchName": "Гурван тэс"
+        },
+        {
+            "branchCode": "11",
+            "branchName": "Өмнөговь",
+            "subBranchCode": "05",
+            "subBranchName": "Мандал-Овоо"
+        },
+        {
+            "branchCode": "11",
+            "branchName": "Өмнөговь",
+            "subBranchCode": "06",
+            "subBranchName": "Манлай"
+        },
+        {
+            "branchCode": "11",
+            "branchName": "Өмнөговь",
+            "subBranchCode": "07",
+            "subBranchName": "Номгон"
+        },
+        {
+            "branchCode": "11",
+            "branchName": "Өмнөговь",
+            "subBranchCode": "08",
+            "subBranchName": "Ноён"
+        },
+        {
+            "branchCode": "11",
+            "branchName": "Өмнөговь",
+            "subBranchCode": "09",
+            "subBranchName": "Ханбогд"
+        },
+        {
+            "branchCode": "11",
+            "branchName": "Өмнөговь",
+            "subBranchCode": "10",
+            "subBranchName": "Ханхонгор"
+        },
+        {
+            "branchCode": "11",
+            "branchName": "Өмнөговь",
+            "subBranchCode": "11",
+            "subBranchName": "Хүрмэн"
+        },
+        {
+            "branchCode": "11",
+            "branchName": "Өмнөговь",
+            "subBranchCode": "12",
+            "subBranchName": "Сэврэй"
+        },
+        {
+            "branchCode": "11",
+            "branchName": "Өмнөговь",
+            "subBranchCode": "13",
+            "subBranchName": "Цогт-Овоо"
+        },
+        {
+            "branchCode": "11",
+            "branchName": "Өмнөговь",
+            "subBranchCode": "14",
+            "subBranchName": "Цогтцэций"
+        },
+        {
+            "branchCode": "11",
+            "branchName": "Өмнөговь",
+            "subBranchCode": "02",
+            "subBranchName": "Баян-Овоо"
+        },
+        {
+            "branchCode": "12",
+            "branchName": "Сүхбаатар",
+            "subBranchCode": "01",
+            "subBranchName": "Асгат"
+        },
+        {
+            "branchCode": "12",
+            "branchName": "Сүхбаатар",
+            "subBranchCode": "02",
+            "subBranchName": "Баяндэлгэр"
+        },
+        {
+            "branchCode": "12",
+            "branchName": "Сүхбаатар",
+            "subBranchCode": "03",
+            "subBranchName": "Дарьганга"
+        },
+        {
+            "branchCode": "12",
+            "branchName": "Сүхбаатар",
+            "subBranchCode": "04",
+            "subBranchName": "Мөнххаан"
+        },
+        {
+            "branchCode": "12",
+            "branchName": "Сүхбаатар",
+            "subBranchCode": "05",
+            "subBranchName": "Наран"
+        },
+        {
+            "branchCode": "12",
+            "branchName": "Сүхбаатар",
+            "subBranchCode": "06",
+            "subBranchName": "Онгон"
+        },
+        {
+            "branchCode": "12",
+            "branchName": "Сүхбаатар",
+            "subBranchCode": "14",
+            "subBranchName": "Баруун-Урт"
+        },
+        {
+            "branchCode": "12",
+            "branchName": "Сүхбаатар",
+            "subBranchCode": "08",
+            "subBranchName": "Түвшинширээ"
+        },
+        {
+            "branchCode": "12",
+            "branchName": "Сүхбаатар",
+            "subBranchCode": "09",
+            "subBranchName": "Түмэнцогт"
+        },
+        {
+            "branchCode": "12",
+            "branchName": "Сүхбаатар",
+            "subBranchCode": "10",
+            "subBranchName": "Уулбаян"
+        },
+        {
+            "branchCode": "12",
+            "branchName": "Сүхбаатар",
+            "subBranchCode": "11",
+            "subBranchName": "Халзан"
+        },
+        {
+            "branchCode": "12",
+            "branchName": "Сүхбаатар",
+            "subBranchCode": "12",
+            "subBranchName": "Эрдэнэцагаан"
+        },
+        {
+            "branchCode": "12",
+            "branchName": "Сүхбаатар",
+            "subBranchCode": "13",
+            "subBranchName": "Бүрэнцогт"
+        },
+        {
+            "branchCode": "12",
+            "branchName": "Сүхбаатар",
+            "subBranchCode": "07",
+            "subBranchName": "Сүхбаатар"
+        },
+        {
+            "branchCode": "13",
+            "branchName": "Сэлэнгэ",
+            "subBranchCode": "01",
+            "subBranchName": "Сүхббатар"
+        },
+        {
+            "branchCode": "13",
+            "branchName": "Сэлэнгэ",
+            "subBranchCode": "22",
+            "subBranchName": "Хөтөл"
+        },
+        {
+            "branchCode": "13",
+            "branchName": "Сэлэнгэ",
+            "subBranchCode": "03",
+            "subBranchName": "Цагааннуур"
+        },
+        {
+            "branchCode": "13",
+            "branchName": "Сэлэнгэ",
+            "subBranchCode": "04",
+            "subBranchName": "Орхон"
+        },
+        {
+            "branchCode": "13",
+            "branchName": "Сэлэнгэ",
+            "subBranchCode": "05",
+            "subBranchName": "Шаамар"
+        },
+        {
+            "branchCode": "13",
+            "branchName": "Сэлэнгэ",
+            "subBranchCode": "06",
+            "subBranchName": "Хэрх тосгон"
+        },
+        {
+            "branchCode": "13",
+            "branchName": "Сэлэнгэ",
+            "subBranchCode": "07",
+            "subBranchName": "Баруунбүрэн"
+        },
+        {
+            "branchCode": "13",
+            "branchName": "Сэлэнгэ",
+            "subBranchCode": "08",
+            "subBranchName": "Сант"
+        },
+        {
+            "branchCode": "13",
+            "branchName": "Сэлэнгэ",
+            "subBranchCode": "09",
+            "subBranchName": "Орхонтуул"
+        },
+        {
+            "branchCode": "13",
+            "branchName": "Сэлэнгэ",
+            "subBranchCode": "10",
+            "subBranchName": "Ерөө"
+        },
+        {
+            "branchCode": "13",
+            "branchName": "Сэлэнгэ",
+            "subBranchCode": "11",
+            "subBranchName": "Зүүнбүрэн"
+        },
+        {
+            "branchCode": "13",
+            "branchName": "Сэлэнгэ",
+            "subBranchCode": "12",
+            "subBranchName": "Баянгол"
+        },
+        {
+            "branchCode": "13",
+            "branchName": "Сэлэнгэ",
+            "subBranchCode": "13",
+            "subBranchName": "Хушаат"
+        },
+        {
+            "branchCode": "13",
+            "branchName": "Сэлэнгэ",
+            "subBranchCode": "14",
+            "subBranchName": "Мандал"
+        },
+        {
+            "branchCode": "13",
+            "branchName": "Сэлэнгэ",
+            "subBranchCode": "15",
+            "subBranchName": "Жавхлант"
+        },
+        {
+            "branchCode": "13",
+            "branchName": "Сэлэнгэ",
+            "subBranchCode": "16",
+            "subBranchName": "Сайхан"
+        },
+        {
+            "branchCode": "13",
+            "branchName": "Сэлэнгэ",
+            "subBranchCode": "17",
+            "subBranchName": "Дулаанхаан"
+        },
+        {
+            "branchCode": "13",
+            "branchName": "Сэлэнгэ",
+            "subBranchCode": "18",
+            "subBranchName": "Бугант тосгон"
+        },
+        {
+            "branchCode": "13",
+            "branchName": "Сэлэнгэ",
+            "subBranchCode": "19",
+            "subBranchName": "Түшиг"
+        },
+        {
+            "branchCode": "13",
+            "branchName": "Сэлэнгэ",
+            "subBranchCode": "20",
+            "subBranchName": "Түнхэл"
+        },
+        {
+            "branchCode": "13",
+            "branchName": "Сэлэнгэ",
+            "subBranchCode": "21",
+            "subBranchName": "Хүдэр"
+        },
+        {
+            "branchCode": "13",
+            "branchName": "Сэлэнгэ",
+            "subBranchCode": "02",
+            "subBranchName": "Алтанбулаг"
+        },
+        {
+            "branchCode": "14",
+            "branchName": "Төв",
+            "subBranchCode": "25",
+            "subBranchName": "Эрдэнэ"
+        },
+        {
+            "branchCode": "14",
+            "branchName": "Төв",
+            "subBranchCode": "26",
+            "subBranchName": "Эрдэнэсант"
+        },
+        {
+            "branchCode": "14",
+            "branchName": "Төв",
+            "subBranchCode": "27",
+            "subBranchName": "Зуунмод"
+        },
+        {
+            "branchCode": "14",
+            "branchName": "Төв",
+            "subBranchCode": "01",
+            "subBranchName": "Алтанбулаг"
+        },
+        {
+            "branchCode": "14",
+            "branchName": "Төв",
+            "subBranchCode": "02",
+            "subBranchName": "Аргалант"
+        },
+        {
+            "branchCode": "14",
+            "branchName": "Төв",
+            "subBranchCode": "03",
+            "subBranchName": "Архуст"
+        },
+        {
+            "branchCode": "14",
+            "branchName": "Төв",
+            "subBranchCode": "04",
+            "subBranchName": "Батсүмбэр"
+        },
+        {
+            "branchCode": "14",
+            "branchName": "Төв",
+            "subBranchCode": "05",
+            "subBranchName": "Баян"
+        },
+        {
+            "branchCode": "14",
+            "branchName": "Төв",
+            "subBranchCode": "06",
+            "subBranchName": "Баян-Өнжүүл"
+        },
+        {
+            "branchCode": "14",
+            "branchName": "Төв",
+            "subBranchCode": "07",
+            "subBranchName": "Баяндэлгэр"
+        },
+        {
+            "branchCode": "14",
+            "branchName": "Төв",
+            "subBranchCode": "08",
+            "subBranchName": "Баянжаргалан"
+        },
+        {
+            "branchCode": "14",
+            "branchName": "Төв",
+            "subBranchCode": "09",
+            "subBranchName": "Баянхангай"
+        },
+        {
+            "branchCode": "14",
+            "branchName": "Төв",
+            "subBranchCode": "10",
+            "subBranchName": "Баянчандмань"
+        },
+        {
+            "branchCode": "14",
+            "branchName": "Төв",
+            "subBranchCode": "11",
+            "subBranchName": "Баянцагаан"
+        },
+        {
+            "branchCode": "14",
+            "branchName": "Төв",
+            "subBranchCode": "12",
+            "subBranchName": "Баянцогт"
+        },
+        {
+            "branchCode": "14",
+            "branchName": "Төв",
+            "subBranchCode": "13",
+            "subBranchName": "Борнуур"
+        },
+        {
+            "branchCode": "14",
+            "branchName": "Төв",
+            "subBranchCode": "14",
+            "subBranchName": "Бүрэн"
+        },
+        {
+            "branchCode": "14",
+            "branchName": "Төв",
+            "subBranchCode": "15",
+            "subBranchName": "Дэлгэрхаан"
+        },
+        {
+            "branchCode": "14",
+            "branchName": "Төв",
+            "subBranchCode": "16",
+            "subBranchName": "Жаргалант"
+        },
+        {
+            "branchCode": "14",
+            "branchName": "Төв",
+            "subBranchCode": "17",
+            "subBranchName": "Заамар"
+        },
+        {
+            "branchCode": "14",
+            "branchName": "Төв",
+            "subBranchCode": "18",
+            "subBranchName": "Лүн"
+        },
+        {
+            "branchCode": "14",
+            "branchName": "Төв",
+            "subBranchCode": "19",
+            "subBranchName": "Мөнгөнморьт"
+        },
+        {
+            "branchCode": "14",
+            "branchName": "Төв",
+            "subBranchCode": "20",
+            "subBranchName": "Өндөрширээт"
+        },
+        {
+            "branchCode": "14",
+            "branchName": "Төв",
+            "subBranchCode": "21",
+            "subBranchName": "Сэргэлэн"
+        },
+        {
+            "branchCode": "14",
+            "branchName": "Төв",
+            "subBranchCode": "22",
+            "subBranchName": "Сүмбэр"
+        },
+        {
+            "branchCode": "14",
+            "branchName": "Төв",
+            "subBranchCode": "23",
+            "subBranchName": "Угтаал"
+        },
+        {
+            "branchCode": "14",
+            "branchName": "Төв",
+            "subBranchCode": "24",
+            "subBranchName": "Цээл"
+        },
+        {
+            "branchCode": "15",
+            "branchName": "Увс",
+            "subBranchCode": "01",
+            "subBranchName": "Баруунтуруун"
+        },
+        {
+            "branchCode": "15",
+            "branchName": "Увс",
+            "subBranchCode": "21",
+            "subBranchName": "Татварын хэлтэс"
+        },
+        {
+            "branchCode": "15",
+            "branchName": "Увс",
+            "subBranchCode": "03",
+            "subBranchName": "Давст"
+        },
+        {
+            "branchCode": "15",
+            "branchName": "Увс",
+            "subBranchCode": "04",
+            "subBranchName": "Завхан"
+        },
+        {
+            "branchCode": "15",
+            "branchName": "Увс",
+            "subBranchCode": "05",
+            "subBranchName": "Зүүнговь"
+        },
+        {
+            "branchCode": "15",
+            "branchName": "Увс",
+            "subBranchCode": "06",
+            "subBranchName": "Зүүнхангай"
+        },
+        {
+            "branchCode": "15",
+            "branchName": "Увс",
+            "subBranchCode": "07",
+            "subBranchName": "Малчин"
+        },
+        {
+            "branchCode": "15",
+            "branchName": "Увс",
+            "subBranchCode": "08",
+            "subBranchName": "Наранбулаг"
+        },
+        {
+            "branchCode": "15",
+            "branchName": "Увс",
+            "subBranchCode": "09",
+            "subBranchName": "Өлгий"
+        },
+        {
+            "branchCode": "15",
+            "branchName": "Увс",
+            "subBranchCode": "10",
+            "subBranchName": "Өмнөговь"
+        },
+        {
+            "branchCode": "15",
+            "branchName": "Увс",
+            "subBranchCode": "11",
+            "subBranchName": "Өндөрхангай"
+        },
+        {
+            "branchCode": "15",
+            "branchName": "Увс",
+            "subBranchCode": "12",
+            "subBranchName": "Сагил"
+        },
+        {
+            "branchCode": "15",
+            "branchName": "Увс",
+            "subBranchCode": "13",
+            "subBranchName": "Тариалан"
+        },
+        {
+            "branchCode": "15",
+            "branchName": "Увс",
+            "subBranchCode": "14",
+            "subBranchName": "Түргэн"
+        },
+        {
+            "branchCode": "15",
+            "branchName": "Увс",
+            "subBranchCode": "15",
+            "subBranchName": "Тэс"
+        },
+        {
+            "branchCode": "15",
+            "branchName": "Увс",
+            "subBranchCode": "16",
+            "subBranchName": "Хархираа"
+        },
+        {
+            "branchCode": "15",
+            "branchName": "Увс",
+            "subBranchCode": "17",
+            "subBranchName": "Ховд"
+        },
+        {
+            "branchCode": "15",
+            "branchName": "Увс",
+            "subBranchCode": "18",
+            "subBranchName": "Хяргас"
+        },
+        {
+            "branchCode": "15",
+            "branchName": "Увс",
+            "subBranchCode": "19",
+            "subBranchName": "Цагаанхайрхан"
+        },
+        {
+            "branchCode": "15",
+            "branchName": "Увс",
+            "subBranchCode": "20",
+            "subBranchName": "Улаангом"
+        },
+        {
+            "branchCode": "15",
+            "branchName": "Увс",
+            "subBranchCode": "02",
+            "subBranchName": "Бөхмөрөн"
+        },
+        {
+            "branchCode": "16",
+            "branchName": "Ховд",
+            "subBranchCode": "01",
+            "subBranchName": "Алтай "
+        },
+        {
+            "branchCode": "16",
+            "branchName": "Ховд",
+            "subBranchCode": "02",
+            "subBranchName": "Булган"
+        },
+        {
+            "branchCode": "16",
+            "branchName": "Ховд",
+            "subBranchCode": "03",
+            "subBranchName": "Буянт"
+        },
+        {
+            "branchCode": "16",
+            "branchName": "Ховд",
+            "subBranchCode": "04",
+            "subBranchName": "Дарви"
+        },
+        {
+            "branchCode": "16",
+            "branchName": "Ховд",
+            "subBranchCode": "05",
+            "subBranchName": "Дуут"
+        },
+        {
+            "branchCode": "16",
+            "branchName": "Ховд",
+            "subBranchCode": "06",
+            "subBranchName": "Дөргөн"
+        },
+        {
+            "branchCode": "16",
+            "branchName": "Ховд",
+            "subBranchCode": "07",
+            "subBranchName": "Зэрэг"
+        },
+        {
+            "branchCode": "16",
+            "branchName": "Ховд",
+            "subBranchCode": "08",
+            "subBranchName": "Манхан"
+        },
+        {
+            "branchCode": "16",
+            "branchName": "Ховд",
+            "subBranchCode": "09",
+            "subBranchName": "Мөст"
+        },
+        {
+            "branchCode": "16",
+            "branchName": "Ховд",
+            "subBranchCode": "10",
+            "subBranchName": "Мянгад"
+        },
+        {
+            "branchCode": "16",
+            "branchName": "Ховд",
+            "subBranchCode": "11",
+            "subBranchName": "Мөнххайрхан"
+        },
+        {
+            "branchCode": "16",
+            "branchName": "Ховд",
+            "subBranchCode": "12",
+            "subBranchName": "Үенч"
+        },
+        {
+            "branchCode": "16",
+            "branchName": "Ховд",
+            "subBranchCode": "13",
+            "subBranchName": "Ховд"
+        },
+        {
+            "branchCode": "16",
+            "branchName": "Ховд",
+            "subBranchCode": "14",
+            "subBranchName": "Цэцэг"
+        },
+        {
+            "branchCode": "16",
+            "branchName": "Ховд",
+            "subBranchCode": "15",
+            "subBranchName": "Чандмань"
+        },
+        {
+            "branchCode": "16",
+            "branchName": "Ховд",
+            "subBranchCode": "16",
+            "subBranchName": "Эрдэнэбүрэн"
+        },
+        {
+            "branchCode": "16",
+            "branchName": "Ховд",
+            "subBranchCode": "17",
+            "subBranchName": "Жаргалант"
+        },
+        {
+            "branchCode": "17",
+            "branchName": "Хөвсгөл",
+            "subBranchCode": "01",
+            "subBranchName": "Алаг-Эрдэнэ"
+        },
+        {
+            "branchCode": "17",
+            "branchName": "Хөвсгөл",
+            "subBranchCode": "25",
+            "subBranchName": "Эг-Үүр"
+        },
+        {
+            "branchCode": "17",
+            "branchName": "Хөвсгөл",
+            "subBranchCode": "24",
+            "subBranchName": "Мөрөн"
+        },
+        {
+            "branchCode": "17",
+            "branchName": "Хөвсгөл",
+            "subBranchCode": "23",
+            "subBranchName": "Эрдэнэбулган"
+        },
+        {
+            "branchCode": "17",
+            "branchName": "Хөвсгөл",
+            "subBranchCode": "22",
+            "subBranchName": "Шинэ-Идэр"
+        },
+        {
+            "branchCode": "17",
+            "branchName": "Хөвсгөл",
+            "subBranchCode": "21",
+            "subBranchName": "Чанд-Өндөр"
+        },
+        {
+            "branchCode": "17",
+            "branchName": "Хөвсгөл",
+            "subBranchCode": "20",
+            "subBranchName": "Цэцэрлэг"
+        },
+        {
+            "branchCode": "17",
+            "branchName": "Хөвсгөл",
+            "subBranchCode": "19",
+            "subBranchName": "Цагаанннуур"
+        },
+        {
+            "branchCode": "17",
+            "branchName": "Хөвсгөл",
+            "subBranchCode": "18",
+            "subBranchName": "Цагаан-Үүр"
+        },
+        {
+            "branchCode": "17",
+            "branchName": "Хөвсгөл",
+            "subBranchCode": "17",
+            "subBranchName": "Цагаан-Уул"
+        },
+        {
+            "branchCode": "17",
+            "branchName": "Хөвсгөл",
+            "subBranchCode": "16",
+            "subBranchName": "Хатгал"
+        },
+        {
+            "branchCode": "17",
+            "branchName": "Хөвсгөл",
+            "subBranchCode": "15",
+            "subBranchName": "Ханх"
+        },
+        {
+            "branchCode": "17",
+            "branchName": "Хөвсгөл",
+            "subBranchCode": "14",
+            "subBranchName": "Улаан-Уул"
+        },
+        {
+            "branchCode": "17",
+            "branchName": "Хөвсгөл",
+            "subBranchCode": "13",
+            "subBranchName": "Түнэл"
+        },
+        {
+            "branchCode": "17",
+            "branchName": "Хөвсгөл",
+            "subBranchCode": "12",
+            "subBranchName": "Төмөрбулаг"
+        },
+        {
+            "branchCode": "17",
+            "branchName": "Хөвсгөл",
+            "subBranchCode": "11",
+            "subBranchName": "Тосонцэнгэл"
+        },
+        {
+            "branchCode": "17",
+            "branchName": "Хөвсгөл",
+            "subBranchCode": "10",
+            "subBranchName": "Тариалан"
+        },
+        {
+            "branchCode": "17",
+            "branchName": "Хөвсгөл",
+            "subBranchCode": "09",
+            "subBranchName": "Рэнчинлхүмбэ"
+        },
+        {
+            "branchCode": "17",
+            "branchName": "Хөвсгөл",
+            "subBranchCode": "08",
+            "subBranchName": "Рашаант"
+        },
+        {
+            "branchCode": "17",
+            "branchName": "Хөвсгөл",
+            "subBranchCode": "07",
+            "subBranchName": "Их-Уул"
+        },
+        {
+            "branchCode": "17",
+            "branchName": "Хөвсгөл",
+            "subBranchCode": "06",
+            "subBranchName": "Жаргалант"
+        },
+        {
+            "branchCode": "17",
+            "branchName": "Хөвсгөл",
+            "subBranchCode": "05",
+            "subBranchName": "Галт"
+        },
+        {
+            "branchCode": "17",
+            "branchName": "Хөвсгөл",
+            "subBranchCode": "04",
+            "subBranchName": "Бүрэнтогтох"
+        },
+        {
+            "branchCode": "17",
+            "branchName": "Хөвсгөл",
+            "subBranchCode": "03",
+            "subBranchName": "Баянзүрх"
+        },
+        {
+            "branchCode": "17",
+            "branchName": "Хөвсгөл",
+            "subBranchCode": "02",
+            "subBranchName": "Арбулаг"
+        },
+        {
+            "branchCode": "18",
+            "branchName": "Хэнтий",
+            "subBranchCode": "01",
+            "subBranchName": "Галшар"
+        },
+        {
+            "branchCode": "18",
+            "branchName": "Хэнтий",
+            "subBranchCode": "02",
+            "subBranchName": "Баянхутаг"
+        },
+        {
+            "branchCode": "18",
+            "branchName": "Хэнтий",
+            "subBranchCode": "03",
+            "subBranchName": "Баянмөнх"
+        },
+        {
+            "branchCode": "18",
+            "branchName": "Хэнтий",
+            "subBranchCode": "04",
+            "subBranchName": "Дархан"
+        },
+        {
+            "branchCode": "18",
+            "branchName": "Хэнтий",
+            "subBranchCode": "05",
+            "subBranchName": "Дэлгэрхаан"
+        },
+        {
+            "branchCode": "18",
+            "branchName": "Хэнтий",
+            "subBranchCode": "23",
+            "subBranchName": "Гурванбаян"
+        },
+        {
+            "branchCode": "18",
+            "branchName": "Хэнтий",
+            "subBranchCode": "22",
+            "subBranchName": "Хэрлэн хороо"
+        },
+        {
+            "branchCode": "18",
+            "branchName": "Хэнтий",
+            "subBranchCode": "21",
+            "subBranchName": "ХБУ Улаан"
+        },
+        {
+            "branchCode": "18",
+            "branchName": "Хэнтий",
+            "subBranchCode": "20",
+            "subBranchName": "Өлзийт"
+        },
+        {
+            "branchCode": "18",
+            "branchName": "Хэнтий",
+            "subBranchCode": "18",
+            "subBranchName": "Өлзийт"
+        },
+        {
+            "branchCode": "18",
+            "branchName": "Хэнтий",
+            "subBranchCode": "17",
+            "subBranchName": "Хэрлэн"
+        },
+        {
+            "branchCode": "18",
+            "branchName": "Хэнтий",
+            "subBranchCode": "16",
+            "subBranchName": "Мөрөн"
+        },
+        {
+            "branchCode": "18",
+            "branchName": "Хэнтий",
+            "subBranchCode": "15",
+            "subBranchName": "Баян-Овоо"
+        },
+        {
+            "branchCode": "18",
+            "branchName": "Хэнтий",
+            "subBranchCode": "14",
+            "subBranchName": "Батноров"
+        },
+        {
+            "branchCode": "18",
+            "branchName": "Хэнтий",
+            "subBranchCode": "13",
+            "subBranchName": "Норовлин"
+        },
+        {
+            "branchCode": "18",
+            "branchName": "Хэнтий",
+            "subBranchCode": "12",
+            "subBranchName": "Дадал"
+        },
+        {
+            "branchCode": "18",
+            "branchName": "Хэнтий",
+            "subBranchCode": "11",
+            "subBranchName": "Баян-Адрага"
+        },
+        {
+            "branchCode": "18",
+            "branchName": "Хэнтий",
+            "subBranchCode": "10",
+            "subBranchName": "Биндэр"
+        },
+        {
+            "branchCode": "18",
+            "branchName": "Хэнтий",
+            "subBranchCode": "09",
+            "subBranchName": "Батширээт"
+        },
+        {
+            "branchCode": "18",
+            "branchName": "Хэнтий",
+            "subBranchCode": "08",
+            "subBranchName": "Өмнөдэлгэр"
+        },
+        {
+            "branchCode": "18",
+            "branchName": "Хэнтий",
+            "subBranchCode": "07",
+            "subBranchName": "Цэнхэрмандал"
+        },
+        {
+            "branchCode": "18",
+            "branchName": "Хэнтий",
+            "subBranchCode": "06",
+            "subBranchName": "Жаргалтхаан"
+        },
+        {
+            "branchCode": "19",
+            "branchName": "Дархан-Уул",
+            "subBranchCode": "04",
+            "subBranchName": "Орхон сум"
+        },
+        {
+            "branchCode": "19",
+            "branchName": "Дархан-Уул",
+            "subBranchCode": "01",
+            "subBranchName": "Дархан сум"
+        },
+        {
+            "branchCode": "19",
+            "branchName": "Дархан-Уул",
+            "subBranchCode": "02",
+            "subBranchName": "Шарын гол"
+        },
+        {
+            "branchCode": "19",
+            "branchName": "Дархан-Уул",
+            "subBranchCode": "05",
+            "subBranchName": "Аймгийн төв"
+        },
+        {
+            "branchCode": "19",
+            "branchName": "Дархан-Уул",
+            "subBranchCode": "03",
+            "subBranchName": "Хонгор сум"
+        },
+        {
+            "branchCode": "20",
+            "branchName": "Орхон",
+            "subBranchCode": "01",
+            "subBranchName": "Хялганат"
+        },
+        {
+            "branchCode": "20",
+            "branchName": "Орхон",
+            "subBranchCode": "03",
+            "subBranchName": "Найрамдал"
+        },
+        {
+            "branchCode": "20",
+            "branchName": "Орхон",
+            "subBranchCode": "02",
+            "subBranchName": "Жаргалант"
+        },
+        {
+            "branchCode": "23",
+            "branchName": "Хан-Уул",
+            "subBranchCode": "09",
+            "subBranchName": "9-р хороо"
+        },
+        {
+            "branchCode": "23",
+            "branchName": "Хан-Уул",
+            "subBranchCode": "10",
+            "subBranchName": "10-р хороо"
+        },
+        {
+            "branchCode": "23",
+            "branchName": "Хан-Уул",
+            "subBranchCode": "11",
+            "subBranchName": "11-р хороо"
+        },
+        {
+            "branchCode": "23",
+            "branchName": "Хан-Уул",
+            "subBranchCode": "12",
+            "subBranchName": "12-р хороо"
+        },
+        {
+            "branchCode": "23",
+            "branchName": "Хан-Уул",
+            "subBranchCode": "13",
+            "subBranchName": "13-рхороо"
+        },
+        {
+            "branchCode": "23",
+            "branchName": "Хан-Уул",
+            "subBranchCode": "14",
+            "subBranchName": "14-р хороо"
+        },
+        {
+            "branchCode": "23",
+            "branchName": "Хан-Уул",
+            "subBranchCode": "15",
+            "subBranchName": "15-р хороо"
+        },
+        {
+            "branchCode": "23",
+            "branchName": "Хан-Уул",
+            "subBranchCode": "16",
+            "subBranchName": "16-р хороо"
+        },
+        {
+            "branchCode": "23",
+            "branchName": "Хан-Уул",
+            "subBranchCode": "17",
+            "subBranchName": "17-р хороо"
+        },
+        {
+            "branchCode": "23",
+            "branchName": "Хан-Уул",
+            "subBranchCode": "18",
+            "subBranchName": "18-р хороо"
+        },
+        {
+            "branchCode": "23",
+            "branchName": "Хан-Уул",
+            "subBranchCode": "19",
+            "subBranchName": "19-р хороо"
+        },
+        {
+            "branchCode": "23",
+            "branchName": "Хан-Уул",
+            "subBranchCode": "20",
+            "subBranchName": "20-р хороо"
+        },
+        {
+            "branchCode": "23",
+            "branchName": "Хан-Уул",
+            "subBranchCode": "01",
+            "subBranchName": "1-р хороо"
+        },
+        {
+            "branchCode": "23",
+            "branchName": "Хан-Уул",
+            "subBranchCode": "02",
+            "subBranchName": "2-р хороо"
+        },
+        {
+            "branchCode": "23",
+            "branchName": "Хан-Уул",
+            "subBranchCode": "03",
+            "subBranchName": "3-р хороо"
+        },
+        {
+            "branchCode": "23",
+            "branchName": "Хан-Уул",
+            "subBranchCode": "04",
+            "subBranchName": "4-р хороо"
+        },
+        {
+            "branchCode": "23",
+            "branchName": "Хан-Уул",
+            "subBranchCode": "05",
+            "subBranchName": "5-р хороо"
+        },
+        {
+            "branchCode": "23",
+            "branchName": "Хан-Уул",
+            "subBranchCode": "06",
+            "subBranchName": "6-р хороо"
+        },
+        {
+            "branchCode": "23",
+            "branchName": "Хан-Уул",
+            "subBranchCode": "07",
+            "subBranchName": "7-р хороо"
+        },
+        {
+            "branchCode": "23",
+            "branchName": "Хан-Уул",
+            "subBranchCode": "08",
+            "subBranchName": "8-р хороо"
+        },
+        {
+            "branchCode": "24",
+            "branchName": "Баянзүрх",
+            "subBranchCode": "01",
+            "subBranchName": "1-р хороо"
+        },
+        {
+            "branchCode": "24",
+            "branchName": "Баянзүрх",
+            "subBranchCode": "28",
+            "subBranchName": "28-р хороо"
+        },
+        {
+            "branchCode": "24",
+            "branchName": "Баянзүрх",
+            "subBranchCode": "03",
+            "subBranchName": "3-р хороо"
+        },
+        {
+            "branchCode": "24",
+            "branchName": "Баянзүрх",
+            "subBranchCode": "04",
+            "subBranchName": "4-р хороо"
+        },
+        {
+            "branchCode": "24",
+            "branchName": "Баянзүрх",
+            "subBranchCode": "05",
+            "subBranchName": "5-р хороо"
+        },
+        {
+            "branchCode": "24",
+            "branchName": "Баянзүрх",
+            "subBranchCode": "06",
+            "subBranchName": "6-р хороо"
+        },
+        {
+            "branchCode": "24",
+            "branchName": "Баянзүрх",
+            "subBranchCode": "07",
+            "subBranchName": "7-р хороо"
+        },
+        {
+            "branchCode": "24",
+            "branchName": "Баянзүрх",
+            "subBranchCode": "08",
+            "subBranchName": "8-р хороо"
+        },
+        {
+            "branchCode": "24",
+            "branchName": "Баянзүрх",
+            "subBranchCode": "09",
+            "subBranchName": "9-р хороо"
+        },
+        {
+            "branchCode": "24",
+            "branchName": "Баянзүрх",
+            "subBranchCode": "10",
+            "subBranchName": "10-р хороо"
+        },
+        {
+            "branchCode": "24",
+            "branchName": "Баянзүрх",
+            "subBranchCode": "11",
+            "subBranchName": "11-р хороо"
+        },
+        {
+            "branchCode": "24",
+            "branchName": "Баянзүрх",
+            "subBranchCode": "12",
+            "subBranchName": "12-р хороо"
+        },
+        {
+            "branchCode": "24",
+            "branchName": "Баянзүрх",
+            "subBranchCode": "13",
+            "subBranchName": "13-р хороо"
+        },
+        {
+            "branchCode": "24",
+            "branchName": "Баянзүрх",
+            "subBranchCode": "14",
+            "subBranchName": "14-р хороо"
+        },
+        {
+            "branchCode": "24",
+            "branchName": "Баянзүрх",
+            "subBranchCode": "15",
+            "subBranchName": "15-р хороо"
+        },
+        {
+            "branchCode": "24",
+            "branchName": "Баянзүрх",
+            "subBranchCode": "16",
+            "subBranchName": "16-р хороо"
+        },
+        {
+            "branchCode": "24",
+            "branchName": "Баянзүрх",
+            "subBranchCode": "17",
+            "subBranchName": "17-р хороо"
+        },
+        {
+            "branchCode": "24",
+            "branchName": "Баянзүрх",
+            "subBranchCode": "18",
+            "subBranchName": "18-р хороо"
+        },
+        {
+            "branchCode": "24",
+            "branchName": "Баянзүрх",
+            "subBranchCode": "19",
+            "subBranchName": "19-р хороо"
+        },
+        {
+            "branchCode": "24",
+            "branchName": "Баянзүрх",
+            "subBranchCode": "20",
+            "subBranchName": "20-р хороо"
+        },
+        {
+            "branchCode": "24",
+            "branchName": "Баянзүрх",
+            "subBranchCode": "21",
+            "subBranchName": "21-р хороо"
+        },
+        {
+            "branchCode": "24",
+            "branchName": "Баянзүрх",
+            "subBranchCode": "22",
+            "subBranchName": "22-р хороо"
+        },
+        {
+            "branchCode": "24",
+            "branchName": "Баянзүрх",
+            "subBranchCode": "23",
+            "subBranchName": "23-р хороо"
+        },
+        {
+            "branchCode": "24",
+            "branchName": "Баянзүрх",
+            "subBranchCode": "24",
+            "subBranchName": "24-р хороо"
+        },
+        {
+            "branchCode": "24",
+            "branchName": "Баянзүрх",
+            "subBranchCode": "25",
+            "subBranchName": "25-р хороо"
+        },
+        {
+            "branchCode": "24",
+            "branchName": "Баянзүрх",
+            "subBranchCode": "26",
+            "subBranchName": "26-р хороо"
+        },
+        {
+            "branchCode": "24",
+            "branchName": "Баянзүрх",
+            "subBranchCode": "27",
+            "subBranchName": "27-р хороо"
+        },
+        {
+            "branchCode": "24",
+            "branchName": "Баянзүрх",
+            "subBranchCode": "02",
+            "subBranchName": "2-р хороо"
+        },
+        {
+            "branchCode": "25",
+            "branchName": "Сүхбаатар дүүрэг",
+            "subBranchCode": "01",
+            "subBranchName": "1-р хороо"
+        },
+        {
+            "branchCode": "25",
+            "branchName": "Сүхбаатар дүүрэг",
+            "subBranchCode": "21",
+            "subBranchName": "21-р хороо"
+        },
+        {
+            "branchCode": "25",
+            "branchName": "Сүхбаатар дүүрэг",
+            "subBranchCode": "03",
+            "subBranchName": "3-р хороо"
+        },
+        {
+            "branchCode": "25",
+            "branchName": "Сүхбаатар дүүрэг",
+            "subBranchCode": "04",
+            "subBranchName": "4-р хороо"
+        },
+        {
+            "branchCode": "25",
+            "branchName": "Сүхбаатар дүүрэг",
+            "subBranchCode": "05",
+            "subBranchName": "5-р хороо"
+        },
+        {
+            "branchCode": "25",
+            "branchName": "Сүхбаатар дүүрэг",
+            "subBranchCode": "06",
+            "subBranchName": "6-р хороо"
+        },
+        {
+            "branchCode": "25",
+            "branchName": "Сүхбаатар дүүрэг",
+            "subBranchCode": "07",
+            "subBranchName": "7-р хороо"
+        },
+        {
+            "branchCode": "25",
+            "branchName": "Сүхбаатар дүүрэг",
+            "subBranchCode": "08",
+            "subBranchName": "8-р хороо"
+        },
+        {
+            "branchCode": "25",
+            "branchName": "Сүхбаатар дүүрэг",
+            "subBranchCode": "09",
+            "subBranchName": "9-р хороо"
+        },
+        {
+            "branchCode": "25",
+            "branchName": "Сүхбаатар дүүрэг",
+            "subBranchCode": "10",
+            "subBranchName": "10-р хороо"
+        },
+        {
+            "branchCode": "25",
+            "branchName": "Сүхбаатар дүүрэг",
+            "subBranchCode": "11",
+            "subBranchName": "11-р хороо"
+        },
+        {
+            "branchCode": "25",
+            "branchName": "Сүхбаатар дүүрэг",
+            "subBranchCode": "12",
+            "subBranchName": "12-р хороо "
+        },
+        {
+            "branchCode": "25",
+            "branchName": "Сүхбаатар дүүрэг",
+            "subBranchCode": "13",
+            "subBranchName": "13-р хороо"
+        },
+        {
+            "branchCode": "25",
+            "branchName": "Сүхбаатар дүүрэг",
+            "subBranchCode": "14",
+            "subBranchName": "14-р хороо"
+        },
+        {
+            "branchCode": "25",
+            "branchName": "Сүхбаатар дүүрэг",
+            "subBranchCode": "15",
+            "subBranchName": "15-р хороо"
+        },
+        {
+            "branchCode": "25",
+            "branchName": "Сүхбаатар дүүрэг",
+            "subBranchCode": "16",
+            "subBranchName": "16-р хороо"
+        },
+        {
+            "branchCode": "25",
+            "branchName": "Сүхбаатар дүүрэг",
+            "subBranchCode": "17",
+            "subBranchName": "17-р хороо"
+        },
+        {
+            "branchCode": "25",
+            "branchName": "Сүхбаатар дүүрэг",
+            "subBranchCode": "18",
+            "subBranchName": "18-р хороо"
+        },
+        {
+            "branchCode": "25",
+            "branchName": "Сүхбаатар дүүрэг",
+            "subBranchCode": "19",
+            "subBranchName": "19-р хороо"
+        },
+        {
+            "branchCode": "25",
+            "branchName": "Сүхбаатар дүүрэг",
+            "subBranchCode": "20",
+            "subBranchName": "20-р хороо"
+        },
+        {
+            "branchCode": "25",
+            "branchName": "Сүхбаатар дүүрэг",
+            "subBranchCode": "02",
+            "subBranchName": "2-р хороо"
+        },
+        {
+            "branchCode": "26",
+            "branchName": "Баянгол",
+            "subBranchCode": "01",
+            "subBranchName": "1-р хороо"
+        },
+        {
+            "branchCode": "26",
+            "branchName": "Баянгол",
+            "subBranchCode": "23",
+            "subBranchName": "23-р хороо"
+        },
+        {
+            "branchCode": "26",
+            "branchName": "Баянгол",
+            "subBranchCode": "03",
+            "subBranchName": "3-р хороо"
+        },
+        {
+            "branchCode": "26",
+            "branchName": "Баянгол",
+            "subBranchCode": "04",
+            "subBranchName": "4-р хороо"
+        },
+        {
+            "branchCode": "26",
+            "branchName": "Баянгол",
+            "subBranchCode": "05",
+            "subBranchName": "5-р хороо"
+        },
+        {
+            "branchCode": "26",
+            "branchName": "Баянгол",
+            "subBranchCode": "06",
+            "subBranchName": "6-р хороо"
+        },
+        {
+            "branchCode": "26",
+            "branchName": "Баянгол",
+            "subBranchCode": "07",
+            "subBranchName": "7-р хороо"
+        },
+        {
+            "branchCode": "26",
+            "branchName": "Баянгол",
+            "subBranchCode": "08",
+            "subBranchName": "8-р хороо"
+        },
+        {
+            "branchCode": "26",
+            "branchName": "Баянгол",
+            "subBranchCode": "09",
+            "subBranchName": "9-р хороо"
+        },
+        {
+            "branchCode": "26",
+            "branchName": "Баянгол",
+            "subBranchCode": "10",
+            "subBranchName": "10-р хороо"
+        },
+        {
+            "branchCode": "26",
+            "branchName": "Баянгол",
+            "subBranchCode": "11",
+            "subBranchName": "11-р хороо"
+        },
+        {
+            "branchCode": "26",
+            "branchName": "Баянгол",
+            "subBranchCode": "12",
+            "subBranchName": "12-р хороо"
+        },
+        {
+            "branchCode": "26",
+            "branchName": "Баянгол",
+            "subBranchCode": "13",
+            "subBranchName": "13-р хороо"
+        },
+        {
+            "branchCode": "26",
+            "branchName": "Баянгол",
+            "subBranchCode": "14",
+            "subBranchName": "14-р хороо"
+        },
+        {
+            "branchCode": "26",
+            "branchName": "Баянгол",
+            "subBranchCode": "15",
+            "subBranchName": "15-р хороо"
+        },
+        {
+            "branchCode": "26",
+            "branchName": "Баянгол",
+            "subBranchCode": "16",
+            "subBranchName": "16-р хороо"
+        },
+        {
+            "branchCode": "26",
+            "branchName": "Баянгол",
+            "subBranchCode": "17",
+            "subBranchName": "17-р хороо"
+        },
+        {
+            "branchCode": "26",
+            "branchName": "Баянгол",
+            "subBranchCode": "18",
+            "subBranchName": "18-р хороо"
+        },
+        {
+            "branchCode": "26",
+            "branchName": "Баянгол",
+            "subBranchCode": "19",
+            "subBranchName": "19-р хороо"
+        },
+        {
+            "branchCode": "26",
+            "branchName": "Баянгол",
+            "subBranchCode": "20",
+            "subBranchName": "20-р хороо"
+        },
+        {
+            "branchCode": "26",
+            "branchName": "Баянгол",
+            "subBranchCode": "21",
+            "subBranchName": "21-р хороо"
+        },
+        {
+            "branchCode": "26",
+            "branchName": "Баянгол",
+            "subBranchCode": "22",
+            "subBranchName": "22-р хороо"
+        },
+        {
+            "branchCode": "26",
+            "branchName": "Баянгол",
+            "subBranchCode": "02",
+            "subBranchName": "2-р хороо"
+        },
+        {
+            "branchCode": "27",
+            "branchName": "Багануур",
+            "subBranchCode": "01",
+            "subBranchName": "1-р хороо"
+        },
+        {
+            "branchCode": "27",
+            "branchName": "Багануур",
+            "subBranchCode": "02",
+            "subBranchName": "2-р хороо"
+        },
+        {
+            "branchCode": "27",
+            "branchName": "Багануур",
+            "subBranchCode": "03",
+            "subBranchName": "3-р хороо"
+        },
+        {
+            "branchCode": "27",
+            "branchName": "Багануур",
+            "subBranchCode": "04",
+            "subBranchName": "4-р хороо"
+        },
+        {
+            "branchCode": "27",
+            "branchName": "Багануур",
+            "subBranchCode": "10",
+            "subBranchName": "10-р хороо"
+        },
+        {
+            "branchCode": "27",
+            "branchName": "Багануур",
+            "subBranchCode": "06",
+            "subBranchName": "6-р хороо"
+        },
+        {
+            "branchCode": "27",
+            "branchName": "Багануур",
+            "subBranchCode": "07",
+            "subBranchName": "7-р хороо"
+        },
+        {
+            "branchCode": "27",
+            "branchName": "Багануур",
+            "subBranchCode": "08",
+            "subBranchName": "8-р хороо"
+        },
+        {
+            "branchCode": "27",
+            "branchName": "Багануур",
+            "subBranchCode": "09",
+            "subBranchName": "9-р хороо "
+        },
+        {
+            "branchCode": "27",
+            "branchName": "Багануур",
+            "subBranchCode": "05",
+            "subBranchName": "5-р хороо"
+        },
+        {
+            "branchCode": "28",
+            "branchName": "Багахангай",
+            "subBranchCode": "01",
+            "subBranchName": "1-р хороо"
+        },
+        {
+            "branchCode": "28",
+            "branchName": "Багахангай",
+            "subBranchCode": "02",
+            "subBranchName": "2-р хороо"
+        },
+        {
+            "branchCode": "28",
+            "branchName": "Багахангай",
+            "subBranchCode": "03",
+            "subBranchName": "3-р хороо"
+        },
+        {
+            "branchCode": "28",
+            "branchName": "Багахангай",
+            "subBranchCode": "04",
+            "subBranchName": "4-р хороо"
+        },
+        {
+            "branchCode": "28",
+            "branchName": "Багахангай",
+            "subBranchCode": "10",
+            "subBranchName": "10-р хороо"
+        },
+        {
+            "branchCode": "28",
+            "branchName": "Багахангай",
+            "subBranchCode": "06",
+            "subBranchName": "6-р хороо"
+        },
+        {
+            "branchCode": "28",
+            "branchName": "Багахангай",
+            "subBranchCode": "07",
+            "subBranchName": "7-р хороо"
+        },
+        {
+            "branchCode": "28",
+            "branchName": "Багахангай",
+            "subBranchCode": "08",
+            "subBranchName": "8-р хороо"
+        },
+        {
+            "branchCode": "28",
+            "branchName": "Багахангай",
+            "subBranchCode": "09",
+            "subBranchName": "9-р хороо"
+        },
+        {
+            "branchCode": "28",
+            "branchName": "Багахангай",
+            "subBranchCode": "05",
+            "subBranchName": "5-р хороо "
+        },
+        {
+            "branchCode": "29",
+            "branchName": "Налайх",
+            "subBranchCode": "01",
+            "subBranchName": "1-р хороо"
+        },
+        {
+            "branchCode": "29",
+            "branchName": "Налайх",
+            "subBranchCode": "02",
+            "subBranchName": "2-р хороо"
+        },
+        {
+            "branchCode": "29",
+            "branchName": "Налайх",
+            "subBranchCode": "03",
+            "subBranchName": "3-р хороо"
+        },
+        {
+            "branchCode": "29",
+            "branchName": "Налайх",
+            "subBranchCode": "04",
+            "subBranchName": "4-р хороо"
+        },
+        {
+            "branchCode": "29",
+            "branchName": "Налайх",
+            "subBranchCode": "10",
+            "subBranchName": "10-р хороо"
+        },
+        {
+            "branchCode": "29",
+            "branchName": "Налайх",
+            "subBranchCode": "06",
+            "subBranchName": "6-р хороо"
+        },
+        {
+            "branchCode": "29",
+            "branchName": "Налайх",
+            "subBranchCode": "07",
+            "subBranchName": "7-р хороо"
+        },
+        {
+            "branchCode": "29",
+            "branchName": "Налайх",
+            "subBranchCode": "08",
+            "subBranchName": "8-р хороо"
+        },
+        {
+            "branchCode": "29",
+            "branchName": "Налайх",
+            "subBranchCode": "09",
+            "subBranchName": "9-р хороо"
+        },
+        {
+            "branchCode": "29",
+            "branchName": "Налайх",
+            "subBranchCode": "05",
+            "subBranchName": "5-р хороо"
+        },
+        {
+            "branchCode": "32",
+            "branchName": "Говьсүмбэр",
+            "subBranchCode": "01",
+            "subBranchName": "Сүмбэр"
+        },
+        {
+            "branchCode": "32",
+            "branchName": "Говьсүмбэр",
+            "subBranchCode": "02",
+            "subBranchName": "Баянтал"
+        },
+        {
+            "branchCode": "32",
+            "branchName": "Говьсүмбэр",
+            "subBranchCode": "03",
+            "subBranchName": "Шивээговь"
+        },
+        {
+            "branchCode": "34",
+            "branchName": "Сонгинохайрхан",
+            "subBranchCode": "04",
+            "subBranchName": "4-р хороо"
+        },
+        {
+            "branchCode": "34",
+            "branchName": "Сонгинохайрхан",
+            "subBranchCode": "05",
+            "subBranchName": "5-р хороо"
+        },
+        {
+            "branchCode": "34",
+            "branchName": "Сонгинохайрхан",
+            "subBranchCode": "06",
+            "subBranchName": "6-р хороо"
+        },
+        {
+            "branchCode": "34",
+            "branchName": "Сонгинохайрхан",
+            "subBranchCode": "07",
+            "subBranchName": "7-р хороо"
+        },
+        {
+            "branchCode": "34",
+            "branchName": "Сонгинохайрхан",
+            "subBranchCode": "08",
+            "subBranchName": "8-р хороо"
+        },
+        {
+            "branchCode": "34",
+            "branchName": "Сонгинохайрхан",
+            "subBranchCode": "09",
+            "subBranchName": "9-р хороо"
+        },
+        {
+            "branchCode": "34",
+            "branchName": "Сонгинохайрхан",
+            "subBranchCode": "10",
+            "subBranchName": "10-р хороо"
+        },
+        {
+            "branchCode": "34",
+            "branchName": "Сонгинохайрхан",
+            "subBranchCode": "11",
+            "subBranchName": "11-р хороо"
+        },
+        {
+            "branchCode": "34",
+            "branchName": "Сонгинохайрхан",
+            "subBranchCode": "12",
+            "subBranchName": "12-р хороо"
+        },
+        {
+            "branchCode": "34",
+            "branchName": "Сонгинохайрхан",
+            "subBranchCode": "13",
+            "subBranchName": "13-р хороо"
+        },
+        {
+            "branchCode": "34",
+            "branchName": "Сонгинохайрхан",
+            "subBranchCode": "14",
+            "subBranchName": "14-р хороо"
+        },
+        {
+            "branchCode": "34",
+            "branchName": "Сонгинохайрхан",
+            "subBranchCode": "15",
+            "subBranchName": "15-р хороо"
+        },
+        {
+            "branchCode": "34",
+            "branchName": "Сонгинохайрхан",
+            "subBranchCode": "16",
+            "subBranchName": "16-р хороо"
+        },
+        {
+            "branchCode": "34",
+            "branchName": "Сонгинохайрхан",
+            "subBranchCode": "17",
+            "subBranchName": "17-р хороо"
+        },
+        {
+            "branchCode": "34",
+            "branchName": "Сонгинохайрхан",
+            "subBranchCode": "18",
+            "subBranchName": "18-р хороо"
+        },
+        {
+            "branchCode": "34",
+            "branchName": "Сонгинохайрхан",
+            "subBranchCode": "19",
+            "subBranchName": "19-р хороо"
+        },
+        {
+            "branchCode": "34",
+            "branchName": "Сонгинохайрхан",
+            "subBranchCode": "20",
+            "subBranchName": "20-р хороо"
+        },
+        {
+            "branchCode": "34",
+            "branchName": "Сонгинохайрхан",
+            "subBranchCode": "21",
+            "subBranchName": "21-р хороо"
+        },
+        {
+            "branchCode": "34",
+            "branchName": "Сонгинохайрхан",
+            "subBranchCode": "03",
+            "subBranchName": "3-р хороо"
+        },
+        {
+            "branchCode": "34",
+            "branchName": "Сонгинохайрхан",
+            "subBranchCode": "27",
+            "subBranchName": "27-р хороо"
+        },
+        {
+            "branchCode": "34",
+            "branchName": "Сонгинохайрхан",
+            "subBranchCode": "01",
+            "subBranchName": "1-р хороо"
+        },
+        {
+            "branchCode": "34",
+            "branchName": "Сонгинохайрхан",
+            "subBranchCode": "02",
+            "subBranchName": "2-р хороо"
+        },
+        {
+            "branchCode": "34",
+            "branchName": "Сонгинохайрхан",
+            "subBranchCode": "26",
+            "subBranchName": "26-р хороо"
+        },
+        {
+            "branchCode": "34",
+            "branchName": "Сонгинохайрхан",
+            "subBranchCode": "32",
+            "subBranchName": "32-р хороо"
+        },
+        {
+            "branchCode": "34",
+            "branchName": "Сонгинохайрхан",
+            "subBranchCode": "31",
+            "subBranchName": "31-р хороо"
+        },
+        {
+            "branchCode": "34",
+            "branchName": "Сонгинохайрхан",
+            "subBranchCode": "30",
+            "subBranchName": "30-р хороо"
+        },
+        {
+            "branchCode": "34",
+            "branchName": "Сонгинохайрхан",
+            "subBranchCode": "29",
+            "subBranchName": "29-р хороо"
+        },
+        {
+            "branchCode": "34",
+            "branchName": "Сонгинохайрхан",
+            "subBranchCode": "28",
+            "subBranchName": "28-р хороо"
+        },
+        {
+            "branchCode": "34",
+            "branchName": "Сонгинохайрхан",
+            "subBranchCode": "25",
+            "subBranchName": "25-р хороо"
+        },
+        {
+            "branchCode": "34",
+            "branchName": "Сонгинохайрхан",
+            "subBranchCode": "24",
+            "subBranchName": "24-р хороо"
+        },
+        {
+            "branchCode": "34",
+            "branchName": "Сонгинохайрхан",
+            "subBranchCode": "23",
+            "subBranchName": "23-р хороо"
+        },
+        {
+            "branchCode": "34",
+            "branchName": "Сонгинохайрхан",
+            "subBranchCode": "22",
+            "subBranchName": "22-р хороо"
+        },
+        {
+            "branchCode": "35",
+            "branchName": "Чингэлтэй",
+            "subBranchCode": "15",
+            "subBranchName": "15-р хороо"
+        },
+        {
+            "branchCode": "35",
+            "branchName": "Чингэлтэй",
+            "subBranchCode": "04",
+            "subBranchName": "4-р хороо"
+        },
+        {
+            "branchCode": "35",
+            "branchName": "Чингэлтэй",
+            "subBranchCode": "17",
+            "subBranchName": "17-р хороо"
+        },
+        {
+            "branchCode": "35",
+            "branchName": "Чингэлтэй",
+            "subBranchCode": "18",
+            "subBranchName": "18-р хороо"
+        },
+        {
+            "branchCode": "35",
+            "branchName": "Чингэлтэй",
+            "subBranchCode": "19",
+            "subBranchName": "19-р хороо"
+        },
+        {
+            "branchCode": "35",
+            "branchName": "Чингэлтэй",
+            "subBranchCode": "20",
+            "subBranchName": "20-р хороо"
+        },
+        {
+            "branchCode": "35",
+            "branchName": "Чингэлтэй",
+            "subBranchCode": "03",
+            "subBranchName": "3-р хороо"
+        },
+        {
+            "branchCode": "35",
+            "branchName": "Чингэлтэй",
+            "subBranchCode": "02",
+            "subBranchName": "2-р хороо"
+        },
+        {
+            "branchCode": "35",
+            "branchName": "Чингэлтэй",
+            "subBranchCode": "01",
+            "subBranchName": "1-р хороо"
+        },
+        {
+            "branchCode": "35",
+            "branchName": "Чингэлтэй",
+            "subBranchCode": "14",
+            "subBranchName": "14-р хороо"
+        },
+        {
+            "branchCode": "35",
+            "branchName": "Чингэлтэй",
+            "subBranchCode": "13",
+            "subBranchName": "13-р хороо"
+        },
+        {
+            "branchCode": "35",
+            "branchName": "Чингэлтэй",
+            "subBranchCode": "12",
+            "subBranchName": "12-р хороо"
+        },
+        {
+            "branchCode": "35",
+            "branchName": "Чингэлтэй",
+            "subBranchCode": "11",
+            "subBranchName": "11-р хороо"
+        },
+        {
+            "branchCode": "35",
+            "branchName": "Чингэлтэй",
+            "subBranchCode": "10",
+            "subBranchName": "10-р хороо"
+        },
+        {
+            "branchCode": "35",
+            "branchName": "Чингэлтэй",
+            "subBranchCode": "09",
+            "subBranchName": "9-р хороо"
+        },
+        {
+            "branchCode": "35",
+            "branchName": "Чингэлтэй",
+            "subBranchCode": "08",
+            "subBranchName": "8-р хороо"
+        },
+        {
+            "branchCode": "35",
+            "branchName": "Чингэлтэй",
+            "subBranchCode": "07",
+            "subBranchName": "7-р хороо"
+        },
+        {
+            "branchCode": "35",
+            "branchName": "Чингэлтэй",
+            "subBranchCode": "06",
+            "subBranchName": "6-р хороо"
+        },
+        {
+            "branchCode": "35",
+            "branchName": "Чингэлтэй",
+            "subBranchCode": "05",
+            "subBranchName": "5-р хороо"
+        },
+        {
+            "branchCode": "35",
+            "branchName": "Чингэлтэй",
+            "subBranchCode": "16",
+            "subBranchName": "16-р хороо"
+        }
+    ]
+}
+
+

@@ -1,6 +1,6 @@
 import httpx
 
-from ...resource import BaseResource, HeaderTypes
+from ...base_resource import BaseResource, HeaderTypes
 from .schema import BankAccount
 
 

@@ -1,5 +1,5 @@
 """
-This is the transport layer. It concerns with:
+HTTP transport layer. It concerns with:
 * send request
 * handle network errors
 * handle non-2xx HTTP errors

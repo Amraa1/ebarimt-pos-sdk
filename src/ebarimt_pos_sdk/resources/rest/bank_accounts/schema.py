@@ -4,7 +4,7 @@ from typing import Any
 
 from pydantic import Field
 
-from ...resource import BaseEbarimtModel
+from ...base_model import BaseEbarimtModel
 
 
 class BankAccount(BaseEbarimtModel):

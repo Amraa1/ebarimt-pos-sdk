@@ -1,4 +1,6 @@
-from ...resource import BaseEbarimtModel
+from pydantic import field_validator
+
+from ...base_model import BaseEbarimtModel
 
 
 class BranchInfo(BaseEbarimtModel):
@@ -17,4 +19,9 @@ class GetDistrictCodeResponse(BaseEbarimtModel):
 class GetTinInfoResponse(BaseEbarimtModel):
     msg: str
     status: int
-    data: int
+    data: str
+
+    @field_validator("data", mode="before")
+    @classmethod
+    def ensure_string(cls, v):
+        return str(v)

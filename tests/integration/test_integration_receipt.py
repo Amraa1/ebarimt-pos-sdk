@@ -3,9 +3,9 @@ import pytest
 from ebarimt_pos_sdk import (
     CreateReceiptRequest,
     Item,
-    PosApiClient,
+    EbarimtRestClient,
     PosApiHttpError,
-    PosApiSettings,
+    RestClientSettings,
     Receipt,
 )
 
@@ -13,30 +13,30 @@ from ebarimt_pos_sdk import (
 @pytest.mark.integration
 def test_integration_receipt_create_real_server():
     base_url = "http://localhost:7080"
-    settings = PosApiSettings(base_url=base_url)
+    settings = RestClientSettings(base_url=base_url)
 
-    client = PosApiClient(settings)
+    client = EbarimtRestClient(settings)
 
     payload = CreateReceiptRequest(
-        branchNo="001",
-        totalAmount=1000,
-        merchantTin="12345678901",
-        posNo="001",
+        branch_no="001",
+        total_amount=1000,
+        merchant_tin="12345678901",
+        pos_no="001",
         type="B2C_RECEIPT",
-        billIdSuffix="01",
+        bill_id_suffix="01",
         receipts=[
             Receipt(
-                totalAmount=1000,
-                taxType="VAT_ABLE",
-                merchantTin="12345678901",
+                total_amount=1000,
+                tax_type="VAT_ABLE",
+                merchant_tin="12345678901",
                 items=[
                     Item(
                         name="Bread",
-                        barCode="19059010880001",
-                        measureUnit="senlovesfits",
+                        bar_code="19059010880001",
+                        measure_unit="senlovesfits",
                         qty=1,
-                        unitPrice=1000,
-                        totalAmount=1000,
+                        unit_price=1000,
+                        total_amount=1000,
                     )
                 ],
             )

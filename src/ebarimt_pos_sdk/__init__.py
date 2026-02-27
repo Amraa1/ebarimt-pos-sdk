@@ -1,4 +1,4 @@
-from .client import PosApiClient
+from .clients import EbarimtApiClient, EbarimtRestClient
 from .errors import (
     PosApiBusinessError,
     PosApiDecodeError,
@@ -7,6 +7,7 @@ from .errors import (
     PosApiTransportError,
     PosApiValidationError,
 )
+from .factory import Environment, api_settings_for_env
 from .resources import (
     BarCodeType,
     CreateReceiptRequest,
@@ -24,17 +25,20 @@ from .resources import (
     ReceiptType,
     TaxType,
 )
-from .settings import PosApiSettings
+from .settings.rest_client_settings import RestClientSettings
 
 __all__ = [
-    "PosApiClient",
-    "PosApiSettings",
+    "EbarimtApiClient",
+    "EbarimtRestClient",
+    "RestClientSettings",
     "BarCodeType",
     "CreateReceiptRequest",
     "CreateReceiptResponse",
     "DeleteReceiptRequest",
     "DeleteReceiptResponse",
     "Item",
+    "api_settings_for_env",
+    "Environment",
     "Payment",
     "PaymentCardData",
     "PaymentCode",

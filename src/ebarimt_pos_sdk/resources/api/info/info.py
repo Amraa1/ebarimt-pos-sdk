@@ -1,4 +1,4 @@
-from ...resource import BaseResource, HeaderTypes
+from ...base_resource import BaseResource, HeaderTypes
 from .schema import GetDistrictCodeResponse, GetTinInfoResponse
 
 
@@ -8,26 +8,18 @@ class DistrictCodeResource(BaseResource):
         return "/api/info/check/getBranchInfo"
 
     def read(self, *, headers: HeaderTypes | None = None) -> GetDistrictCodeResponse:
-        result = self._sync.send(
+        return self._send_sync_request(
             "GET",
-            self._path,
             headers=self._build_headers(self._headers, headers),
+            response_model=GetDistrictCodeResponse,
         )
 
-        self._ensure_http_success(result.response)
-
-        return GetDistrictCodeResponse.model_validate(self._decode_json(result.response))
-
-    async def aread(self, *, headers: HeaderTypes | None = None) -> GetTinInfoResponse:
-        result = await self._async.send(
+    async def aread(self, *, headers: HeaderTypes | None = None) -> GetDistrictCodeResponse:
+        return await self._send_async_request(
             "GET",
-            self._path,
             headers=self._build_headers(self._headers, headers),
+            response_model=GetDistrictCodeResponse,
         )
-
-        self._ensure_http_success(result.response)
-
-        return GetTinInfoResponse.model_validate(self._decode_json(result.response))
 
 
 class TinInfoResource(BaseResource):
@@ -35,24 +27,18 @@ class TinInfoResource(BaseResource):
     def _path(self) -> str:
         return "/api/info/check/getTinInfo"
 
-    def read(self, *, headers: HeaderTypes | None = None) -> GetTinInfoResponse:
-        result = self._sync.send(
+    def read(self, reg_no: str, *, headers: HeaderTypes | None = None) -> GetTinInfoResponse:
+        return self._send_sync_request(
             "GET",
-            self._path,
+            params={"regNo": reg_no},
             headers=self._build_headers(self._headers, headers),
+            response_model=GetTinInfoResponse,
         )
 
-        self._ensure_http_success(result.response)
-
-        return GetTinInfoResponse.model_validate(self._decode_json(result.response))
-
-    async def aread(self, *, headers: HeaderTypes | None = None) -> GetDistrictCodeResponse:
-        result = await self._async.send(
+    async def aread(self, reg_no: str, *, headers: HeaderTypes | None = None) -> GetTinInfoResponse:
+        return await self._send_async_request(
             "GET",
-            self._path,
+            params={"regNo": reg_no},
             headers=self._build_headers(self._headers, headers),
+            response_model=GetTinInfoResponse,
         )
-
-        self._ensure_http_success(result.response)
-
-        return GetDistrictCodeResponse.model_validate(self._decode_json(result.response))

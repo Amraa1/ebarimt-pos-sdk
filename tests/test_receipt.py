@@ -8,9 +8,9 @@ from ebarimt_pos_sdk import (
     CreateReceiptRequest,
     DeleteReceiptRequest,
     Item,
-    PosApiClient,
+    EbarimtRestClient,
     PosApiDecodeError,
-    PosApiSettings,
+    RestClientSettings,
     PosApiValidationError,
     ReceiptType,
     Receipt,
@@ -107,13 +107,13 @@ DECODE_ERROR_RECEIPT_SUCCESS_RESPONSE = httpx.Response(200, text="Decode error")
 @respx.mock
 async def test_receipt_create_async_ok() -> None:
     base_url = "http://localhost:7080"
-    settings = PosApiSettings(base_url=base_url)
+    settings = RestClientSettings(base_url=base_url)
 
     route = respx.post(f"{base_url}/rest/receipt").mock(
         return_value=CREATE_RECEIPT_SUCCESS_RESPONSE
     )
 
-    async with PosApiClient(settings) as client:
+    async with EbarimtRestClient(settings) as client:
         payload = create_receipt_payload
 
         resp = await client.receipt.acreate(payload)
@@ -125,7 +125,7 @@ async def test_receipt_create_async_ok() -> None:
 @respx.mock
 async def test_receipt_delete_async_ok() -> None:
     base_url = "http://localhost:7080"
-    settings = PosApiSettings(base_url=base_url)
+    settings = RestClientSettings(base_url=base_url)
 
     route = respx.post(f"{base_url}/rest/receipt").mock(
         return_value=httpx.Response(
@@ -134,7 +134,7 @@ async def test_receipt_delete_async_ok() -> None:
         )
     )
 
-    async with PosApiClient(settings) as client:
+    async with EbarimtRestClient(settings) as client:
         payload = DeleteReceiptRequest(
             id="1234567890123412319237123123", date=datetime.datetime.now(), type=ReceiptType.B2C_RECEIPT
         )
@@ -146,13 +146,13 @@ async def test_receipt_delete_async_ok() -> None:
 @respx.mock
 def test_receipt_create_sync_ok() -> None:
     base_url = "http://localhost:7080"
-    settings = PosApiSettings(base_url=base_url)
+    settings = RestClientSettings(base_url=base_url)
 
     route = respx.post(f"{base_url}/rest/receipt").mock(
         return_value=CREATE_RECEIPT_SUCCESS_RESPONSE
     )
 
-    client = PosApiClient(settings)
+    client = EbarimtRestClient(settings)
 
     payload = create_receipt_payload
 
@@ -164,13 +164,13 @@ def test_receipt_create_sync_ok() -> None:
 @respx.mock
 def test_receipt_create_sync_validation_error() -> None:
     base_url = "http://localhost:7080"
-    settings = PosApiSettings(base_url=base_url)
+    settings = RestClientSettings(base_url=base_url)
 
     route = respx.post(f"{base_url}/rest/receipt").mock(
         return_value=DECODE_ERROR_RECEIPT_SUCCESS_RESPONSE
     )
 
-    client = PosApiClient(settings)
+    client = EbarimtRestClient(settings)
 
     payload = {
         "receipts": [
@@ -199,13 +199,13 @@ def test_receipt_create_sync_validation_error() -> None:
 @respx.mock
 def test_receipt_create_sync_decode_error() -> None:
     base_url = "http://localhost:7080"
-    settings = PosApiSettings(base_url=base_url)
+    settings = RestClientSettings(base_url=base_url)
 
     route = respx.post(f"{base_url}/rest/receipt").mock(
         return_value=DECODE_ERROR_RECEIPT_SUCCESS_RESPONSE
     )
 
-    client = PosApiClient(settings)
+    client = EbarimtRestClient(settings)
 
     payload = {
         "branchNo": "001",
@@ -240,7 +240,7 @@ def test_receipt_create_sync_decode_error() -> None:
 @respx.mock
 def test_receipt_delete_sync_ok() -> None:
     base_url = "http://localhost:7080"
-    settings = PosApiSettings(base_url=base_url)
+    settings = RestClientSettings(base_url=base_url)
 
     route = respx.post(f"{base_url}/rest/receipt").mock(
         return_value=httpx.Response(
@@ -249,7 +249,7 @@ def test_receipt_delete_sync_ok() -> None:
         )
     )
 
-    with PosApiClient(settings) as client:
+    with EbarimtRestClient(settings) as client:
         payload = delete_receipt_payload
 
         client.receipt.delete(payload)

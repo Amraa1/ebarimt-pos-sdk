@@ -5,45 +5,13 @@ from datetime import datetime
 from typing import Any, TypeVar, overload
 
 import httpx
-from pydantic import BaseModel, ConfigDict, ValidationError
+from pydantic import BaseModel, ValidationError
 
 from ..errors import PosApiDecodeError, PosApiHttpError, PosApiValidationError
 from ..transport import AsyncTransport, HeaderTypes, HttpMethod, QueryParamTypes, SyncTransport
 
 T = TypeVar("T", bound=BaseModel)
 N = TypeVar("N", bound=BaseModel)
-
-WHITE_LIST = {
-    "terminal_id": "terminalID",
-    "iban": "iBan",
-    "total_vat": "totalVAT",
-    "operator_tin": "operatorTIN",
-    "database_host": "database-host",
-    "supported_databases": "supported-databases",
-}
-
-
-def alias_generator(s: str) -> str:
-    if s in WHITE_LIST:
-        return WHITE_LIST[s]
-
-    parts = s.split("_")
-    first = parts[0]
-    rest: list[str] = []
-
-    for word in parts[1:]:
-        rest.append(word.title())
-
-    return first + "".join(rest)
-
-
-class BaseEbarimtModel(BaseModel):
-    model_config = ConfigDict(
-        extra="ignore",
-        alias_generator=alias_generator,
-        validate_by_name=True,  # allow snake_case input
-        validate_by_alias=True,  # also allow camelCase input
-    )
 
 
 class BaseResource:
@@ -131,7 +99,7 @@ class BaseResource:
             ) from exc
 
     @overload
-    def send_sync_request(
+    def _send_sync_request(
         self,
         method: HttpMethod,
         *,
@@ -143,7 +111,7 @@ class BaseResource:
     ) -> None: ...
 
     @overload
-    def send_sync_request(
+    def _send_sync_request(
         self,
         method: HttpMethod,
         *,
@@ -154,7 +122,7 @@ class BaseResource:
         headers: HeaderTypes | None = None,
     ) -> N: ...
 
-    def send_sync_request(
+    def _send_sync_request(
         self,
         method: HttpMethod,
         *,
@@ -164,6 +132,7 @@ class BaseResource:
         response_model: type[N] | None = None,
         headers: HeaderTypes | None = None,
     ) -> N | None:
+        """Send sync request."""
         payload = None
         if payload_model and payload:
             payload = self._validate_payload(model=payload_model, payload=payload)
@@ -201,7 +170,7 @@ class BaseResource:
         return None
 
     @overload
-    async def send_async_request(
+    async def _send_async_request(
         self,
         method: HttpMethod,
         *,
@@ -213,7 +182,7 @@ class BaseResource:
     ) -> None: ...
 
     @overload
-    async def send_async_request(
+    async def _send_async_request(
         self,
         method: HttpMethod,
         *,
@@ -224,7 +193,7 @@ class BaseResource:
         headers: HeaderTypes | None = None,
     ) -> N: ...
 
-    async def send_async_request(
+    async def _send_async_request(
         self,
         method: HttpMethod,
         *,
@@ -234,6 +203,7 @@ class BaseResource:
         response_model: type[N] | None = None,
         headers: HeaderTypes | None = None,
     ) -> N | None:
+        """Send async request."""
         payload = None
         if payload_model and payload:
             payload = self._validate_payload(model=payload_model, payload=payload)

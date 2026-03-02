@@ -1,9 +1,9 @@
 from __future__ import annotations
 
 from types import TracebackType
-from typing import Self
 
 import httpx
+from typing_extensions import Self
 
 from .._types import HeaderTypes
 from ..settings.base_settings import BaseSettings

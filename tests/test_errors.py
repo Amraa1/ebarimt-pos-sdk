@@ -69,7 +69,7 @@ def test_pos_api_http_error_message_format_includes_status_code_and_fields() -> 
     s = str(err)
     assert "HTTP 403" in s
     assert "Status: FORBIDDEN" in s
-    assert "Error: No permission" in s
+    assert "Message: No permission" in s
     assert "Date: 2026-03-03" in s
 
 

@@ -4,7 +4,7 @@ import httpx
 import pytest
 import respx
 
-from ..helpers import BASE_REST_URL
+from ..helpers import BASE_REST_URL, TIN
 from ..data.receipt import SUCCESS_RESPONSE
 from ebarimt_pos_sdk import (
     CreateReceiptRequest,
@@ -44,10 +44,7 @@ create_receipt_payload = CreateReceiptRequest(
         ],
     )
 
-delete_receipt_payload = DeleteReceiptRequest(
-            id="1234567890123412319237123123", date=datetime.datetime.now(), type=ReceiptType.B2C_RECEIPT
-        )
-
+delete_receipt_payload = DeleteReceiptRequest(id="1234567890123412319237123123", date=datetime.datetime.now())
 DECODE_ERROR_RECEIPT_SUCCESS_RESPONSE = httpx.Response(200, text="Decode error")
 
 
@@ -86,10 +83,7 @@ async def test_receipt_delete_async_ok() -> None:
     )
 
     async with EbarimtRestClient(settings) as client:
-        payload = DeleteReceiptRequest(
-            id="1234567890123412319237123123", date=datetime.datetime.now(), type=ReceiptType.B2C_RECEIPT
-        )
-
+        payload = DeleteReceiptRequest(id="1234567890123412319237123123", date=datetime.datetime.now())
         await client.receipt.adelete(payload)
         assert route.called
 
@@ -197,7 +191,7 @@ def test_receipt_delete_sync_ok() -> None:
     base_url = BASE_REST_URL
     settings = RestClientSettings(base_url=base_url)
 
-    route = respx.post(f"{base_url}/rest/receipt").mock(
+    route = respx.delete(f"{base_url}/rest/receipt").mock(
         return_value=httpx.Response(
             200,
             json={"status": "SUCCESS"},

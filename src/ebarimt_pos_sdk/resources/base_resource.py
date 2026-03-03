@@ -32,6 +32,10 @@ class BaseResource:
 
     @staticmethod
     def _decode_json(response: httpx.Response) -> Any:
+        if response.status_code == 204:
+            return None
+        if not response.content:
+            return None
         try:
             return response.json()
         except Exception as exc:
@@ -88,11 +92,21 @@ class BaseResource:
         try:
             return response.raise_for_status()
         except httpx.HTTPStatusError as exc:
-            error = self._decode_json(response)
+            error: dict[str, Any] | None = self._decode_json(response)
+            status = None
+            date = None
+            message = f"Http Error {response.status_code}, {exc.request}, {exc.response}."
+            if error is not None:
+                status = error.get("status")
+                if error.get("date"):
+                    date = datetime.fromisoformat(error["date"])
+                if error.get("message"):
+                    message = str(error["message"])
+
             raise PosApiHttpError(
-                status=error["status"],
-                message=str(error["message"]),
-                date=datetime.fromisoformat(error["date"]),
+                status=status,
+                message=message,
+                date=date,
                 request=exc.request,
                 response=exc.response,
                 cause=exc,

@@ -149,12 +149,13 @@ class DeleteReceiptRequest(BaseEbarimtModel):
     """Request payload for deleting an existing receipt."""
 
     id: str
-    date: datetime
-    type: _ReceiptType
+    date: datetime | None = None
 
     @field_serializer("date")
-    def serialize_date(self, value: datetime) -> str:
+    def serialize_date(self, value: datetime | None) -> str | None:
         # Ebarimt expects: yyyy-mm-dd hh:mm:ss
+        if value is None:
+            return value
         return value.strftime("%Y-%m-%d %H:%M:%S")
 
 

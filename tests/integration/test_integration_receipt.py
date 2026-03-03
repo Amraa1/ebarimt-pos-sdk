@@ -1,5 +1,5 @@
 import pytest
-
+from ..helpers import BASE_REST_URL, TIN
 from ebarimt_pos_sdk import (
     CreateReceiptRequest,
     Item,
@@ -12,7 +12,7 @@ from ebarimt_pos_sdk import (
 
 @pytest.mark.integration
 def test_integration_receipt_create_real_server():
-    base_url = "http://localhost:7080"
+    base_url = BASE_REST_URL
     settings = RestClientSettings(base_url=base_url)
 
     client = EbarimtRestClient(settings)
@@ -20,7 +20,7 @@ def test_integration_receipt_create_real_server():
     payload = CreateReceiptRequest(
         branch_no="001",
         total_amount=1000,
-        merchant_tin="12345678901",
+        merchant_tin=TIN,
         pos_no="001",
         type="B2C_RECEIPT",
         bill_id_suffix="01",
@@ -28,7 +28,7 @@ def test_integration_receipt_create_real_server():
             Receipt(
                 total_amount=1000,
                 tax_type="VAT_ABLE",
-                merchant_tin="12345678901",
+                merchant_tin=TIN,
                 items=[
                     Item(
                         name="Bread",

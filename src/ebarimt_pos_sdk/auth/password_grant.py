@@ -38,36 +38,24 @@ class PasswordGrantAuth(httpx.Auth):
         self._token: OAuth2Token | None = None
         self._sync_lock = threading.Lock()
         self._async_lock = asyncio.Lock()
-
-    # -------------------------
-    # Token fetch/refresh (SYNC)
-    # -------------------------
-
-    def _fetch_token_sync(self) -> OAuth2Token:
-        oauth = OAuth2Client(
+        self._oauth_sync = OAuth2Client(
             client_id=self._settings.client_id,
             client_secret=self._settings.client_secret,
             client=self._sync_http,
         )
-        token_dict = oauth.fetch_token(
+        self._oauth_async = AsyncOAuth2Client(
+            client_id=self._settings.client_id,
+            client_secret=self._settings.client_secret,
+            client=self._async_http,
+        )
+
+    def _fetch_token_sync(self) -> OAuth2Token:
+        token_dict = self._oauth_sync.fetch_token(
             url=self._settings.token_url,
             username=self._settings.username,
             password=self._settings.password,
             scope=getattr(self._settings, "scope", None),
-            auth=None,  # ✅ critical: bypass this auth hook for token request
-        )
-        return OAuth2Token.from_authlib(token_dict)
-
-    def _refresh_token_sync(self, refresh_token: str) -> OAuth2Token:
-        oauth = OAuth2Client(
-            client_id=self._settings.client_id,
-            client_secret=self._settings.client_secret,
-            client=self._sync_http,
-        )
-        token_dict = oauth.refresh_token(
-            url=self._settings.token_url,
-            refresh_token=refresh_token,
-            auth=None,  # ✅ bypass auth hook
+            auth=None,
         )
         return OAuth2Token.from_authlib(token_dict)
 
@@ -81,49 +69,16 @@ class PasswordGrantAuth(httpx.Auth):
             if tok is not None and not tok.is_expired(skew_seconds=self._skew):
                 return tok
 
-            if (
-                tok is not None
-                and tok.refresh_token
-                and not tok.is_refresh_expired(skew_seconds=self._skew)
-            ):
-                try:
-                    self._token = self._refresh_token_sync(tok.refresh_token)
-                    return self._token
-                except Exception:
-                    pass
-
             self._token = self._fetch_token_sync()
             return self._token
 
-    # -------------------------
-    # Token fetch/refresh (ASYNC)
-    # -------------------------
-
     async def _fetch_token_async(self) -> OAuth2Token:
-        oauth = AsyncOAuth2Client(
-            client_id=self._settings.client_id,
-            client_secret=self._settings.client_secret,
-            client=self._async_http,
-        )
-        token_dict = await oauth.fetch_token(
+        token_dict = await self._oauth_async.fetch_token(
             url=self._settings.token_url,
             username=self._settings.username,
             password=self._settings.password,
             scope=getattr(self._settings, "scope", None),
-            auth=None,  # ✅ bypass auth hook
-        )
-        return OAuth2Token.from_authlib(token_dict)
-
-    async def _refresh_token_async(self, refresh_token: str) -> OAuth2Token:
-        oauth = AsyncOAuth2Client(
-            client_id=self._settings.client_id,
-            client_secret=self._settings.client_secret,
-            client=self._async_http,
-        )
-        token_dict = await oauth.refresh_token(
-            url=self._settings.token_url,
-            refresh_token=refresh_token,
-            auth=None,  # ✅ bypass auth hook
+            auth=None,
         )
         return OAuth2Token.from_authlib(token_dict)
 
@@ -137,23 +92,8 @@ class PasswordGrantAuth(httpx.Auth):
             if tok is not None and not tok.is_expired(skew_seconds=self._skew):
                 return tok
 
-            if (
-                tok is not None
-                and tok.refresh_token
-                and not tok.is_refresh_expired(skew_seconds=self._skew)
-            ):
-                try:
-                    self._token = await self._refresh_token_async(tok.refresh_token)
-                    return self._token
-                except Exception:
-                    pass
-
             self._token = await self._fetch_token_async()
             return self._token
-
-    # -------------------------
-    # httpx.Auth hooks (correct typing)
-    # -------------------------
 
     def auth_flow(self, request: httpx.Request) -> Generator[httpx.Request, httpx.Response, None]:
         tok = self._ensure_token_sync()

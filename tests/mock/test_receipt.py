@@ -4,6 +4,8 @@ import httpx
 import pytest
 import respx
 
+from ..helpers import BASE_REST_URL
+from ..data.receipt import SUCCESS_RESPONSE
 from ebarimt_pos_sdk import (
     CreateReceiptRequest,
     DeleteReceiptRequest,
@@ -14,60 +16,6 @@ from ebarimt_pos_sdk import (
     PosApiValidationError,
     ReceiptType,
     Receipt,
-)
-
-CREATE_RECEIPT_SUCCESS_RESPONSE = httpx.Response(
-    200,
-    json={
-    "id": "037900846788001095330000010012619",
-    "version": "3.2.39",
-    "totalAmount": 5600,
-    "totalVAT": 500,
-    "totalCityTax": 100,
-    "branchNo": "001",
-    "districtCode": "2501",
-    "merchantTin": "37900846788",
-    "posNo": "001",
-    "consumerNo": "10038071",
-    "type": "B2C_RECEIPT",
-    "receipts": [
-        {
-            "id": "037900846788001095330000110012619",
-            "totalAmount": 5600,
-            "taxType": "VAT_ABLE",
-            "items": [
-                {
-                    "name": "Талх",
-                    "barCode": "19059010880001",
-                    "barCodeType": "GS1",
-                    "classificationCode": "2349010",
-                    "measureUnit": "senlovesfits",
-                    "qty": 1,
-                    "unitPrice": 5000,
-                    "totalAmount": 5600,
-                    "totalVAT": 500,
-                    "totalCityTax": 100
-                }
-            ],
-            "merchantTin": "37900846788",
-            "totalVAT": 500,
-            "totalCityTax": 100
-        }
-    ],
-    "payments": [
-        {
-            "code": "CASH",
-            "paidAmount": 5600,
-            "status": "PAID"
-        }
-    ],
-    "posId": 101321077,
-    "status": "SUCCESS",
-    "qrData": "30892326524546672474592603677629267669202520788666570091176582304861979527775302772692166239698276252024697295297031948644121173043640072110272573911246153670156937219597386482037042663801023934072070",
-    "lottery": "SN 47461258",
-    "date": "2026-02-12 15:31:42",
-    "easy": True,
-    }
 )
 
 create_receipt_payload = CreateReceiptRequest(
@@ -106,11 +54,14 @@ DECODE_ERROR_RECEIPT_SUCCESS_RESPONSE = httpx.Response(200, text="Decode error")
 @pytest.mark.asyncio
 @respx.mock
 async def test_receipt_create_async_ok() -> None:
-    base_url = "http://localhost:7080"
+    base_url = BASE_REST_URL
     settings = RestClientSettings(base_url=base_url)
 
     route = respx.post(f"{base_url}/rest/receipt").mock(
-        return_value=CREATE_RECEIPT_SUCCESS_RESPONSE
+        return_value=httpx.Response(
+            200,
+            json=SUCCESS_RESPONSE
+        )
     )
 
     async with EbarimtRestClient(settings) as client:
@@ -124,7 +75,7 @@ async def test_receipt_create_async_ok() -> None:
 @pytest.mark.asyncio
 @respx.mock
 async def test_receipt_delete_async_ok() -> None:
-    base_url = "http://localhost:7080"
+    base_url = BASE_REST_URL
     settings = RestClientSettings(base_url=base_url)
 
     route = respx.post(f"{base_url}/rest/receipt").mock(
@@ -145,11 +96,14 @@ async def test_receipt_delete_async_ok() -> None:
 
 @respx.mock
 def test_receipt_create_sync_ok() -> None:
-    base_url = "http://localhost:7080"
+    base_url = BASE_REST_URL
     settings = RestClientSettings(base_url=base_url)
 
     route = respx.post(f"{base_url}/rest/receipt").mock(
-        return_value=CREATE_RECEIPT_SUCCESS_RESPONSE
+        return_value=httpx.Response(
+            200,
+            json=SUCCESS_RESPONSE
+        )
     )
 
     client = EbarimtRestClient(settings)
@@ -163,7 +117,7 @@ def test_receipt_create_sync_ok() -> None:
 
 @respx.mock
 def test_receipt_create_sync_validation_error() -> None:
-    base_url = "http://localhost:7080"
+    base_url = BASE_REST_URL
     settings = RestClientSettings(base_url=base_url)
 
     route = respx.post(f"{base_url}/rest/receipt").mock(
@@ -194,11 +148,12 @@ def test_receipt_create_sync_validation_error() -> None:
 
     with pytest.raises(PosApiValidationError):
         client.receipt.create(payload)
+        assert route.called
 
 
 @respx.mock
 def test_receipt_create_sync_decode_error() -> None:
-    base_url = "http://localhost:7080"
+    base_url = BASE_REST_URL
     settings = RestClientSettings(base_url=base_url)
 
     route = respx.post(f"{base_url}/rest/receipt").mock(
@@ -239,7 +194,7 @@ def test_receipt_create_sync_decode_error() -> None:
 
 @respx.mock
 def test_receipt_delete_sync_ok() -> None:
-    base_url = "http://localhost:7080"
+    base_url = BASE_REST_URL
     settings = RestClientSettings(base_url=base_url)
 
     route = respx.post(f"{base_url}/rest/receipt").mock(

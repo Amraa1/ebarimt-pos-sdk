@@ -25,12 +25,13 @@ from .resources import (
     ReceiptType,
     TaxType,
 )
-from .settings.rest_client_settings import RestClientSettings
+from .settings import ApiClientSettings, RestClientSettings
 
 __all__ = [
     "EbarimtApiClient",
     "EbarimtRestClient",
     "RestClientSettings",
+    "ApiClientSettings",
     "BarCodeType",
     "CreateReceiptRequest",
     "CreateReceiptResponse",

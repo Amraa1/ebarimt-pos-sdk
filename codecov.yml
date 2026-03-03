@@ -1,0 +1,24 @@
+codecov:
+  require_ci_to_pass: true
+
+coverage:
+  status:
+    project:
+      default:
+        target: 90% # minimum total coverage
+        threshold: 1% # allow small diff
+    patch:
+      default:
+        target: 90% # new code must be 90%+
+        threshold: 0%
+
+ignore:
+  - "tests/*"
+  - "*/tests/*"
+  - "**/__init__.py"
+  - "docs/*"
+
+comment:
+  layout: "reach,diff,flags,files"
+  behavior: default
+  require_changes: false

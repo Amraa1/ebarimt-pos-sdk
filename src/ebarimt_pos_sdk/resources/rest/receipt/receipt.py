@@ -68,7 +68,7 @@ class ReceiptResource(BaseResource):
 
         self._ensure_http_success(result.response)
 
-        return self._decode_json(result.response)
+        self._decode_json(result.response)
 
     async def adelete(
         self, payload: DeleteReceiptRequest | dict[str, Any], *, headers: HeaderTypes | None = None

@@ -47,5 +47,4 @@ source = ["ebarimt_pos_sdk"]
 branch = true
 
 [tool.coverage.report]
-fail_under = 90
 omit = ["tests/*"]

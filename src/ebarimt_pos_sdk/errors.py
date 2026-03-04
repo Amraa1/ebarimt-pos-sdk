@@ -105,7 +105,7 @@ class PosApiHttpError(PosApiError):
         lines = [
             f"HTTP {response.status_code}",
             f"Status: {self.status}",
-            f"Error: {message}",
+            f"Message: {message}",
             f"Date: {self.date}",
         ]
 

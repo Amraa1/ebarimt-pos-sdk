@@ -17,10 +17,10 @@ class EbarimtBaseClient:
 
     def __init__(
         self,
+        settings: BaseSettings,
         *,
         sync_client: httpx.Client | None = None,
         async_client: httpx.AsyncClient | None = None,
-        settings: BaseSettings,
         headers: HeaderTypes | None = None,
     ) -> None:
         self._settings = settings

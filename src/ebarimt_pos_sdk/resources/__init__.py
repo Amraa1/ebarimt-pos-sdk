@@ -20,8 +20,8 @@ from .rest.receipt.schema import (
     Item,
     Payment,
     PaymentCardData,
-    Receipt,
     ReceiptItemData,
+    SubReceipt,
 )
 from .rest.send_data.send_data import SendDataResource
 
@@ -43,7 +43,7 @@ __all__ = [
     "PaymentCardData",
     "PaymentCode",
     "PaymentStatus",
-    "Receipt",
+    "SubReceipt",
     "ReceiptCreateStatus",
     "ReceiptItemData",
     "ReceiptType",

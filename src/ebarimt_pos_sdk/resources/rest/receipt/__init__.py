@@ -9,10 +9,10 @@ from .schema import (
     PaymentCardData,
     PaymentCode,
     PaymentStatus,
-    Receipt,
     ReceiptCreateStatus,
     ReceiptItemData,
     ReceiptType,
+    SubReceipt,
     TaxType,
 )
 
@@ -26,7 +26,7 @@ __all__ = [
     "PaymentCardData",
     "PaymentCode",
     "PaymentStatus",
-    "Receipt",
+    "SubReceipt",
     "ReceiptCreateStatus",
     "ReceiptItemData",
     "BarCodeType",

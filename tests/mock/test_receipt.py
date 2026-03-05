@@ -15,7 +15,7 @@ from ebarimt_pos_sdk import (
     RestClientSettings,
     PosApiValidationError,
     ReceiptType,
-    Receipt,
+    SubReceipt,
 )
 
 create_receipt_payload = CreateReceiptRequest(
@@ -26,7 +26,7 @@ create_receipt_payload = CreateReceiptRequest(
         type="B2C_RECEIPT",
         bill_id_suffix="01",
         receipts=[
-            Receipt(
+            SubReceipt(
                 total_amount=1000,
                 tax_type="VAT_ABLE",
                 merchant_tin="12345678901",

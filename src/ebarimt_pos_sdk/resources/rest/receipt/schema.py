@@ -64,7 +64,7 @@ class Item(BaseEbarimtModel):
     data: ReceiptItemData | None = None
 
 
-class Receipt(BaseEbarimtModel):
+class SubReceipt(BaseEbarimtModel):
     """Sub-receipt containing items, tax info, and seller details."""
 
     total_amount: Number
@@ -80,6 +80,10 @@ class Receipt(BaseEbarimtModel):
     iban: str | None = None
     invoice_id: str | None = None
     data: dict[str, Any] | None = None
+
+
+class SubReceiptResponse(SubReceipt):
+    id: str
 
 
 class PaymentCardData(BaseEbarimtModel):
@@ -103,7 +107,7 @@ class Payment(BaseEbarimtModel):
     data: PaymentCardData | None = None  # Only when code is PAYMENT_CARD
 
 
-class CreateReceiptBase(BaseEbarimtModel):
+class _CreateReceiptBase(BaseEbarimtModel):
     """Base model for creating or returning a receipt."""
 
     branch_no: str
@@ -111,7 +115,8 @@ class CreateReceiptBase(BaseEbarimtModel):
     merchant_tin: str
     pos_no: str
     type: _ReceiptType
-    receipts: list[Receipt]
+
+    # Need to define receipts: list[ReceiptBase]
 
     total_vat: Number | None = None
     total_city_tax: Number | None = None
@@ -126,13 +131,14 @@ class CreateReceiptBase(BaseEbarimtModel):
     payments: list[Payment] | None = None
 
 
-class CreateReceiptRequest(CreateReceiptBase):
+class CreateReceiptRequest(_CreateReceiptBase):
     """Request payload for creating a new receipt."""
 
     bill_id_suffix: str
+    receipts: list[SubReceipt]
 
 
-class CreateReceiptResponse(CreateReceiptBase):
+class CreateReceiptResponse(_CreateReceiptBase):
     """Response returned after receipt creation."""
 
     id: str
@@ -143,6 +149,7 @@ class CreateReceiptResponse(CreateReceiptBase):
     lottery: str
     date: datetime
     easy: bool
+    receipts: list[SubReceiptResponse]
 
 
 class DeleteReceiptRequest(BaseEbarimtModel):

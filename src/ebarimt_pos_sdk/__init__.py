@@ -19,10 +19,10 @@ from .resources import (
     PaymentCardData,
     PaymentCode,
     PaymentStatus,
-    Receipt,
     ReceiptCreateStatus,
     ReceiptItemData,
     ReceiptType,
+    SubReceipt,
     TaxType,
 )
 from .settings import ApiClientSettings, RestClientSettings
@@ -44,7 +44,7 @@ __all__ = [
     "PaymentCardData",
     "PaymentCode",
     "PaymentStatus",
-    "Receipt",
+    "SubReceipt",
     "ReceiptCreateStatus",
     "ReceiptItemData",
     "ReceiptType",

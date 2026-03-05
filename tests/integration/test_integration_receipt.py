@@ -8,7 +8,7 @@ from ebarimt_pos_sdk import (
     EbarimtRestClient,
     PosApiHttpError,
     RestClientSettings,
-    Receipt,
+    SubReceipt,
 )
 
 
@@ -27,7 +27,7 @@ def test_integration_receipt_create_real_server():
         type="B2C_RECEIPT",
         bill_id_suffix="01",
         receipts=[
-            Receipt(
+            SubReceipt(
                 total_amount=1000,
                 tax_type="VAT_ABLE",
                 merchant_tin=TIN,
@@ -65,7 +65,7 @@ def test_integration_receipt_delete_real_server():
         type="B2C_RECEIPT",
         bill_id_suffix="01",
         receipts=[
-            Receipt(
+            SubReceipt(
                 total_amount=1100,
                 total_vat=100,
                 tax_type="VAT_ABLE",

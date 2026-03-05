@@ -50,12 +50,12 @@ class Item(BaseEbarimtModel):
     """Single product or service included in a receipt."""
 
     name: str
-    bar_code: str
     measure_unit: str
     qty: Number
     unit_price: Number
     total_amount: Number
 
+    bar_code: str | None = None
     bar_code_type: _BarCodeType | None = None
     classification_code: str | None = None
     tax_product_code: str | None = None

@@ -15,18 +15,18 @@ from .base_client import EbarimtBaseClient
 class EbarimtApiClient(EbarimtBaseClient):
     def __init__(
         self,
+        settings: ApiClientSettings,
         *,
         sync_client: Client | None = None,
         async_client: AsyncClient | None = None,
-        settings: ApiClientSettings,
         headers: HeaderTypes | None = None,
     ) -> None:
         """Ebarimt public api client."""
 
         super().__init__(
+            settings=settings,
             sync_client=sync_client,
             async_client=async_client,
-            settings=settings,
             headers=headers,
         )
 

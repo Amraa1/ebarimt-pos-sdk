@@ -33,7 +33,7 @@ _PRESETS: dict[Environment, _ApiPreset] = {
 }
 
 
-def api_settings_for_env(
+def create_api_settings(
     env: Environment,
     *,
     client_id: str,

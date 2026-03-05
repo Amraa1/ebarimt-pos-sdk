@@ -7,7 +7,7 @@ from .errors import (
     PosApiTransportError,
     PosApiValidationError,
 )
-from .factory import Environment, api_settings_for_env
+from .factory import Environment, create_api_settings
 from .resources import (
     BarCodeType,
     CreateReceiptRequest,
@@ -38,7 +38,7 @@ __all__ = [
     "DeleteReceiptRequest",
     "DeleteReceiptResponse",
     "Item",
-    "api_settings_for_env",
+    "create_api_settings",
     "Environment",
     "Payment",
     "PaymentCardData",

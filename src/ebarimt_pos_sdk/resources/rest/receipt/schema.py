@@ -4,7 +4,7 @@ from datetime import datetime
 from decimal import Decimal
 from typing import Any, Literal, TypeAlias
 
-from pydantic import field_serializer
+from pydantic import field_serializer, field_validator
 
 from ...base_model import BaseEbarimtModel
 from ...enum import (
@@ -150,6 +150,13 @@ class CreateReceiptResponse(_CreateReceiptBase):
     date: datetime
     easy: bool
     receipts: list[SubReceiptResponse]
+
+    @field_validator("date", mode="before")
+    @classmethod
+    def parse_date(cls, v):
+        if isinstance(v, datetime):
+            return v
+        return datetime.strptime(v, "%Y-%m-%d %H:%M:%S")
 
 
 class DeleteReceiptRequest(BaseEbarimtModel):

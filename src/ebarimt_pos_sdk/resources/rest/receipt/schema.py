@@ -153,7 +153,7 @@ class CreateReceiptResponse(_CreateReceiptBase):
 
     @field_validator("date", mode="before")
     @classmethod
-    def parse_date(cls, v) -> datetime:
+    def parse_date(cls, v: str) -> datetime:
         if isinstance(v, datetime):
             return v
         return datetime.strptime(v, "%Y-%m-%d %H:%M:%S")

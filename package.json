@@ -5,7 +5,6 @@
   "main": "index.js",
   "scripts": {
     "spec:lint": "redocly lint spec/openapi/posapi-3.0.yaml --config spec/redocly/redocly.yaml",
-    "spec:lint:target": "redocly lint spec/openapi/posapi-3.0.yaml --config spec/redocly/target.yaml",
     "spec:bundle": "node tools/spec-bundle.mjs",
     "spec:check": "npm run spec:lint && npm run spec:bundle"
   },
@@ -22,6 +21,6 @@
   },
   "homepage": "https://github.com/Amraa1/ebarimt-pos-sdk#readme",
   "devDependencies": {
-    "@redocly/cli": "^1.31.0"
+    "@redocly/cli": "^2.25.3"
   }
 }

@@ -61,21 +61,19 @@ jobs:
             # Download oasdiff binary
             - name: Install oasdiff
               run: |
-                  curl -L https://github.com/Tufin/oasdiff/releases/latest/download/oasdiff-linux-amd64 -o oasdiff
-                  chmod +x oasdiff
-                  ./oasdiff version
+                  curl -fsSL https://raw.githubusercontent.com/oasdiff/oasdiff/main/install.sh | sh
 
             # Run breaking-change detection
             - name: Check for breaking changes
               run: |
-                  ./oasdiff breaking \
+                  oasdiff breaking \
                     base/spec/openapi/.normalized/posapi-3.0.json \
                     head/spec/openapi/.normalized/posapi-3.0.json
 
             - name: Generate changelog report
               if: always()
               run: |
-                  ./oasdiff changelog \
+                  oasdiff changelog \
                     base/spec/openapi/.normalized/posapi-3.0.json \
                     head/spec/openapi/.normalized/posapi-3.0.json \
                     --format markdown > oasdiff-changelog.md

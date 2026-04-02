@@ -6,18 +6,30 @@ extends:
   - recommended
 
 rules:
-  # Your environment: localhost/VPN is valid
-  no-empty-servers: off
+  #
+  # Environment reality (POS runs locally/VPN)
+  #
   no-server-example.com: off
-  no-server-trailing-slash: error # keep this on (easy cleanup, improves consistency)
+  no-empty-servers: off
+  no-server-trailing-slash: error
 
-  # Vendor spec often omits this; we'll add later once auth is confirmed
-  security-defined: off
+  #
+  # SDK correctness / codegen safety (keep strict)
+  #
+  no-unused-components: error
+  operation-operationId: error
+  operation-operationId-unique: error
+  path-not-include-query: error
 
-  # Nice-to-have, not blocking right now
-  info-license: off
-  operation-4xx-response: off
+  #
+  # Contract completeness (warn now, later tighten)
+  #
+  security-defined: warn
+  operation-4xx-response: warn
+  info-license: warn
 
-  # Examples in vendor docs are messy; do not fail CI on examples
-  no-invalid-media-type-examples: off
-  no-invalid-schema-examples: off
+  #
+  # Vendor examples are noisy (warn or off depending on tolerance)
+  #
+  no-invalid-media-type-examples: warn
+  no-invalid-schema-examples: warn

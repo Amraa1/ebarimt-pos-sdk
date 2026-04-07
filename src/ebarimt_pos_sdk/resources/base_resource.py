@@ -92,11 +92,17 @@ class BaseResource:
         try:
             return response.raise_for_status()
         except httpx.HTTPStatusError as exc:
-            error: dict[str, Any] | None = self._decode_json(response)
+            error: Any = None
+            try:
+                error = self._decode_json(response)
+            except PosApiDecodeError:
+                # Some upstream error pages return HTML/plain text instead of JSON.
+                # Preserve the HTTP error and fall back to the generic message.
+                error = None
             status = None
             date = None
             message = f"Http Error {response.status_code}, {exc.request}, {exc.response}."
-            if error is not None:
+            if isinstance(error, dict):
                 status = error.get("status")
                 if error.get("date"):
                     date = datetime.fromisoformat(error["date"])

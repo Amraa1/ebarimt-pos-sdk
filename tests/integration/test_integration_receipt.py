@@ -98,3 +98,5 @@ def test_integration_receipt_delete_real_server():
         id=resp.id,
         date=resp.date,
     ))
+    
+    assert resp == None

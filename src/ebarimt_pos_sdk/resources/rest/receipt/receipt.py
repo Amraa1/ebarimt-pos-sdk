@@ -76,7 +76,7 @@ class ReceiptResource(BaseResource):
         payload = self._validate_payload(model=DeleteReceiptRequest, payload=payload)
 
         result = await self._async.send(
-            "POST",
+            "DELETE",
             self._path,
             headers=self._build_headers(self._headers, headers),
             payload=self._model_dump(payload),

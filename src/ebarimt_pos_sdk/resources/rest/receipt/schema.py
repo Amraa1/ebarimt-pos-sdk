@@ -171,11 +171,3 @@ class DeleteReceiptRequest(BaseEbarimtModel):
         if value is None:
             return value
         return value.strftime("%Y-%m-%d %H:%M:%S")
-
-
-class DeleteReceiptResponse(BaseEbarimtModel):
-    """Response returned after deleting a receipt."""
-
-    pass
-
-    # TODO

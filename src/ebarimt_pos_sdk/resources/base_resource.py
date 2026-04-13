@@ -153,15 +153,15 @@ class BaseResource:
         headers: HeaderTypes | None = None,
     ) -> N | None:
         """Send sync request."""
-        payload = None
-        if payload_model and payload:
-            payload = self._validate_payload(model=payload_model, payload=payload)
-        elif not (payload_model or payload):
+        validated_payload: T | None = None
+        if payload_model is not None and payload is not None:
+            validated_payload = self._validate_payload(model=payload_model, payload=payload)
+        elif payload_model is None and payload is None:
             pass
         else:
             raise ValueError("Both request model and payload must have a valid value.")
 
-        if payload:
+        if validated_payload is not None:
             result = self._sync.send(
                 method,
                 self._path,
@@ -170,7 +170,7 @@ class BaseResource:
                     self._headers,
                     headers,
                 ),
-                payload=self._model_dump(payload),
+                payload=self._model_dump(validated_payload),
             )
         else:
             result = self._sync.send(
@@ -224,15 +224,15 @@ class BaseResource:
         headers: HeaderTypes | None = None,
     ) -> N | None:
         """Send async request."""
-        payload = None
-        if payload_model and payload:
-            payload = self._validate_payload(model=payload_model, payload=payload)
-        elif not (payload_model or payload):
+        validated_payload: T | None = None
+        if payload_model is not None and payload is not None:
+            validated_payload = self._validate_payload(model=payload_model, payload=payload)
+        elif payload_model is None and payload is None:
             pass
         else:
             raise ValueError("Both request model and payload must have a valid value.")
 
-        if payload:
+        if validated_payload is not None:
             result = await self._async.send(
                 method,
                 self._path,
@@ -241,7 +241,7 @@ class BaseResource:
                     self._headers,
                     headers,
                 ),
-                payload=self._model_dump(payload),
+                payload=self._model_dump(validated_payload),
             )
         else:
             result = await self._async.send(

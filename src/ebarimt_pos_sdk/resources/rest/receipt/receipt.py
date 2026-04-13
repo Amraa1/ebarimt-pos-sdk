@@ -7,7 +7,6 @@ from .schema import (
     CreateReceiptRequest,
     CreateReceiptResponse,
     DeleteReceiptRequest,
-    DeleteReceiptResponse,
 )
 
 
@@ -57,31 +56,20 @@ class ReceiptResource(BaseResource):
     def delete(
         self, payload: DeleteReceiptRequest | dict[str, Any], *, headers: HeaderTypes | None = None
     ) -> None:
-        payload = self._validate_payload(model=DeleteReceiptRequest, payload=payload)
-
-        result = self._sync.send(
+        self._send_sync_request(
             "DELETE",
-            self._path,
-            headers=self._build_headers(self._headers, headers),
-            payload=self._model_dump(payload),
+            payload_model=DeleteReceiptRequest,
+            payload=payload,
+            headers=headers,
         )
-
-        self._ensure_http_success(result.response)
-
-        self._decode_json(result.response)
 
     async def adelete(
         self, payload: DeleteReceiptRequest | dict[str, Any], *, headers: HeaderTypes | None = None
-    ) -> DeleteReceiptResponse:
-        payload = self._validate_payload(model=DeleteReceiptRequest, payload=payload)
-
-        result = await self._async.send(
+    ) -> None:
+        await self._send_async_request(
             "DELETE",
-            self._path,
-            headers=self._build_headers(self._headers, headers),
-            payload=self._model_dump(payload),
+            payload_model=DeleteReceiptRequest,
+            payload=payload,
+            headers=headers,
         )
 
-        self._ensure_http_success(result.response)
-
-        return DeleteReceiptResponse.model_validate(self._decode_json(result.response))

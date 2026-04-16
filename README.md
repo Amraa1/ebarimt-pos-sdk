@@ -7,6 +7,61 @@ Modern async-first Python SDK for Ebarimt Pos API 3.0.
 > [Project doc](https://ebarimt-pos-sdk.readthedocs.io/mn/latest/)  
 > Ebarimt Pos API 3.0 [documentation](https://developer.itc.gov.mn/docs/ebarimt-api/inbishdm2zj3x-pos-api-3-0-sistemijn-api-holbolt-zaavruud)
 
+## Quick Start
+
+### REST client — create a receipt
+
+```python
+from ebarimt_pos_sdk import EbarimtRestClient, RestClientSettings
+
+settings = RestClientSettings(base_url="http://localhost:1234")
+
+with EbarimtRestClient(settings) as client:
+    receipt = client.receipt.create({
+        "branch_no": "001",
+        "total_amount": 10000,
+        "merchant_tin": "1234567890",
+        "pos_no": "POS001",
+        "type": "B2C_RECEIPT",
+        "bill_id_suffix": "A",
+        "receipts": [{
+            "total_amount": 10000,
+            "tax_type": "VAT_ABLE",
+            "merchant_tin": "1234567890",
+            "items": [{
+                "name": "Product",
+                "measure_unit": "ш",
+                "qty": 1,
+                "unit_price": 10000,
+                "total_amount": 10000,
+            }],
+        }],
+    })
+    print(receipt.id, receipt.qr_data)
+```
+
+Async version — replace `with` → `async with` and `client.receipt.create` → `await client.receipt.acreate`.
+
+### API client — fetch TIN info
+
+```python
+from ebarimt_pos_sdk import EbarimtApiClient, ApiClientSettings
+
+settings = ApiClientSettings(
+    base_url="https://api.ebarimt.mn",
+    token_url="https://auth.ebarimt.mn/token",
+    client_id="your_client_id",
+    username="your_username",
+    password="your_password",
+)
+
+with EbarimtApiClient(settings=settings) as client:
+    info = client.tin_info.read("1234567890")
+    print(info.data)
+```
+
+---
+
 ## Development setup
 
 ```bash

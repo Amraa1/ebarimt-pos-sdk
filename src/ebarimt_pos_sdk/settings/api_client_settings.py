@@ -18,6 +18,12 @@ class ApiClientSettings(BaseSettings):
     scope: str | None = None
     skew_seconds: float = 30
 
+    def __post_init__(self) -> None:
+        for field_name in ("token_url", "client_id", "username", "password"):
+            value = getattr(self, field_name)
+            if not isinstance(value, str) or not value.strip():
+                raise ValueError(f"ApiClientSettings.{field_name} cannot be empty or whitespace")
+
     @property
     def normalized_token_url(self) -> str:
         return self.token_url.strip()

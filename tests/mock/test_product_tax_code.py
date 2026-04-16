@@ -1,32 +1,50 @@
-from ..data.product_tax_code import SUCCESS_RESPONSE
-from ..data.auth import SUCCESS_RESPONSE as AUTH_SUCCESS_RESPONSE
-from ..helpers import TOKEN_URL, CLIENT_ID, PASSWORD, USERNAME, BASE_API_URL
-import respx
 import httpx
+import pytest
+import respx
+
 from ebarimt_pos_sdk import ApiClientSettings, EbarimtApiClient
 
+from ..data.auth import SUCCESS_RESPONSE as AUTH_SUCCESS_RESPONSE
+from ..data.product_tax_code import SUCCESS_RESPONSE
+from ..helpers import BASE_API_URL, CLIENT_ID, PASSWORD, TOKEN_URL, USERNAME
 
-@respx.mock
-def test_tin_info_sync_ok() -> None:
-    route = respx.get(f"{BASE_API_URL}/api/receipt/receipt/getProductTaxCode").mock(return_value=httpx.Response(
-        status_code=200,
-        json=SUCCESS_RESPONSE,
-    ))
-    token_route = route = respx.post(TOKEN_URL).mock(return_value=httpx.Response(
-        status_code=200,
-        json=AUTH_SUCCESS_RESPONSE,
-    ))
-    
-    settings = ApiClientSettings(
+
+def _settings() -> ApiClientSettings:
+    return ApiClientSettings(
         base_url=BASE_API_URL,
         token_url=TOKEN_URL,
         client_id=CLIENT_ID,
         username=USERNAME,
-        password=PASSWORD
+        password=PASSWORD,
     )
-    with EbarimtApiClient(settings=settings) as client:
+
+
+@respx.mock
+def test_product_tax_code_sync_ok() -> None:
+    route = respx.get(f"{BASE_API_URL}/api/receipt/receipt/getProductTaxCode").mock(
+        return_value=httpx.Response(status_code=200, json=SUCCESS_RESPONSE)
+    )
+    token_route = respx.post(TOKEN_URL).mock(
+        return_value=httpx.Response(status_code=200, json=AUTH_SUCCESS_RESPONSE)
+    )
+    with EbarimtApiClient(settings=_settings()) as client:
         resp = client.product_tax_code.read()
         assert len(resp.data) > 0
         assert route.called
         assert token_route.called
-        
+
+
+@pytest.mark.asyncio
+@respx.mock
+async def test_product_tax_code_async_ok() -> None:
+    route = respx.get(f"{BASE_API_URL}/api/receipt/receipt/getProductTaxCode").mock(
+        return_value=httpx.Response(status_code=200, json=SUCCESS_RESPONSE)
+    )
+    token_route = respx.post(TOKEN_URL).mock(
+        return_value=httpx.Response(status_code=200, json=AUTH_SUCCESS_RESPONSE)
+    )
+    async with EbarimtApiClient(settings=_settings()) as client:
+        resp = await client.product_tax_code.aread()
+        assert len(resp.data) > 0
+        assert route.called
+        assert token_route.called

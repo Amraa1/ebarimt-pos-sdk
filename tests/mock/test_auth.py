@@ -3,7 +3,6 @@ from __future__ import annotations
 import asyncio
 import threading
 import time
-from dataclasses import dataclass
 from typing import Any
 
 import httpx
@@ -11,22 +10,21 @@ import pytest
 
 # ✅ Update these imports to your real paths
 from ebarimt_pos_sdk.auth.password_grant import PasswordGrantAuth
-from ebarimt_pos_sdk.auth.token import OAuth2Token
 from ebarimt_pos_sdk.settings import ApiClientSettings
-
 
 # --------------------------
 # Helpers
 # --------------------------
 
 settings = ApiClientSettings(
-        base_url="https://example.com",
-        client_id="cid",
-        client_secret="sec",
-        username="u",
-        password="p",
-        token_url="https://example.com/token",
-    )
+    base_url="https://example.com",
+    client_id="cid",
+    client_secret="sec",
+    username="u",
+    password="p",
+    token_url="https://example.com/token",
+)
+
 
 def make_token(*, access: str, expires_at: int) -> dict[str, Any]:
     """
@@ -44,6 +42,7 @@ def make_token(*, access: str, expires_at: int) -> dict[str, Any]:
 # --------------------------
 # Sync tests
 # --------------------------
+
 
 def test_auth_flow_injects_authorization_header_sync(monkeypatch: pytest.MonkeyPatch) -> None:
     """
@@ -121,7 +120,9 @@ def test_sync_fetches_new_token_when_expired(monkeypatch: pytest.MonkeyPatch) ->
     """
     sync = httpx.Client()
     async_client = httpx.AsyncClient()
-    auth = PasswordGrantAuth(settings=settings, sync_client=sync, async_client=async_client, skew_seconds=0)
+    auth = PasswordGrantAuth(
+        settings=settings, sync_client=sync, async_client=async_client, skew_seconds=0
+    )
 
     # First call returns already-expired token; second returns valid token.
     seq = [
@@ -154,8 +155,11 @@ def test_sync_fetches_new_token_when_expired(monkeypatch: pytest.MonkeyPatch) ->
 # Async tests
 # --------------------------
 
+
 @pytest.mark.asyncio
-async def test_async_auth_flow_injects_authorization_header(monkeypatch: pytest.MonkeyPatch) -> None:
+async def test_async_auth_flow_injects_authorization_header(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
     sync = httpx.Client()
     async_client = httpx.AsyncClient()
     auth = PasswordGrantAuth(settings=settings, sync_client=sync, async_client=async_client)
@@ -174,7 +178,9 @@ async def test_async_auth_flow_injects_authorization_header(monkeypatch: pytest.
 
 
 @pytest.mark.asyncio
-async def test_async_concurrent_requests_fetch_token_only_once(monkeypatch: pytest.MonkeyPatch) -> None:
+async def test_async_concurrent_requests_fetch_token_only_once(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
     """
     If many async tasks hit async_auth_flow at once, token should be fetched once
     due to _async_lock + double-check.
@@ -205,3 +211,239 @@ async def test_async_concurrent_requests_fetch_token_only_once(monkeypatch: pyte
 
     await asyncio.gather(*(worker() for _ in range(30)))
     assert calls == 1, f"Expected 1 token fetch, got {calls}"
+
+
+# --------------------------
+# Token refresh tests
+# --------------------------
+
+settings_with_refresh = ApiClientSettings(
+    base_url="https://example.com",
+    client_id="cid",
+    client_secret="sec",
+    username="u",
+    password="p",
+    token_url="https://example.com/token",
+    refresh_url="https://example.com/refresh",
+)
+
+
+def make_token_with_refresh(
+    *, access: str, expires_at: int, refresh: str = "REFRESH", refresh_expires_in: int = 3600
+) -> dict[str, Any]:
+    return {
+        "access_token": access,
+        "token_type": "Bearer",
+        "expires_in": max(0, int(expires_at - time.time())),
+        "expires_at": int(expires_at),
+        "refresh_token": refresh,
+        "refresh_expires_in": refresh_expires_in,
+    }
+
+
+def test_sync_refreshes_token_when_access_expired_and_refresh_valid(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """Expired access + valid refresh -> _refresh_token_sync called, fetch_token NOT called again."""
+    sync = httpx.Client()
+    async_client = httpx.AsyncClient()
+    auth = PasswordGrantAuth(
+        settings=settings_with_refresh,
+        sync_client=sync,
+        async_client=async_client,
+        skew_seconds=0,
+    )
+
+    fetch_calls = 0
+    refresh_calls = 0
+
+    def fake_fetch_token(**kwargs: Any) -> dict[str, Any]:
+        nonlocal fetch_calls
+        fetch_calls += 1
+        return make_token_with_refresh(access="OLD", expires_at=int(time.time()) - 1, refresh="R1")
+
+    def fake_refresh_token(**kwargs: Any) -> dict[str, Any]:
+        nonlocal refresh_calls
+        refresh_calls += 1
+        assert kwargs["refresh_token"] == "R1"
+        return make_token_with_refresh(
+            access="REFRESHED", expires_at=int(time.time()) + 3600, refresh="R2"
+        )
+
+    monkeypatch.setattr(auth._oauth_sync, "fetch_token", fake_fetch_token)  # type: ignore[attr-defined]
+    monkeypatch.setattr(auth._oauth_sync, "refresh_token", fake_refresh_token)  # type: ignore[attr-defined]
+
+    req1 = httpx.Request("GET", "https://example.com/data")
+    r1 = next(auth.auth_flow(req1))
+    assert r1.headers["Authorization"] == "Bearer OLD"
+
+    req2 = httpx.Request("GET", "https://example.com/data")
+    r2 = next(auth.auth_flow(req2))
+    assert r2.headers["Authorization"] == "Bearer REFRESHED"
+    assert fetch_calls == 1
+    assert refresh_calls == 1
+
+
+def test_sync_falls_back_to_fetch_when_refresh_fails(monkeypatch: pytest.MonkeyPatch) -> None:
+    """Refresh raises -> _ensure_token_sync surfaces PosApiTransportError, next call re-fetches."""
+    sync = httpx.Client()
+    async_client = httpx.AsyncClient()
+    auth = PasswordGrantAuth(
+        settings=settings_with_refresh,
+        sync_client=sync,
+        async_client=async_client,
+        skew_seconds=0,
+    )
+
+    fetch_seq = [
+        make_token_with_refresh(access="OLD", expires_at=int(time.time()) - 1, refresh="R1"),
+        make_token_with_refresh(access="NEW", expires_at=int(time.time()) + 3600, refresh="R2"),
+    ]
+    fetch_idx = 0
+
+    def fake_fetch_token(**kwargs: Any) -> dict[str, Any]:
+        nonlocal fetch_idx
+        t = fetch_seq[fetch_idx]
+        fetch_idx += 1
+        return t
+
+    def failing_refresh(**kwargs: Any) -> dict[str, Any]:
+        raise httpx.HTTPError("refresh blew up")
+
+    monkeypatch.setattr(auth._oauth_sync, "fetch_token", fake_fetch_token)  # type: ignore[attr-defined]
+    monkeypatch.setattr(auth._oauth_sync, "refresh_token", failing_refresh)  # type: ignore[attr-defined]
+
+    next(auth.auth_flow(httpx.Request("GET", "https://example.com/data")))
+
+    from ebarimt_pos_sdk.errors import PosApiTransportError
+
+    with pytest.raises(PosApiTransportError):
+        next(auth.auth_flow(httpx.Request("GET", "https://example.com/data")))
+
+    auth._token = None  # type: ignore[attr-defined]
+    r3 = next(auth.auth_flow(httpx.Request("GET", "https://example.com/data")))
+    assert r3.headers["Authorization"] == "Bearer NEW"
+    assert fetch_idx == 2
+
+
+def test_sync_does_not_refresh_when_token_still_fresh(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """Cached fresh token -> neither fetch nor refresh called on subsequent requests."""
+    sync = httpx.Client()
+    async_client = httpx.AsyncClient()
+    auth = PasswordGrantAuth(
+        settings=settings_with_refresh,
+        sync_client=sync,
+        async_client=async_client,
+        skew_seconds=0,
+    )
+
+    fetch_calls = 0
+    refresh_calls = 0
+
+    def fake_fetch_token(**kwargs: Any) -> dict[str, Any]:
+        nonlocal fetch_calls
+        fetch_calls += 1
+        return make_token_with_refresh(
+            access="FRESH", expires_at=int(time.time()) + 3600, refresh="R1"
+        )
+
+    def fake_refresh_token(**kwargs: Any) -> dict[str, Any]:
+        nonlocal refresh_calls
+        refresh_calls += 1
+        return make_token_with_refresh(access="X", expires_at=int(time.time()) + 3600, refresh="R2")
+
+    monkeypatch.setattr(auth._oauth_sync, "fetch_token", fake_fetch_token)  # type: ignore[attr-defined]
+    monkeypatch.setattr(auth._oauth_sync, "refresh_token", fake_refresh_token)  # type: ignore[attr-defined]
+
+    for _ in range(3):
+        next(auth.auth_flow(httpx.Request("GET", "https://example.com/data")))
+
+    assert fetch_calls == 1
+    assert refresh_calls == 0
+
+
+@pytest.mark.asyncio
+async def test_async_refreshes_token_when_access_expired_and_refresh_valid(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    sync = httpx.Client()
+    async_client = httpx.AsyncClient()
+    auth = PasswordGrantAuth(
+        settings=settings_with_refresh,
+        sync_client=sync,
+        async_client=async_client,
+        skew_seconds=0,
+    )
+
+    fetch_calls = 0
+    refresh_calls = 0
+
+    async def fake_fetch_token(**kwargs: Any) -> dict[str, Any]:
+        nonlocal fetch_calls
+        fetch_calls += 1
+        return make_token_with_refresh(access="OLD", expires_at=int(time.time()) - 1, refresh="R1")
+
+    async def fake_refresh_token(**kwargs: Any) -> dict[str, Any]:
+        nonlocal refresh_calls
+        refresh_calls += 1
+        assert kwargs["refresh_token"] == "R1"
+        return make_token_with_refresh(
+            access="REFRESHED", expires_at=int(time.time()) + 3600, refresh="R2"
+        )
+
+    monkeypatch.setattr(auth._oauth_async, "fetch_token", fake_fetch_token)  # type: ignore[attr-defined]
+    monkeypatch.setattr(auth._oauth_async, "refresh_token", fake_refresh_token)  # type: ignore[attr-defined]
+
+    r1 = await auth.async_auth_flow(httpx.Request("GET", "https://example.com/data")).__anext__()
+    assert r1.headers["Authorization"] == "Bearer OLD"
+
+    r2 = await auth.async_auth_flow(httpx.Request("GET", "https://example.com/data")).__anext__()
+    assert r2.headers["Authorization"] == "Bearer REFRESHED"
+    assert fetch_calls == 1
+    assert refresh_calls == 1
+
+
+@pytest.mark.asyncio
+async def test_async_falls_back_to_fetch_when_refresh_fails(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    sync = httpx.Client()
+    async_client = httpx.AsyncClient()
+    auth = PasswordGrantAuth(
+        settings=settings_with_refresh,
+        sync_client=sync,
+        async_client=async_client,
+        skew_seconds=0,
+    )
+
+    fetch_seq = [
+        make_token_with_refresh(access="OLD", expires_at=int(time.time()) - 1, refresh="R1"),
+        make_token_with_refresh(access="NEW", expires_at=int(time.time()) + 3600, refresh="R2"),
+    ]
+    fetch_idx = 0
+
+    async def fake_fetch_token(**kwargs: Any) -> dict[str, Any]:
+        nonlocal fetch_idx
+        t = fetch_seq[fetch_idx]
+        fetch_idx += 1
+        return t
+
+    async def failing_refresh(**kwargs: Any) -> dict[str, Any]:
+        raise httpx.HTTPError("refresh blew up")
+
+    monkeypatch.setattr(auth._oauth_async, "fetch_token", fake_fetch_token)  # type: ignore[attr-defined]
+    monkeypatch.setattr(auth._oauth_async, "refresh_token", failing_refresh)  # type: ignore[attr-defined]
+
+    await auth.async_auth_flow(httpx.Request("GET", "https://example.com/data")).__anext__()
+
+    from ebarimt_pos_sdk.errors import PosApiTransportError
+
+    with pytest.raises(PosApiTransportError):
+        await auth.async_auth_flow(httpx.Request("GET", "https://example.com/data")).__anext__()
+
+    auth._token = None  # type: ignore[attr-defined]
+    r3 = await auth.async_auth_flow(httpx.Request("GET", "https://example.com/data")).__anext__()
+    assert r3.headers["Authorization"] == "Bearer NEW"
+    assert fetch_idx == 2

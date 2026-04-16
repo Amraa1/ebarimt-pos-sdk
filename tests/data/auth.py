@@ -6,5 +6,5 @@ SUCCESS_RESPONSE = {
     "token_type": "Bearer",
     "not-before-policy": 1602433585,
     "session_state": "2c19709c-4e07-404f-8185-930764d37b92",
-    "scope": "profile email"
+    "scope": "profile email",
 }

@@ -1,5 +1,6 @@
-from dotenv import load_dotenv
 import os
+
+from dotenv import load_dotenv
 
 load_dotenv()
 
@@ -10,6 +11,3 @@ TIN = os.getenv("TIN", "37900846788")
 CLIENT_ID = os.getenv("CLIENT_ID", "test_client")
 USERNAME = os.getenv("USERNAME", "ebarimt_tester")
 PASSWORD = os.getenv("PASSWORD", "123456")
-
-
-print(TOKEN_URL)

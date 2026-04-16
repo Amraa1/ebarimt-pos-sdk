@@ -3,6 +3,7 @@ import pytest
 import respx
 
 from ebarimt_pos_sdk import EbarimtRestClient, PosApiHttpError, RestClientSettings
+
 from ..data.info import SUCCESS_RESPONSE
 from ..helpers import BASE_REST_URL
 
@@ -13,10 +14,12 @@ async def test_info_read_async_ok() -> None:
     base_url = BASE_REST_URL
     settings = RestClientSettings(base_url=base_url)
 
-    route = respx.get(f"{base_url}/rest/info").mock(return_value=httpx.Response(
-        200,
-        json=SUCCESS_RESPONSE,
-    ))
+    route = respx.get(f"{base_url}/rest/info").mock(
+        return_value=httpx.Response(
+            200,
+            json=SUCCESS_RESPONSE,
+        )
+    )
 
     async with EbarimtRestClient(settings) as client:
         resp = await client.info.aread()
@@ -29,10 +32,12 @@ def test_info_read_sync_ok() -> None:
     base_url = BASE_REST_URL
     settings = RestClientSettings(base_url=base_url)
 
-    route = respx.get(f"{base_url}/rest/info").mock(return_value=httpx.Response(
-        200,
-        json=SUCCESS_RESPONSE,
-    ))
+    route = respx.get(f"{base_url}/rest/info").mock(
+        return_value=httpx.Response(
+            200,
+            json=SUCCESS_RESPONSE,
+        )
+    )
 
     with EbarimtRestClient(settings) as client:
         resp = client.info.read()

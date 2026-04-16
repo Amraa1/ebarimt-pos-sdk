@@ -8,7 +8,7 @@ SUCCESS_RESPONSE = {
             "taxProductCode": "00016112",
             "taxProductName": "Бусад хандив тусламж",
             "taxTypeCode": 4,
-            "taxTypeName": "NO_VAT"
+            "taxTypeName": "NO_VAT",
         },
         {
             "startDate": "2016-01-01 00:00:00",
@@ -16,7 +16,7 @@ SUCCESS_RESPONSE = {
             "taxProductCode": "0000414",
             "taxProductName": "Хилийн гадна олсон орлого",
             "taxTypeCode": 4,
-            "taxTypeName": "NO_VAT"
+            "taxTypeName": "NO_VAT",
         },
         {
             "startDate": "2024-08-30 00:00:00",
@@ -24,7 +24,7 @@ SUCCESS_RESPONSE = {
             "taxProductCode": "0002291",
             "taxProductName": "Ой, амьтан, ус зэрэг байгалийн баялаг хамгаалах, нөөцийг нэмэгдүүлэх, зохистой ашиглах, нөхөн сэргээх, агаар, ус, хөрсний бохирдлыг бууруулах, цөлжилтийг сааруулах",
             "taxTypeCode": 4,
-            "taxTypeName": "NO_VAT"
+            "taxTypeName": "NO_VAT",
         },
         {
             "startDate": "2024-08-30 00:00:00",
@@ -32,7 +32,7 @@ SUCCESS_RESPONSE = {
             "taxProductCode": "00022910",
             "taxProductName": "Засгийн газрын тусгай сангийн үйл ажиллагаа",
             "taxTypeCode": 4,
-            "taxTypeName": "NO_VAT"
+            "taxTypeName": "NO_VAT",
         },
         {
             "startDate": "2024-08-30 00:00:00",
@@ -40,7 +40,7 @@ SUCCESS_RESPONSE = {
             "taxProductCode": "0002292",
             "taxProductName": "Ахмад настан, хөгжлийн бэрхшээлтэй иргэн, хүүхдийн асрамжийн үйлчилгээ, тэдгээрийн эрхийг хангах, хамгаалах, хөгжлийн бэрхшээлтэй иргэдэд зориулсан тохируулгат орчин бүрдүүлэх, хүүхдийн тоглоомын талбай, зуслан, цэцэрлэгт хүрээлэн барьж байгуулах, ашиглах",
             "taxTypeCode": 4,
-            "taxTypeName": "NO_VAT"
+            "taxTypeName": "NO_VAT",
         },
         {
             "startDate": "2024-08-30 00:00:00",
@@ -48,7 +48,7 @@ SUCCESS_RESPONSE = {
             "taxProductCode": "0002293",
             "taxProductName": "Соёлын өвийг хамгаалах, сэргээх, музей, номын сангийн үйл ажиллагаа болон хөгжим, кино, гар урлал, тайзны урлагийн бүтээл туурвих, тоглох, түгээх, соёлын бүтээлч үйлдвэрлэлийн цогцолбор барьж байгуулах, ашиглах",
             "taxTypeCode": 4,
-            "taxTypeName": "NO_VAT"
+            "taxTypeName": "NO_VAT",
         },
         {
             "startDate": "2024-08-30 00:00:00",
@@ -56,7 +56,7 @@ SUCCESS_RESPONSE = {
             "taxProductCode": "0002294",
             "taxProductName": "Нийтийн эзэмшлийн зам, талбай, цэцэрлэгт хүрээлэн барьж байгуулах, ашиглах, хамгаалах, тохижуулах, цэцэрлэгжүүлэх, нийтийн тээврийн хөгжлийг дэмжих",
             "taxTypeCode": 4,
-            "taxTypeName": "NO_VAT"
+            "taxTypeName": "NO_VAT",
         },
         {
             "startDate": "2024-08-30 00:00:00",
@@ -64,7 +64,7 @@ SUCCESS_RESPONSE = {
             "taxProductCode": "0002295",
             "taxProductName": "Давагдашгүй хүчин зүйл болон түүнтэй адилтгах бусад гамшгийн улмаас хохирол барагдуулах",
             "taxTypeCode": 4,
-            "taxTypeName": "NO_VAT"
+            "taxTypeName": "NO_VAT",
         },
         {
             "startDate": "2024-08-30 00:00:00",
@@ -72,7 +72,7 @@ SUCCESS_RESPONSE = {
             "taxProductCode": "0002296",
             "taxProductName": "Спортын барилга байгууламж барьж байгуулах, ашиглах, олимпын төрлийн тэмцээн зохион байгуулах, Монголын үндэсний олимпын хорооны бүртгэлтэй олимпын төрлийн спортын холбоо, түүнд бүртгэлтэй баг, мэргэжлийн тамирчин, дасгалжуулагчид олгосон санхүүгийн дэмжлэг",
             "taxTypeCode": 4,
-            "taxTypeName": "NO_VAT"
+            "taxTypeName": "NO_VAT",
         },
         {
             "startDate": "2024-08-30 00:00:00",
@@ -80,7 +80,7 @@ SUCCESS_RESPONSE = {
             "taxProductCode": "0002298",
             "taxProductName": "Дээд сургууль, шинжлэх ухааны академид судалгаа, шинжилгээний зориулалтаар олгосон тэтгэлэг",
             "taxTypeCode": 4,
-            "taxTypeName": "NO_VAT"
+            "taxTypeName": "NO_VAT",
         },
         {
             "startDate": "2024-08-30 00:00:00",
@@ -88,7 +88,7 @@ SUCCESS_RESPONSE = {
             "taxProductCode": "0002299",
             "taxProductName": "Төрийн болон орон нутгийн өмчийн боловсрол, эрүүл мэндийн байгууллагын үйл ажиллагаа",
             "taxTypeCode": 4,
-            "taxTypeName": "NO_VAT"
+            "taxTypeName": "NO_VAT",
         },
         {
             "startDate": "2024-08-30 00:00:00",
@@ -96,7 +96,7 @@ SUCCESS_RESPONSE = {
             "taxProductCode": "0002297",
             "taxProductName": "Монгол Улсын Засгийн газраас зарласан тэргүүлэх чиглэлээр гадаадын их, дээд сургууль, дотоодын магадлан итгэмжлэгдсэн их, дээд сургуульд суралцаж байгаа оюутан, мэргэжлийн болон техникийн боловсролын сургалтын байгууллагын суралцагчид олгосон сургалтын төлбөрийн тэтгэлэг",
             "taxTypeCode": 4,
-            "taxTypeName": "NO_VAT"
+            "taxTypeName": "NO_VAT",
         },
         {
             "startDate": "2016-01-01 00:00:00",
@@ -104,7 +104,7 @@ SUCCESS_RESPONSE = {
             "taxProductCode": "305",
             "taxProductName": "Хөгжлийн бэрхшээлтэй иргэний хэрэглээнд зориулсан тусгай зориулалтын хэрэгсэл, тоног төхөөрөмж, автотээврийн хэрэгсэл",
             "taxTypeCode": 2,
-            "taxTypeName": "VAT_FREE"
+            "taxTypeName": "VAT_FREE",
         },
         {
             "startDate": "2016-01-01 00:00:00",
@@ -112,7 +112,7 @@ SUCCESS_RESPONSE = {
             "taxProductCode": "307",
             "taxProductName": "Иргэний агаарын хөлөг, хөдөлгүүр болон газар дээрх дадлагажуур, тэдгээрийн эд анги, бүрэлдэхүүн хэсэг, дэд угсралтын хэсэг, сэлбэг, тоног төхөөрөмж, холбогдох хэрэгсэл",
             "taxTypeCode": 2,
-            "taxTypeName": "VAT_FREE"
+            "taxTypeName": "VAT_FREE",
         },
         {
             "startDate": "2016-01-01 00:00:00",
@@ -120,7 +120,7 @@ SUCCESS_RESPONSE = {
             "taxProductCode": "308",
             "taxProductName": "Орон сууцны зориулалтаар ашиглаж байгаа байр буюу түүний хэсгийг борлуулсны орлого",
             "taxTypeCode": 2,
-            "taxTypeName": "VAT_FREE"
+            "taxTypeName": "VAT_FREE",
         },
         {
             "startDate": "2016-01-01 00:00:00",
@@ -128,7 +128,7 @@ SUCCESS_RESPONSE = {
             "taxProductCode": "310",
             "taxProductName": "Эмчилгээний зориулалтаар хэрэглэх цус, цусан бүтээгдэхүүн, эд эрхтэн",
             "taxTypeCode": 2,
-            "taxTypeName": "VAT_FREE"
+            "taxTypeName": "VAT_FREE",
         },
         {
             "startDate": "2016-01-01 00:00:00",
@@ -136,7 +136,7 @@ SUCCESS_RESPONSE = {
             "taxProductCode": "311",
             "taxProductName": "Хийн түлш, түүний сав, тоног төхөөрөмж, тусгай зориулалтын машин механизм, техник хэрэгсэл, тоноглол",
             "taxTypeCode": 2,
-            "taxTypeName": "VAT_FREE"
+            "taxTypeName": "VAT_FREE",
         },
         {
             "startDate": "2016-01-01 00:00:00",
@@ -144,7 +144,7 @@ SUCCESS_RESPONSE = {
             "taxProductCode": "313",
             "taxProductName": "Борлуулсан алт",
             "taxTypeCode": 2,
-            "taxTypeName": "VAT_FREE"
+            "taxTypeName": "VAT_FREE",
         },
         {
             "startDate": "2016-01-01 00:00:00",
@@ -152,7 +152,7 @@ SUCCESS_RESPONSE = {
             "taxProductCode": "315",
             "taxProductName": "Эрдэм шинжилгээ, судалгааны ажлын туршилтын бүтээгдэхүүн",
             "taxTypeCode": 2,
-            "taxTypeName": "VAT_FREE"
+            "taxTypeName": "VAT_FREE",
         },
         {
             "startDate": "2016-01-01 00:00:00",
@@ -160,7 +160,7 @@ SUCCESS_RESPONSE = {
             "taxProductCode": "318",
             "taxProductName": "газар тариалан эрхлэгчийн дотооддоо тарьж борлуулсан үр тариа, төмс, хүнсний ногоо, суулгац, жимс жимсгэнэ, үйлдвэрлэсэн гурил",
             "taxTypeCode": 2,
-            "taxTypeName": "VAT_FREE"
+            "taxTypeName": "VAT_FREE",
         },
         {
             "startDate": "2016-01-01 00:00:00",
@@ -168,7 +168,7 @@ SUCCESS_RESPONSE = {
             "taxProductCode": "319",
             "taxProductName": "Монгол Улсын нутаг дэвсгэрт үйлдвэрийн аргаар төхөөрч бэлтгэн дотооддоо борлуулсан тураг болон шулж ангилсан мах, боловсруулаагүй дотор эрхтэн, дайвар бүтээгдэхүүн",
             "taxTypeCode": 2,
-            "taxTypeName": "VAT_FREE"
+            "taxTypeName": "VAT_FREE",
         },
         {
             "startDate": "2016-01-01 00:00:00",
@@ -176,7 +176,7 @@ SUCCESS_RESPONSE = {
             "taxProductCode": "320",
             "taxProductName": "Монгол Улсын нутаг дэвсгэрт дотоодын түүхий эдээр боловсруулан дотооддоо борлуулсан хүнсний сүү, сүүн бүтээгдэхүүн",
             "taxTypeCode": 2,
-            "taxTypeName": "VAT_FREE"
+            "taxTypeName": "VAT_FREE",
         },
         {
             "startDate": "2016-01-01 00:00:00",
@@ -184,7 +184,7 @@ SUCCESS_RESPONSE = {
             "taxProductCode": "401",
             "taxProductName": "валют солих үйлчилгээ",
             "taxTypeCode": 2,
-            "taxTypeName": "VAT_FREE"
+            "taxTypeName": "VAT_FREE",
         },
         {
             "startDate": "2016-01-01 00:00:00",
@@ -192,7 +192,7 @@ SUCCESS_RESPONSE = {
             "taxProductCode": "402",
             "taxProductName": "мөнгө хүлээн авах, шилжүүлэх, баталгаа, төлбөрийн нэхэмжлэл гаргах, вексель, хадгаламжийн данстай холбогдсон банкны үйлчилгээ",
             "taxTypeCode": 2,
-            "taxTypeName": "VAT_FREE"
+            "taxTypeName": "VAT_FREE",
         },
         {
             "startDate": "2016-01-01 00:00:00",
@@ -200,7 +200,7 @@ SUCCESS_RESPONSE = {
             "taxProductCode": "403",
             "taxProductName": "даатгал, даатгалын зуучлал, давхар даатгал, эд хөрөнгийн бүртгэлийн үйлчилгээ",
             "taxTypeCode": 2,
-            "taxTypeName": "VAT_FREE"
+            "taxTypeName": "VAT_FREE",
         },
         {
             "startDate": "2016-01-01 00:00:00",
@@ -208,7 +208,7 @@ SUCCESS_RESPONSE = {
             "taxProductCode": "404",
             "taxProductName": "үнэт цаас, хувьцаа гаргах, шилжүүлэх, борлуулах, хүлээн авах, тэдгээрт баталгаа гаргах үйлчилгээ",
             "taxTypeCode": 2,
-            "taxTypeName": "VAT_FREE"
+            "taxTypeName": "VAT_FREE",
         },
         {
             "startDate": "2016-01-01 00:00:00",
@@ -216,7 +216,7 @@ SUCCESS_RESPONSE = {
             "taxProductCode": "405",
             "taxProductName": "зээл олгох үйлчилгээ",
             "taxTypeCode": 2,
-            "taxTypeName": "VAT_FREE"
+            "taxTypeName": "VAT_FREE",
         },
         {
             "startDate": "2016-01-01 00:00:00",
@@ -224,7 +224,7 @@ SUCCESS_RESPONSE = {
             "taxProductCode": "406",
             "taxProductName": "нийгмийн болон эрүүл мэндийн даатгалын сангийн мөнгөн хөрөнгийг байршуулсны хүүг олгох, шилжүүлэх үйлчилгээ",
             "taxTypeCode": 2,
-            "taxTypeName": "VAT_FREE"
+            "taxTypeName": "VAT_FREE",
         },
         {
             "startDate": "2016-01-01 00:00:00",
@@ -232,7 +232,7 @@ SUCCESS_RESPONSE = {
             "taxProductCode": "407",
             "taxProductName": "Банкны болон банк бус санхүүгийн байгууллага, хадгаламж зээлийн хоршооны зээлийн хүү, Аж ахуйн нэгжийн орлогын албан татварын тухай хуулийн 9.4-т заасан хүү, 10.1.3-т заасан хувьцаа, үнэт цаас, санхүүгийн бусад хэрэгсэл, санхүүгийн түрээсийн хүү, ногдол ашиг, зээлийн баталгааны хураамж, даатгалын гэрээний хураамж төлөх үйлчилгээ",
             "taxTypeCode": 2,
-            "taxTypeName": "VAT_FREE"
+            "taxTypeName": "VAT_FREE",
         },
         {
             "startDate": "2016-01-01 00:00:00",
@@ -240,7 +240,7 @@ SUCCESS_RESPONSE = {
             "taxProductCode": "408",
             "taxProductName": "орон сууцны зориулалтаар баригдсан зориулалтын дагуу ашиглагдаж байгаа байрыг болон түүний тодорхой хэсгийг хөлслүүлэх үйлчилгээ",
             "taxTypeCode": 2,
-            "taxTypeName": "VAT_FREE"
+            "taxTypeName": "VAT_FREE",
         },
         {
             "startDate": "2016-01-01 00:00:00",
@@ -248,7 +248,7 @@ SUCCESS_RESPONSE = {
             "taxProductCode": "409",
             "taxProductName": "боловсролын болон мэргэжлийн сургалт явуулах тусгай зөвшөөрөлтэй хувь хүн, хуулийн этгээдийн эрхлэн гүйцэтгэж байгаа дүрэмд нь заасан боловсрол, мэргэжил олгох үйлчилгээ",
             "taxTypeCode": 2,
-            "taxTypeName": "VAT_FREE"
+            "taxTypeName": "VAT_FREE",
         },
         {
             "startDate": "2016-01-01 00:00:00",
@@ -256,7 +256,7 @@ SUCCESS_RESPONSE = {
             "taxProductCode": "410",
             "taxProductName": "эрүүл мэндийн үйлчилгээ",
             "taxTypeCode": 2,
-            "taxTypeName": "VAT_FREE"
+            "taxTypeName": "VAT_FREE",
         },
         {
             "startDate": "2016-01-01 00:00:00",
@@ -264,7 +264,7 @@ SUCCESS_RESPONSE = {
             "taxProductCode": "411",
             "taxProductName": "шашны байгууллагын үйлчилгээ",
             "taxTypeCode": 2,
-            "taxTypeName": "VAT_FREE"
+            "taxTypeName": "VAT_FREE",
         },
         {
             "startDate": "2016-01-01 00:00:00",
@@ -272,7 +272,7 @@ SUCCESS_RESPONSE = {
             "taxProductCode": "412",
             "taxProductName": "төрийн байгууллагаас үзүүлж байгаа үйлчилгээ",
             "taxTypeCode": 2,
-            "taxTypeName": "VAT_FREE"
+            "taxTypeName": "VAT_FREE",
         },
         {
             "startDate": "2016-01-01 00:00:00",
@@ -280,7 +280,7 @@ SUCCESS_RESPONSE = {
             "taxProductCode": "413",
             "taxProductName": "Автотээврийн тухай хуулийн 3.1.11-д заасан нийтийн тээврийн үйлчилгээ",
             "taxTypeCode": 2,
-            "taxTypeName": "VAT_FREE"
+            "taxTypeName": "VAT_FREE",
         },
         {
             "startDate": "2016-01-01 00:00:00",
@@ -288,7 +288,7 @@ SUCCESS_RESPONSE = {
             "taxProductCode": "414",
             "taxProductName": "Тур оператор, аяллын агент гадаад улсын аялал жуулчлалын байгууллагатай гэрээ байгуулж жуулчдыг нь хүлээн авах, уг үйлчилгээг төлөвлөх, сурталчлах, виз авахтай холбогдсон болон аяллын бусад бичиг баримтын бүрдүүлэлт хийх зэрэг гадаадын жуулчинд үзүүлсэн үйлчилгээ",
             "taxTypeCode": 2,
-            "taxTypeName": "VAT_FREE"
+            "taxTypeName": "VAT_FREE",
         },
         {
             "startDate": "2016-01-01 00:00:00",
@@ -296,7 +296,7 @@ SUCCESS_RESPONSE = {
             "taxProductCode": "419",
             "taxProductName": "Монгол Улсын нутаг дэвсгэрт үйлдвэрлэсэн, үйлдвэрлэн борлуулсан жижиг, дунд үйлдвэрийн үйлдвэрлэлийн зориулалт бүхий тоног төхөөрөмж, сэлбэг хэрэгсэл",
             "taxTypeCode": 2,
-            "taxTypeName": "VAT_FREE"
+            "taxTypeName": "VAT_FREE",
         },
         {
             "startDate": "2016-01-01 00:00:00",
@@ -304,7 +304,7 @@ SUCCESS_RESPONSE = {
             "taxProductCode": "421",
             "taxProductName": "НӨАТ-ын тухай хуулийн 12.1.7-д зааснаас бусад экспортод гаргасан ашигт малтмалын бүтээгдэхүүн",
             "taxTypeCode": 2,
-            "taxTypeName": "VAT_FREE"
+            "taxTypeName": "VAT_FREE",
         },
         {
             "startDate": "2016-01-01 00:00:00",
@@ -312,7 +312,7 @@ SUCCESS_RESPONSE = {
             "taxProductCode": "422",
             "taxProductName": "Банк, банк бус санхүүгийн байгууллага болон бусад хуулийн этгээдээс банк, тусгай зориулалтын компани, орон сууцны санхүүжилтийн компанид хөрөнгөөр баталгаажсан үнэт цаас гаргах зориулалтаар шилжүүлсэн зээл, санхүүгийн түрээсийн гэрээнээс үүсэх аливаа шаардах эрх",
             "taxTypeCode": 2,
-            "taxTypeName": "VAT_FREE"
+            "taxTypeName": "VAT_FREE",
         },
         {
             "startDate": "2016-01-01 00:00:00",
@@ -320,7 +320,7 @@ SUCCESS_RESPONSE = {
             "taxProductCode": "423",
             "taxProductName": "инновацийн төслөөр дотоод, гадаадын зах зээлд шинэ бараа, бүтээгдэхүүний үйлдвэрлэл явуулахад шаардлагатай, дотоодод үйлдвэрлэдэггүй түүхий эд, материал, урвалж бодис",
             "taxTypeCode": 2,
-            "taxTypeName": "VAT_FREE"
+            "taxTypeName": "VAT_FREE",
         },
         {
             "startDate": "2016-01-01 00:00:00",
@@ -328,7 +328,7 @@ SUCCESS_RESPONSE = {
             "taxProductCode": "425",
             "taxProductName": "экспортод гаргасан түүхий болон угаасан, самнасан ноолуур, арьс шир",
             "taxTypeCode": 2,
-            "taxTypeName": "VAT_FREE"
+            "taxTypeName": "VAT_FREE",
         },
         {
             "startDate": "2016-01-01 00:00:00",
@@ -336,7 +336,7 @@ SUCCESS_RESPONSE = {
             "taxProductCode": "426",
             "taxProductName": "соёлын өвийг судалж шинжлэх, сэргээн засварлахад ашиглах материал, техник, тоног төхөөрөмж, бодис, багаж хэрэгсэл",
             "taxTypeCode": 2,
-            "taxTypeName": "VAT_FREE"
+            "taxTypeName": "VAT_FREE",
         },
         {
             "startDate": "2016-01-01 00:00:00",
@@ -344,7 +344,7 @@ SUCCESS_RESPONSE = {
             "taxProductCode": "428",
             "taxProductName": "газрын тос болон уламжлалт бус газрын тостой холбогдсон тайлан материал, дээж болон газрын тос",
             "taxTypeCode": 2,
-            "taxTypeName": "VAT_FREE"
+            "taxTypeName": "VAT_FREE",
         },
         {
             "startDate": "2016-01-01 00:00:00",
@@ -352,7 +352,7 @@ SUCCESS_RESPONSE = {
             "taxProductCode": "429",
             "taxProductName": "чөлөөт бүсэд зорчигчийн худалдаж авсан гурван сая төгрөг хүртэл үнийн дүнтэй бараа",
             "taxTypeCode": 2,
-            "taxTypeName": "VAT_FREE"
+            "taxTypeName": "VAT_FREE",
         },
         {
             "startDate": "2016-01-01 00:00:00",
@@ -360,7 +360,7 @@ SUCCESS_RESPONSE = {
             "taxProductCode": "430",
             "taxProductName": "соёлын өвийг сэргээн засварлах үйлчилгээ",
             "taxTypeCode": 2,
-            "taxTypeName": "VAT_FREE"
+            "taxTypeName": "VAT_FREE",
         },
         {
             "startDate": "2016-01-01 00:00:00",
@@ -368,7 +368,7 @@ SUCCESS_RESPONSE = {
             "taxProductCode": "431",
             "taxProductName": "оршуулгын үйлчилгээ",
             "taxTypeCode": 2,
-            "taxTypeName": "VAT_FREE"
+            "taxTypeName": "VAT_FREE",
         },
         {
             "startDate": "2016-01-01 00:00:00",
@@ -376,7 +376,7 @@ SUCCESS_RESPONSE = {
             "taxProductCode": "433",
             "taxProductName": "сэргээгдэх эрчим хүчний судалгаа шинжилгээний болон үйлдвэрлэлийн тоног төхөөрөмж, түүний дагалдах хэрэгсэл, сэлбэг",
             "taxTypeCode": 2,
-            "taxTypeName": "VAT_FREE"
+            "taxTypeName": "VAT_FREE",
         },
         {
             "startDate": "2016-01-01 00:00:00",
@@ -384,7 +384,7 @@ SUCCESS_RESPONSE = {
             "taxProductCode": "43401",
             "taxProductName": "Импортоор оруулж байгаа болон дотооддоо худалдан борлуулсан хөдөө аж ахуйн зориулалттай шинэ трактор, комбайн, машин механизм, гурилын болон бордооны үйлдвэрийн тоног төхөөрөмж, усалгааны тоног төхөөрөмж, ойн аж ахуйн техник, тоног төхөөрөмж",
             "taxTypeCode": 2,
-            "taxTypeName": "VAT_FREE"
+            "taxTypeName": "VAT_FREE",
         },
         {
             "startDate": "2016-01-01 00:00:00",
@@ -392,7 +392,7 @@ SUCCESS_RESPONSE = {
             "taxProductCode": "43402",
             "taxProductName": "Импортоор оруулж байгаа болон дотооддоо худалдан борлуулсан бордоо, ургамал хамгааллын бодис",
             "taxTypeCode": 2,
-            "taxTypeName": "VAT_FREE"
+            "taxTypeName": "VAT_FREE",
         },
         {
             "startDate": "2016-01-01 00:00:00",
@@ -400,7 +400,7 @@ SUCCESS_RESPONSE = {
             "taxProductCode": "436",
             "taxProductName": "мал эмнэлгийн үйлчилгээ",
             "taxTypeCode": 2,
-            "taxTypeName": "VAT_FREE"
+            "taxTypeName": "VAT_FREE",
         },
         {
             "startDate": "2019-05-30 00:00:00",
@@ -408,7 +408,7 @@ SUCCESS_RESPONSE = {
             "taxProductCode": "437",
             "taxProductName": "нотариатын үйлчилгээ",
             "taxTypeCode": 2,
-            "taxTypeName": "VAT_FREE"
+            "taxTypeName": "VAT_FREE",
         },
         {
             "startDate": "2016-01-01 00:00:00",
@@ -416,7 +416,7 @@ SUCCESS_RESPONSE = {
             "taxProductCode": "438",
             "taxProductName": "Үнэт цаасны зах зээлийн тухай хуулийн 4.1.6-д заасан санхүүгийн хэрэгслийг анхдагч, хоёрдогч зах зээл болон биржийн бус зах зээлд бүртгүүлэх, гаргах, арилжих, шилжүүлэх, борлуулах, хүлээн авах, хадгалах үйл ажиллагаа болон тэдгээрт баталгаа гаргах үйлчилгээ",
             "taxTypeCode": 2,
-            "taxTypeName": "VAT_FREE"
+            "taxTypeName": "VAT_FREE",
         },
         {
             "startDate": "2020-05-07 00:00:00",
@@ -424,7 +424,7 @@ SUCCESS_RESPONSE = {
             "taxProductCode": "439",
             "taxProductName": "Таван толгой түлш ХХК-ийн үйлдвэрлэсэн сайжруулсан шахмал түлш",
             "taxTypeCode": 2,
-            "taxTypeName": "VAT_FREE"
+            "taxTypeName": "VAT_FREE",
         },
         {
             "startDate": "2016-01-01 00:00:00",
@@ -432,7 +432,7 @@ SUCCESS_RESPONSE = {
             "taxProductCode": "444",
             "taxProductName": "Шинээр үйлдвэрлэсэн инновацийн бүтээгдэхүүн, ажил үйлчилгээ",
             "taxTypeCode": 2,
-            "taxTypeName": "VAT_FREE"
+            "taxTypeName": "VAT_FREE",
         },
         {
             "startDate": "2016-01-01 00:00:00",
@@ -440,7 +440,7 @@ SUCCESS_RESPONSE = {
             "taxProductCode": "445",
             "taxProductName": "Виртуал хөрөнгийн үйлчилгээ",
             "taxTypeCode": 2,
-            "taxTypeName": "VAT_FREE"
+            "taxTypeName": "VAT_FREE",
         },
         {
             "startDate": "2016-01-01 00:00:00",
@@ -448,7 +448,7 @@ SUCCESS_RESPONSE = {
             "taxProductCode": "447",
             "taxProductName": "Малчдын хоршоо, малчин, мал бүхий этгээдийн борлуулсан таван хошуу мал, анхан шатны боловсруулалтад ороогүй мах, сүү, арьс шир, ноолуур, хонь болон тэмээний ноос, сарлагийн хөөвөр.",
             "taxTypeCode": 2,
-            "taxTypeName": "VAT_FREE"
+            "taxTypeName": "VAT_FREE",
         },
         {
             "startDate": "2016-01-01 00:00:00",
@@ -456,7 +456,7 @@ SUCCESS_RESPONSE = {
             "taxProductCode": "448",
             "taxProductName": "Ирээдүйн өв санд улсын төсвөөс хуваарилсан орлого эх үүсвэр, сангийн хөрөнгө оруулалтын орлого",
             "taxTypeCode": 2,
-            "taxTypeName": "VAT_FREE"
+            "taxTypeName": "VAT_FREE",
         },
         {
             "startDate": "2016-01-01 00:00:00",
@@ -464,7 +464,7 @@ SUCCESS_RESPONSE = {
             "taxProductCode": "501",
             "taxProductName": "Монгол Улсын нутаг дэвсгэрээс экспортод гаргасан, гаалийн байгууллагад мэдүүлсэн бараа",
             "taxTypeCode": 3,
-            "taxTypeName": "VAT_ZERO"
+            "taxTypeName": "VAT_ZERO",
         },
         {
             "startDate": "2016-01-01 00:00:00",
@@ -472,7 +472,7 @@ SUCCESS_RESPONSE = {
             "taxProductCode": "502",
             "taxProductName": "Монгол Улсын Олон улсын гэрээнд заасны дагуу Монгол Улсаас гадаад улсад, гадаад улсаас Монгол Улс хүртэл, түүнчлэн гадаад улсаас Монгол Улсын хилээр дамжуулан бусад улсад гаргасан олон улсын зорчигч болон ачаа тээврийн үйлчилгэ",
             "taxTypeCode": 3,
-            "taxTypeName": "VAT_ZERO"
+            "taxTypeName": "VAT_ZERO",
         },
         {
             "startDate": "2016-01-01 00:00:00",
@@ -480,7 +480,7 @@ SUCCESS_RESPONSE = {
             "taxProductCode": "503",
             "taxProductName": "Монгол Улсын нутаг дэвсгэрээс гадна үзүүлсэн /албан татвараас чөлөөлсөн үйлчилгээг оролцуулан/ үйлчилгээ",
             "taxTypeCode": 3,
-            "taxTypeName": "VAT_ZERO"
+            "taxTypeName": "VAT_ZERO",
         },
         {
             "startDate": "2016-01-01 00:00:00",
@@ -488,7 +488,7 @@ SUCCESS_RESPONSE = {
             "taxProductCode": "504",
             "taxProductName": "Монгол Улсад оршин суугч бус этгээдэд үзүүлсэн үйлчилгээ /түүний дотор албан татвараас чөлөөлсөн үйлчилгээг оролцуулан/",
             "taxTypeCode": 3,
-            "taxTypeName": "VAT_ZERO"
+            "taxTypeName": "VAT_ZERO",
         },
         {
             "startDate": "2016-01-01 00:00:00",
@@ -496,7 +496,7 @@ SUCCESS_RESPONSE = {
             "taxProductCode": "505",
             "taxProductName": "олон улсын нислэг үйлдэж байгаа дотоодын болон гадаадын агаарын тээврийн хөлөгт үзүүлэх нислэгийн хөдөлгөөний удирдлага, техникийн болон шатахууны үйлчилгээ, цэвэрлэгээ, нислэгийн явцад нисэх бүрэлдэхүүн, болон зорчигчдод худалдаа, хоол, ундаагаар үйлчилсэн үйлчилгээ",
             "taxTypeCode": 3,
-            "taxTypeName": "VAT_ZERO"
+            "taxTypeName": "VAT_ZERO",
         },
         {
             "startDate": "2016-01-01 00:00:00",
@@ -504,7 +504,7 @@ SUCCESS_RESPONSE = {
             "taxProductCode": "506",
             "taxProductName": "Засгийн газар, Монголбанкны захиалгаар дотоодод үйлдвэрлэсэн төрийн одон медаль, мөнгөн тэмдэгт, зоос",
             "taxTypeCode": 3,
-            "taxTypeName": "VAT_ZERO"
+            "taxTypeName": "VAT_ZERO",
         },
         {
             "startDate": "2016-01-01 00:00:00",
@@ -512,7 +512,7 @@ SUCCESS_RESPONSE = {
             "taxProductCode": "507",
             "taxProductName": "ашигт малтмалын эцсийн бүтээгдэхүүн",
             "taxTypeCode": 3,
-            "taxTypeName": "VAT_ZERO"
+            "taxTypeName": "VAT_ZERO",
         },
         {
             "startDate": "2024-12-12 00:00:00",
@@ -520,7 +520,7 @@ SUCCESS_RESPONSE = {
             "taxProductCode": "00022911",
             "taxProductName": "Мэдээллийн технологийн үйлдвэрлэлийг дэмжих виртуал бүсэд бүртгэлтэй хуулийн этгээдийн хуульд заасан үйл ажиллагаа",
             "taxTypeCode": 4,
-            "taxTypeName": "NO_VAT"
+            "taxTypeName": "NO_VAT",
         },
         {
             "startDate": "2016-01-01 00:00:00",
@@ -528,7 +528,7 @@ SUCCESS_RESPONSE = {
             "taxProductCode": "0009112300",
             "taxProductName": "Сууц өмчлөгчийн дундын өмчлөлийн эд хөрөнгийн ашиглалт, хамгаалалт, засвар, үйлчилгээний санхүүжилт",
             "taxTypeCode": 4,
-            "taxTypeName": "NO_VAT"
-        }
-    ]
+            "taxTypeName": "NO_VAT",
+        },
+    ],
 }

@@ -10,4 +10,5 @@ class RestClientSettings(BaseSettings):
     """
     Settings for REST client.
     """
+
     pass

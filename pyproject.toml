@@ -1,6 +1,6 @@
 [project]
 name = "ebarimt-pos-sdk"
-version = "0.2.8"
+version = "0.2.9"
 description = "Python SDK for Ebarimt POS API 3.0"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -35,12 +35,14 @@ markers = ["integration: tests that require a real PosAPI server"]
 [tool.ruff]
 line-length = 100
 target-version = "py310"
-exclude = ["tests"]
 src = ["src"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "B", "UP"]
 ignore = ["E501"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["E402", "B011"]
 
 [tool.coverage.run]
 source = ["ebarimt_pos_sdk"]

@@ -1,15 +1,17 @@
 import pytest
-from ..helpers import BASE_REST_URL, TIN
+
 from ebarimt_pos_sdk import (
     CreateReceiptRequest,
-    Payment,
     DeleteReceiptRequest,
-    Item,
     EbarimtRestClient,
+    Item,
+    Payment,
     PosApiHttpError,
     RestClientSettings,
     SubReceipt,
 )
+
+from ..helpers import BASE_REST_URL, TIN
 
 
 @pytest.mark.integration
@@ -48,6 +50,7 @@ def test_integration_receipt_create_real_server():
         resp = client.receipt.create(payload)
         assert resp.status == "ERROR"
 
+
 @pytest.mark.integration
 def test_integration_receipt_delete_real_server():
     base_url = BASE_REST_URL
@@ -85,18 +88,22 @@ def test_integration_receipt_delete_real_server():
                 ],
             )
         ],
-        payments=[Payment(
-            code="CASH",
-            status="PAID",
-            paid_amount=1100,
-        )]
+        payments=[
+            Payment(
+                code="CASH",
+                status="PAID",
+                paid_amount=1100,
+            )
+        ],
     )
     resp = client.receipt.create(payload)
     assert resp.status == "SUCCESS"
-    
-    resp = client.receipt.delete(DeleteReceiptRequest(
-        id=resp.id,
-        date=resp.date,
-    ))
-    
-    assert resp == None
+
+    resp = client.receipt.delete(
+        DeleteReceiptRequest(
+            id=resp.id,
+            date=resp.date,
+        )
+    )
+
+    assert resp is None

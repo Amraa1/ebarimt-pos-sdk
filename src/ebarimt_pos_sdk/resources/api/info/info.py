@@ -10,14 +10,14 @@ class DistrictCodeResource(BaseResource):
     def read(self, *, headers: HeaderTypes | None = None) -> GetDistrictCodeResponse:
         return self._send_sync_request(
             "GET",
-            headers=self._build_headers(self._headers, headers),
+            headers=headers,
             response_model=GetDistrictCodeResponse,
         )
 
     async def aread(self, *, headers: HeaderTypes | None = None) -> GetDistrictCodeResponse:
         return await self._send_async_request(
             "GET",
-            headers=self._build_headers(self._headers, headers),
+            headers=headers,
             response_model=GetDistrictCodeResponse,
         )
 
@@ -31,7 +31,7 @@ class TinInfoResource(BaseResource):
         return self._send_sync_request(
             "GET",
             params={"regNo": reg_no},
-            headers=self._build_headers(self._headers, headers),
+            headers=headers,
             response_model=GetTinInfoResponse,
         )
 
@@ -39,6 +39,6 @@ class TinInfoResource(BaseResource):
         return await self._send_async_request(
             "GET",
             params={"regNo": reg_no},
-            headers=self._build_headers(self._headers, headers),
+            headers=headers,
             response_model=GetTinInfoResponse,
         )

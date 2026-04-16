@@ -21,18 +21,13 @@ class ReceiptResource(BaseResource):
         *,
         headers: HeaderTypes | None = None,
     ) -> CreateReceiptResponse:
-        payload = self._validate_payload(model=CreateReceiptRequest, payload=payload)
-
-        result = self._sync.send(
+        return self._send_sync_request(
             "POST",
-            self._path,
-            headers=self._build_headers(self._headers, headers),
-            payload=self._model_dump(payload),
+            payload_model=CreateReceiptRequest,
+            payload=payload,
+            response_model=CreateReceiptResponse,
+            headers=headers,
         )
-
-        self._ensure_http_success(result.response)
-
-        return CreateReceiptResponse.model_validate(self._decode_json(result.response))
 
     async def acreate(
         self,
@@ -40,18 +35,13 @@ class ReceiptResource(BaseResource):
         *,
         headers: HeaderTypes | None = None,
     ) -> CreateReceiptResponse:
-        payload = self._validate_payload(model=CreateReceiptRequest, payload=payload)
-
-        result = await self._async.send(
+        return await self._send_async_request(
             "POST",
-            self._path,
-            headers=self._build_headers(self._headers, headers),
-            payload=self._model_dump(payload),
+            payload_model=CreateReceiptRequest,
+            payload=payload,
+            response_model=CreateReceiptResponse,
+            headers=headers,
         )
-
-        self._ensure_http_success(result.response)
-
-        return CreateReceiptResponse.model_validate(self._decode_json(result.response))
 
     def delete(
         self, payload: DeleteReceiptRequest | dict[str, Any], *, headers: HeaderTypes | None = None
@@ -72,4 +62,3 @@ class ReceiptResource(BaseResource):
             payload=payload,
             headers=headers,
         )
-

@@ -134,3 +134,60 @@ def test_pos_api_validation_error_model_as_string() -> None:
     err = PosApiValidationError(stage="request", model="CustomName", validation_error=ve)
     assert err.model == "CustomName"
     assert "Validation failed during request for model 'CustomName'" in str(err)
+
+
+def test_safe_request_str_redacts_authorization_header_case_insensitive() -> None:
+    req = httpx.Request("GET", "https://example.com/x", headers={"Authorization": "Bearer SECRET"})
+    err = PosApiError("e", request=req)
+    s = str(err)
+    assert "SECRET" not in s
+    assert "***" in s
+
+
+def test_safe_request_str_redacts_extra_sensitive_headers() -> None:
+    req = httpx.Request(
+        "GET",
+        "https://example.com/x",
+        headers={
+            "X-Api-Key": "APIKEY123",
+            "Cookie": "session=abc",
+            "X-Auth-Token": "AT",
+        },
+    )
+    err = PosApiError("e", request=req)
+    s = str(err)
+    assert "APIKEY123" not in s
+    assert "session=abc" not in s
+    assert "AT" not in s
+
+
+def test_safe_request_str_redacts_token_query_params() -> None:
+    req = httpx.Request(
+        "GET",
+        "https://example.com/x?access_token=LEAK&keep=1&refresh_token=ALSO_LEAK",
+    )
+    err = PosApiError("e", request=req)
+    s = str(err)
+    assert "LEAK" not in s
+    assert "ALSO_LEAK" not in s
+    assert "keep=1" in s
+
+
+def test_safe_request_str_strips_url_fragment() -> None:
+    req = httpx.Request("GET", "https://example.com/x?a=1#access_token=FRAG")
+    err = PosApiError("e", request=req)
+    s = str(err)
+    assert "FRAG" not in s
+
+
+def test_api_client_settings_post_init_rejects_none() -> None:
+    from ebarimt_pos_sdk.settings import ApiClientSettings
+
+    with pytest.raises(ValueError, match="token_url"):
+        ApiClientSettings(
+            base_url="https://example.com",
+            client_id="c",
+            username="u",
+            password="p",
+            token_url=None,  # type: ignore[arg-type]
+        )

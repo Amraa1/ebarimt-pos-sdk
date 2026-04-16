@@ -26,21 +26,15 @@ SUCCESS_RESPONSE = {
                     "unitPrice": 5000,
                     "totalAmount": 5600,
                     "totalVAT": 500,
-                    "totalCityTax": 100
+                    "totalCityTax": 100,
                 }
             ],
             "merchantTin": "37900846788",
             "totalVAT": 500,
-            "totalCityTax": 100
+            "totalCityTax": 100,
         }
     ],
-    "payments": [
-        {
-            "code": "CASH",
-            "paidAmount": 5600,
-            "status": "PAID"
-        }
-    ],
+    "payments": [{"code": "CASH", "paidAmount": 5600, "status": "PAID"}],
     "posId": 101321077,
     "status": "SUCCESS",
     "qrData": "30892326524546672474592603677629267669202520788666570091176582304861979527775302772692166239698276252024697295297031948644121173043640072110272573911246153670156937219597386482037042663801023934072070",

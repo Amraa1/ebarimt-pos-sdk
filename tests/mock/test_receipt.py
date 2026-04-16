@@ -171,9 +171,7 @@ def test_receipt_create_sync_decode_error() -> None:
     base_url = BASE_REST_URL
     settings = RestClientSettings(base_url=base_url)
 
-    route = respx.post(f"{base_url}/rest/receipt").mock(
-        return_value=DECODE_ERROR_RECEIPT_SUCCESS_RESPONSE
-    )
+    respx.post(f"{base_url}/rest/receipt").mock(return_value=DECODE_ERROR_RECEIPT_SUCCESS_RESPONSE)
 
     client = EbarimtRestClient(settings)
 
@@ -236,3 +234,44 @@ def test_receipt_delete_sync_empty_response_ok() -> None:
         resp = client.receipt.delete(delete_receipt_payload)
         assert resp is None
         assert route.called
+
+
+# --------------------------
+# Validator edge cases
+# --------------------------
+
+from pydantic import ValidationError  # noqa: E402
+
+
+@pytest.mark.parametrize("bad_value", [0, -1, -0.5])
+def test_item_validate_positive_rejects_non_positive_qty(bad_value: float) -> None:
+    with pytest.raises(ValidationError, match="Must be greater than 0"):
+        Item(
+            name="Bread",
+            measure_unit="ea",
+            qty=bad_value,
+            unit_price=1000,
+            total_amount=1000,
+        )
+
+
+@pytest.mark.parametrize("bad_value", [0, -1, -0.5])
+def test_item_validate_positive_rejects_non_positive_unit_price(bad_value: float) -> None:
+    with pytest.raises(ValidationError, match="Must be greater than 0"):
+        Item(
+            name="Bread",
+            measure_unit="ea",
+            qty=1,
+            unit_price=bad_value,
+            total_amount=1000,
+        )
+
+
+def test_sub_receipt_validate_items_not_empty_rejects_empty_list() -> None:
+    with pytest.raises(ValidationError, match="items must not be empty"):
+        SubReceipt(
+            total_amount=1000,
+            tax_type="VAT_ABLE",
+            merchant_tin="12345678901",
+            items=[],
+        )

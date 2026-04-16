@@ -1,6 +1,8 @@
 import pytest
-from ..helpers import BASE_REST_URL, TIN
+
 from ebarimt_pos_sdk import EbarimtRestClient, RestClientSettings
+
+from ..helpers import BASE_REST_URL, TIN
 
 
 @pytest.mark.integration

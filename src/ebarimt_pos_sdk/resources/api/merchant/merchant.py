@@ -12,7 +12,7 @@ class MerchantInfoResource(BaseResource):
             "GET",
             params={"tin": tin},
             response_model=GetInfoResponse,
-            headers=self._build_headers(self._headers, headers),
+            headers=headers,
         )
 
     async def aread(self, tin: str, *, headers: HeaderTypes | None = None) -> GetInfoResponse:
@@ -20,5 +20,5 @@ class MerchantInfoResource(BaseResource):
             "GET",
             params={"tin": tin},
             response_model=GetInfoResponse,
-            headers=self._build_headers(self._headers, headers),
+            headers=headers,
         )

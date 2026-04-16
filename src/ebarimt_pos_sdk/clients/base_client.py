@@ -42,8 +42,8 @@ class EbarimtBaseClient:
             verify=settings.verify_tls,
         )
 
-        self._sync_transport = SyncTransport(self._sync_client)
-        self._async_transport = AsyncTransport(self._async_client)
+        self._sync_transport = SyncTransport(self._sync_client, retry=settings.retry)
+        self._async_transport = AsyncTransport(self._async_client, retry=settings.retry)
 
     def close(self) -> None:
         if self._owns_sync:

@@ -3,7 +3,9 @@ import pytest
 import respx
 
 from ebarimt_pos_sdk import EbarimtRestClient, RestClientSettings
+
 from ..helpers import BASE_REST_URL
+
 
 @respx.mock
 def test_send_data_ok_sync():

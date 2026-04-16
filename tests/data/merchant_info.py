@@ -1,5 +1,3 @@
-from datetime import date
-
 SUCCESS_RESPONSE = {
     "msg": "Амжилттай",
     "status": 200,
@@ -10,6 +8,6 @@ SUCCESS_RESPONSE = {
         "vatPayer": True,
         "found": True,
         "vatpayerRegisteredDate": "2002-04-09",
-        "isGovernment": False
-    }
+        "isGovernment": False,
+    },
 }

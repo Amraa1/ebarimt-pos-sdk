@@ -1,8 +1,9 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 from .._types import HeaderTypes
+from .retry_settings import RetrySettings
 
 
 @dataclass(frozen=True)
@@ -17,6 +18,8 @@ class BaseSettings:
     verify_tls: bool = True
 
     headers: HeaderTypes | None = None
+
+    retry: RetrySettings = field(default_factory=RetrySettings)
 
     @property
     def normalized_base_url(self) -> str:

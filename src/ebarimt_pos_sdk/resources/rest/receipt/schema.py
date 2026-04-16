@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import datetime, timezone
 from decimal import Decimal
 from typing import Any, Literal, TypeAlias
 
@@ -55,6 +55,13 @@ class Item(BaseEbarimtModel):
     unit_price: Number
     total_amount: Number
 
+    @field_validator("qty", "unit_price")
+    @classmethod
+    def validate_positive(cls, v: Number) -> Number:
+        if v <= 0:
+            raise ValueError("Must be greater than 0")
+        return v
+
     bar_code: str | None = None
     bar_code_type: _BarCodeType | None = None
     classification_code: str | None = None
@@ -71,6 +78,13 @@ class SubReceipt(BaseEbarimtModel):
     tax_type: _TaxType
     merchant_tin: str
     items: list[Item]
+
+    @field_validator("items")
+    @classmethod
+    def validate_items_not_empty(cls, v: list[Item]) -> list[Item]:
+        if not v:
+            raise ValueError("items must not be empty")
+        return v
 
     total_vat: Number | None = None
     total_city_tax: Number | None = None
@@ -153,10 +167,10 @@ class CreateReceiptResponse(_CreateReceiptBase):
 
     @field_validator("date", mode="before")
     @classmethod
-    def parse_date(cls, v: str) -> datetime:
+    def parse_date(cls, v: str | datetime) -> datetime:
         if isinstance(v, datetime):
-            return v
-        return datetime.strptime(v, "%Y-%m-%d %H:%M:%S")
+            return v if v.tzinfo else v.replace(tzinfo=timezone.utc)
+        return datetime.strptime(v, "%Y-%m-%d %H:%M:%S").replace(tzinfo=timezone.utc)
 
 
 class DeleteReceiptRequest(BaseEbarimtModel):

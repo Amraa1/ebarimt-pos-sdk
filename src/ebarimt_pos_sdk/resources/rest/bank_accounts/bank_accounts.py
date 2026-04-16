@@ -22,14 +22,9 @@ class BankAccountsResource(BaseResource):
             headers=self._build_headers(self._headers, headers),
         )
 
-        response = self._ensure_http_success(result.response)
+        self._ensure_http_success(result.response)
 
-        output: list[BankAccount] = []
-
-        for data in self._decode_json(response):
-            output.append(BankAccount.model_validate(data))
-
-        return output
+        return [BankAccount.model_validate(data) for data in self._decode_json(result.response)]
 
     async def aread(
         self,
@@ -44,11 +39,6 @@ class BankAccountsResource(BaseResource):
             headers=self._build_headers(self._headers, headers),
         )
 
-        response = self._ensure_http_success(result.response)
+        self._ensure_http_success(result.response)
 
-        output: list[BankAccount] = []
-
-        for data in self._decode_json(response):
-            output.append(BankAccount.model_validate(data))
-
-        return output
+        return [BankAccount.model_validate(data) for data in self._decode_json(result.response)]

@@ -38,7 +38,7 @@ class BaseResource:
             return None
         try:
             return response.json()
-        except Exception as exc:
+        except ValueError as exc:
             raise PosApiDecodeError(
                 "Failed to decode JSON response",
                 response=response,
@@ -88,9 +88,43 @@ class BaseResource:
     def _model_dump(payload: BaseModel) -> dict[str, Any]:
         return payload.model_dump(mode="json", by_alias=True, exclude_none=True)
 
-    def _ensure_http_success(self, response: httpx.Response) -> httpx.Response:
+    def _prepare_send_kwargs(
+        self,
+        *,
+        params: QueryParamTypes | None,
+        payload_model: type[T] | None,
+        payload: T | dict[str, Any] | None,
+        headers: HeaderTypes | None,
+    ) -> dict[str, Any]:
+        """Validate payload, merge headers, build the kwargs dict for transport.send()."""
+        if payload_model is not None and payload is not None:
+            validated = self._validate_payload(model=payload_model, payload=payload)
+        elif payload_model is None and payload is None:
+            validated = None
+        else:
+            raise ValueError("Both request model and payload must have a valid value.")
+
+        kwargs: dict[str, Any] = {
+            "params": params,
+            "headers": self._build_headers(self._headers, headers),
+        }
+        if validated is not None:
+            kwargs["payload"] = self._model_dump(validated)
+        return kwargs
+
+    def _decode_and_validate(
+        self,
+        response: httpx.Response,
+        response_model: type[N] | None,
+    ) -> N | None:
+        self._ensure_http_success(response)
+        if response_model is None:
+            return None
+        return response_model.model_validate(self._decode_json(response))
+
+    def _ensure_http_success(self, response: httpx.Response) -> None:
         try:
-            return response.raise_for_status()
+            response.raise_for_status()
         except httpx.HTTPStatusError as exc:
             error: Any = None
             try:
@@ -153,41 +187,14 @@ class BaseResource:
         headers: HeaderTypes | None = None,
     ) -> N | None:
         """Send sync request."""
-        validated_payload: T | None = None
-        if payload_model is not None and payload is not None:
-            validated_payload = self._validate_payload(model=payload_model, payload=payload)
-        elif payload_model is None and payload is None:
-            pass
-        else:
-            raise ValueError("Both request model and payload must have a valid value.")
-
-        if validated_payload is not None:
-            result = self._sync.send(
-                method,
-                self._path,
-                params=params,
-                headers=self._build_headers(
-                    self._headers,
-                    headers,
-                ),
-                payload=self._model_dump(validated_payload),
-            )
-        else:
-            result = self._sync.send(
-                method,
-                self._path,
-                params=params,
-                headers=self._build_headers(
-                    self._headers,
-                    headers,
-                ),
-            )
-
-        self._ensure_http_success(result.response)
-
-        if response_model:
-            return response_model.model_validate(self._decode_json(result.response))
-        return None
+        send_kwargs = self._prepare_send_kwargs(
+            params=params,
+            payload_model=payload_model,
+            payload=payload,
+            headers=headers,
+        )
+        result = self._sync.send(method, self._path, **send_kwargs)
+        return self._decode_and_validate(result.response, response_model)
 
     @overload
     async def _send_async_request(
@@ -224,38 +231,11 @@ class BaseResource:
         headers: HeaderTypes | None = None,
     ) -> N | None:
         """Send async request."""
-        validated_payload: T | None = None
-        if payload_model is not None and payload is not None:
-            validated_payload = self._validate_payload(model=payload_model, payload=payload)
-        elif payload_model is None and payload is None:
-            pass
-        else:
-            raise ValueError("Both request model and payload must have a valid value.")
-
-        if validated_payload is not None:
-            result = await self._async.send(
-                method,
-                self._path,
-                params=params,
-                headers=self._build_headers(
-                    self._headers,
-                    headers,
-                ),
-                payload=self._model_dump(validated_payload),
-            )
-        else:
-            result = await self._async.send(
-                method,
-                self._path,
-                params=params,
-                headers=self._build_headers(
-                    self._headers,
-                    headers,
-                ),
-            )
-
-        self._ensure_http_success(result.response)
-
-        if response_model:
-            return response_model.model_validate(self._decode_json(result.response))
-        return None
+        send_kwargs = self._prepare_send_kwargs(
+            params=params,
+            payload_model=payload_model,
+            payload=payload,
+            headers=headers,
+        )
+        result = await self._async.send(method, self._path, **send_kwargs)
+        return self._decode_and_validate(result.response, response_model)

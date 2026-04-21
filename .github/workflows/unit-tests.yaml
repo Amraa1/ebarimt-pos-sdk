@@ -1,0 +1,60 @@
+name: Unit Tests
+
+permissions:
+    contents: read
+
+on:
+    pull_request:
+        branches: [main]
+        paths:
+            - "src/**"
+            - "tests/**"
+            - "pyproject.toml"
+            - "uv.lock"
+            - ".github/workflows/unit-tests.yaml"
+
+    push:
+        branches: [main]
+        paths:
+            - "src/**"
+            - "tests/**"
+            - "pyproject.toml"
+            - "uv.lock"
+            - ".github/workflows/unit-tests.yaml"
+
+jobs:
+    pytest:
+        name: pytest (python ${{ matrix.python-version }})
+        runs-on: ubuntu-latest
+
+        strategy:
+            fail-fast: false
+            matrix:
+                python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v6
+
+            - name: Set up Python ${{ matrix.python-version }}
+              uses: actions/setup-python@v6
+              with:
+                  python-version: ${{ matrix.python-version }}
+
+            - name: Install uv
+              uses: astral-sh/setup-uv@v7
+              with:
+                  version: "0.9.27"
+                  enable-cache: true
+
+            - name: Sync dependencies
+              run: uv sync --dev --python ${{ matrix.python-version }}
+
+            - name: Pytest (exclude integration)
+              run: uv run pytest -m "not integration" --cov --cov-branch --cov-report=xml
+
+            - name: Upload coverage reports to Codecov
+              if: matrix.python-version == '3.14'
+              uses: codecov/codecov-action@v5
+              with:
+                  token: ${{ secrets.CODECOV_TOKEN }}

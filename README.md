@@ -1,15 +1,54 @@
 # ebarimt-pos-sdk
 
 [![codecov](https://codecov.io/gh/Amraa1/ebarimt-pos-sdk/graph/badge.svg?token=EZ18HFDG46)](https://codecov.io/gh/Amraa1/ebarimt-pos-sdk)
+[![Python](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 
-Modern async-first Python SDK for Ebarimt Pos API 3.0.
+A modern, async-first Python SDK for the **Ebarimt POS API 3.0** — Mongolia's electronic receipting (e-баримт) platform.
+It wraps both the public OAuth2 API and the local REST API exposed by POS devices behind a single, typed, ergonomic
+interface.
 
-> [Project doc](https://ebarimt-pos-sdk.readthedocs.io/mn/latest/)  
-> Ebarimt Pos API 3.0 [documentation](https://developer.itc.gov.mn/docs/ebarimt-api/inbishdm2zj3x-pos-api-3-0-sistemijn-api-holbolt-zaavruud)
+> 📖 Full documentation: <https://ebarimt-pos-sdk.readthedocs.io/mn/latest/> 📘 Ebarimt POS API 3.0 reference:
+> <https://developer.itc.gov.mn/docs/ebarimt-api/inbishdm2zj3x-pos-api-3-0-sistemijn-api-holbolt-zaavruud> 🇲🇳 Mongolian
+> version of this README: [README_MN.md](./README_MN.md)
+
+---
+
+## Features
+
+- **Async-first** — every operation exposes both a synchronous and an `async` variant (`method()` / `amethod()`), built
+  on `httpx`.
+- **Strictly typed** — Pydantic v2 models with camelCase ↔ snake_case aliasing; full `mypy --strict` compliance.
+- **Two focused clients** — `EbarimtApiClient` for the public OAuth2 API, `EbarimtRestClient` for the local POS REST
+  API.
+- **Managed OAuth2** — built-in password-grant flow with automatic token refresh and proactive expiry handling.
+- **Resilient transport** — configurable retry with exponential backoff on 5xx and network errors, per-request timeouts,
+  and TLS verification.
+- **Structured errors** — a clear exception hierarchy distinguishing transport, HTTP, decode, validation, and business
+  failures. Sensitive headers and tokens are automatically redacted from error output.
+- **Environment presets** — one-line switch between `STAGING` and `PRODUCTION` endpoints via `create_api_settings`.
+
+---
+
+## Installation
+
+```bash
+pip install ebarimt-pos-sdk
+```
+
+Or with `uv`:
+
+```bash
+uv add ebarimt-pos-sdk
+```
+
+Requires Python 3.10 or newer.
+
+---
 
 ## Quick Start
 
-### REST client — create a receipt
+### Local REST client — issue a receipt
 
 ```python
 from ebarimt_pos_sdk import EbarimtRestClient, RestClientSettings
@@ -40,16 +79,33 @@ with EbarimtRestClient(settings) as client:
     print(receipt.id, receipt.qr_data)
 ```
 
-Async version — replace `with` → `async with` and `client.receipt.create` → `await client.receipt.acreate`.
-
-### API client — fetch TIN info
+Async variant: swap `with` for `async with` and call `await client.receipt.acreate(...)`.
 
 ```python
-from ebarimt_pos_sdk import EbarimtApiClient, ApiClientSettings
+import asyncio
+from ebarimt_pos_sdk import EbarimtRestClient, RestClientSettings
 
-settings = ApiClientSettings(
-    base_url="https://api.ebarimt.mn",
-    token_url="https://auth.ebarimt.mn/token",
+async def main() -> None:
+    async with EbarimtRestClient(RestClientSettings(base_url="http://localhost:1234")) as client:
+        receipt = await client.receipt.acreate(payload)
+        print(receipt.id)
+
+asyncio.run(main())
+```
+
+### Public API client — look up a TIN
+
+Use the factory to target a specific environment without hard-coding URLs:
+
+```python
+from ebarimt_pos_sdk import (
+    EbarimtApiClient,
+    Environment,
+    create_api_settings,
+)
+
+settings = create_api_settings(
+    Environment.PRODUCTION,  # or Environment.STAGING
     client_id="your_client_id",
     username="your_username",
     password="your_password",
@@ -62,52 +118,130 @@ with EbarimtApiClient(settings=settings) as client:
 
 ---
 
-## Development setup
+## Clients at a glance
 
-```bash
-uv sync --dev
-uv run pytest
+| Client              | Authentication        | Available resources                                              |
+| ------------------- | --------------------- | ---------------------------------------------------------------- |
+| `EbarimtRestClient` | None (local network)  | `receipt`, `info`, `send_data`, `bank_accounts`                  |
+| `EbarimtApiClient`  | OAuth2 password grant | `district_code`, `tin_info`, `merchant_info`, `product_tax_code` |
+
+Both clients support synchronous and asynchronous context managers, share a common settings base (timeouts, TLS,
+headers, retry policy), and reuse the same error hierarchy.
+
+---
+
+## Error handling
+
+The SDK surfaces failures through a focused exception hierarchy, so you can react at the level of abstraction that
+matters to your code:
+
+```text
+PosApiError
+├── PosApiTransportError    # network / timeout / DNS / TLS
+├── PosApiDecodeError       # response body was not valid JSON
+├── PosApiHttpError         # non-2xx response from server
+├── PosApiBusinessError     # 2xx, but domain-level failure in payload
+└── PosApiValidationError   # Pydantic validation of request or response
 ```
 
-## PosAPI тохируулах
+```python
+from ebarimt_pos_sdk import (
+    PosApiBusinessError,
+    PosApiHttpError,
+    PosApiTransportError,
+    PosApiValidationError,
+)
 
-PosAPI нь суусны дараа анхны байдлаар тохируулах шаардлагатай. “posapi.ini”
-файлд тухайн PosAPI-н үндсэн тохиргоо байрлах ба “P101.poi, P102.poi” файлуудад
-ажиллагааны тохиргоо байрлах ба нууцлагдсан байна.
+try:
+    receipt = client.receipt.create(payload)
+except PosApiValidationError as e:
+    # Bad shape — fix the request before resending
+    for err in e.errors:
+        print(err["loc"], err["msg"])
+except PosApiBusinessError as e:
+    # Server accepted the request but rejected it on business grounds
+    print(e.status, e.code, e.message)
+except PosApiHttpError as e:
+    # 4xx / 5xx — includes safe, redacted request/response context
+    print(e)
+except PosApiTransportError:
+    # Network layer — safe to retry later
+    raise
+```
 
-### Үндсэн тохиргооны тайлбар /posapi.ini файл/
+`Authorization` headers and token-bearing query parameters are redacted automatically in every error's string
+representation.
 
-| Нэр              | Тайлбар                                                        |
-| ---------------- | -------------------------------------------------------------- |
-| authUrl          |                                                                |
-| authRealm        | Тухайн PosAPI-н нэгдсэн нэвтрэлттэй холбогдох тохиргоо         |
-| authClientId     | Өөрчлөх шаардлагагүй.                                          |
-| authClientSecret |                                                                |
-| ebarimtUrl       | Ebarimt системтэй холбогдох хаяг Өөрчлөх шаардлагагүй          |
-| db               | Өгөгдлийн сангийн driver                                       |
-| dbHost           | Өгөгдлийн сангийн хаяг Хэрэв QSQLITE бол файлын зам байна      |
-| dbPort           | Өгөгдлийн сангийн port Хэрэв QSQLITE бол бөглөхгүй             |
-| dbUser           | Өгөгдлийн сангийн хэрэглэгчийн нэр Хэрэв QSQLITE бол бөглөхгүй |
-| dbPass           | Өгөгдлийн сангийн нууц үг хэрэв QSQLITE бол бөглөхгүй          |
-| dbName           | Өгөгдлийн сангийн баазын нэр Хэрэв QSQLITE бол бөглөхгүй       |
-| dbOptions        | Өгөгдлийн сангийн нэмэлт тохиргоо Хэрэв QSQLITE бол бөглөхгүй  |
-| workDir          | PosAPI-н ажиллагааны хавтас                                    |
-| webServiceHost   | PosAPI-н ажиллах сүлжээний IP address                          |
-| webServicePort   | PosAPI-н ажиллах сүлжээний port                                |
+---
 
-**WorkDir** хавтсанд ажиллагааны тохиргоо байрлах ба уг тохиргооны файлуудын агуулга
-нь тогтмол өөрчлөгдөж байх тул PosAPI ажиллуулж буй хэрэглэгч нь унших, бичих
-эрхтэй байхыг анхаарана уу. Мөн уг хавтсыг ямар ч нөхцөлд **FREEZE хийх ёсгүй**
-гэдгийг анхаарна уу.
+## Configuration
 
-### PosAPI-н дэмжиж ажиллах өгөгдлийн сангууд ба driver-ууд
+All settings are immutable dataclasses — construct once and pass to the client. Timeouts, TLS verification, custom
+headers, and retry behaviour are shared across both clients via `BaseSettings`.
 
-| Нэр     | Тайлбар                       |
-| ------- | ----------------------------- |
-| QMYSQL  | MySQL эсвэл MariaDB           |
-| QPSQL   | PostgreSQL                    |
-| QODBC   | ODBC for Microsoft SQL Server |
-| QSQLITE | SQLite version 3              |
+```python
+from ebarimt_pos_sdk import RestClientSettings
+from ebarimt_pos_sdk.settings import RetrySettings
 
-PosAPI нь ачааллах үедээ өгөгдлийн сангийн table-г автоматаар өөрөө үүсгэдэг тул
-тухайн хэрэглэгч нь table үүсгэх эрх бүхий хэрэглэгч байх шаардлагатайг анхаарна уу
+settings = RestClientSettings(
+    base_url="http://localhost:1234",
+    timeout_s=5.0,
+    verify_tls=True,
+    headers={"X-Request-Source": "pos-42"},
+    retry=RetrySettings(
+        max_retries=3,
+        backoff_base_seconds=1.0,
+        retryable_statuses=frozenset({500, 502, 503, 504}),
+    ),
+)
+```
+
+The default retry policy — 3 attempts with exponential backoff on 5xx and network errors — is suitable for most
+deployments.
+
+---
+
+## Validation philosophy
+
+The SDK validates **structure, not policy**:
+
+- ✅ Field shapes, regex for stable identifiers (TIN, branch codes), enums, and basic numeric constraints (`>= 0`).
+- ❌ Business rules, cross-field dependencies, reference-table lookups, or any government policy that changes out of
+  band.
+
+This boundary is intentional. The server owns business rules; the SDK owns shape correctness. That keeps the SDK stable
+when rules change.
+
+---
+
+## Development
+
+```bash
+# Install all dependencies, including dev extras
+uv sync --dev
+
+# Run the unit test suite
+uv run pytest -m "not integration"
+
+# Run with coverage
+uv run pytest -m "not integration" --cov
+
+# Lint and format
+uv run ruff check
+uv run ruff format
+
+# Type check (strict)
+uv run mypy src
+```
+
+Integration tests (marked `@pytest.mark.integration`) require a live PosAPI server and credentials; they are excluded
+from CI by default.
+
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for contribution guidelines and [CHANGELOG.md](./CHANGELOG.md) for release
+notes.
+
+---
+
+## License
+
+Released under the [MIT License](./LICENSE).

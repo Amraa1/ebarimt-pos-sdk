@@ -346,9 +346,7 @@ async def test_async_backoff_uses_settings_sleep_seconds(
 
     monkeypatch.setattr(asyncio, "sleep", fake_sleep)
 
-    respx.get(f"{BASE}/x").mock(
-        side_effect=[httpx.Response(503), httpx.Response(200, json={})]
-    )
+    respx.get(f"{BASE}/x").mock(side_effect=[httpx.Response(503), httpx.Response(200, json={})])
     transport = AsyncTransport(
         httpx.AsyncClient(base_url=BASE),
         retry=RetrySettings(max_retries=3, backoff_base_seconds=2.0),

@@ -36,9 +36,9 @@ _PRESETS: dict[Environment, _ApiPreset] = {
 def create_api_settings(
     env: Environment,
     *,
-    client_id: str,
-    username: str,
-    password: str,
+    client_id: str | None = None,
+    username: str | None = None,
+    password: str | None = None,
     client_secret: str | None = None,
     scope: str | None = None,
     timeout_s: float = 10.0,
@@ -46,7 +46,12 @@ def create_api_settings(
     headers: HeaderTypes | None = None,
     skew_seconds: float = 30,
 ) -> ApiClientSettings:
-    """Ebarimt api settings factory."""
+    """Ebarimt api settings factory.
+
+    The public ebarimt info endpoints don't require OAuth2, so credentials
+    are optional. They are preserved for forward-compat with any endpoint
+    that may later require token auth.
+    """
 
     p = _PRESETS[env]
     return ApiClientSettings(

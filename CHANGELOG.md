@@ -16,12 +16,22 @@ All notable changes to this project will be documented here.
 - `_refresh_token_sync()` and `_refresh_token_async()` methods on `PasswordGrantAuth`
 - Retry logic in `SyncTransport` and `AsyncTransport` — up to 3 attempts with backoff on 5xx / network errors
 - Debug logging in transport layer (`logging.getLogger(__name__)`) at `DEBUG` level
-- `__post_init__` validation on `ApiClientSettings` — rejects empty `token_url`, `client_id`, `username`, `password` at construction time
+- `__post_init__` validation on `ApiClientSettings` — rejects empty/whitespace `token_url`, `client_id`, `username`, `password` when supplied (fields themselves are optional; see [Changed])
 - `@field_validator` on `Item.qty` and `Item.unit_price` — rejects values `<= 0`
 - `@field_validator` on `SubReceipt.items` — rejects empty list
 - UTC timezone attached to parsed `date` field in `CreateReceiptResponse`
 - Async test variants for `district_code`, `tin_info`, `merchant_info`, and `product_tax_code` resources
 - Alias round-trip tests in `tests/mock/test_base_model_aliases.py`
+- `BunaResource` (exposed as `EbarimtApiClient.buna`) wrapping `GET /api/info/check/barcode/v2[/{code}...]` — hierarchical БҮНА (Бараа, Үйлчилгээний Нэгдсэн Ангилал) classification drill-down. Variable depth (0..6 segments) in logical top-down order; `client.buna.read()` returns the top-level Салбар list, `client.buna.read("0", "01", ...)` drills down one level per segment. Returns `GetBunaResponse` (a `RootModel[list[list[str]]]`); structural validation only per the SDK's "validate structure, not policy" rule
+- Optional `path: str | None` argument on `BaseResource._send_sync_request` and `_send_async_request` for resources that build dynamic URLs (used by `BunaResource`)
+- `tests/data/buna.py` fixtures and `tests/mock/test_buna.py` covering top-level, drill-down, leaf-barcode, sync + async, and blank-segment rejection paths
+
+### Changed
+
+- **Breaking**: `EbarimtApiClient` no longer attaches `PasswordGrantAuth` to its `httpx` clients. The public ebarimt info endpoints (`/api/info/check/getBranchInfo`, `getTinInfo`, `getInfo`, `barcode/v2/...`, and `/api/receipt/receipt/getProductTaxCode`) have no `security:` declaration in the OpenAPI spec — the OAuth2 token fetch was an unnecessary round-trip. The `auth/` module (`PasswordGrantAuth`, `OAuth2Token`) is kept intact for any future endpoint that may require token auth
+- **Breaking**: `ApiClientSettings` credential fields (`token_url`, `client_id`, `username`, `password`) are now optional `str | None = None`. `factory.create_api_settings` likewise accepts `client_id`, `username`, `password` as optional keyword arguments. Existing call sites that pass these continue to work; new call sites for the public info endpoints can construct settings as `ApiClientSettings(base_url=...)`
+- `DistrictCodeResource`, `BranchInfo`, and `GetDistrictCodeResponse` moved from `resources/api/info/` to a dedicated `resources/api/district/` package and re-exported from `ebarimt_pos_sdk.resources`
+- Mock tests for `district_code`, `tin_info`, `merchant_info`, `product_tax_code` no longer mock token endpoints or assert `token_route.called`; `_settings()` helpers construct credential-free `ApiClientSettings(base_url=BASE_API_URL)`
 
 ### Fixed
 
@@ -31,6 +41,7 @@ All notable changes to this project will be documented here.
 - `ReceiptResource.create` / `acreate` refactored to use `_send_sync_request` / `_send_async_request` helpers (consistent with `delete`)
 - `except Exception` in `BaseResource._decode_json` narrowed to `except ValueError`
 - Removed stray `print(TOKEN_URL)` in `tests/helpers.py`
+- `resources/__init__.py` import paths repaired — the district-package move had left `from .api.info.info import DistrictCodeResource` in place, leaving the SDK unimportable
 
 ---
 

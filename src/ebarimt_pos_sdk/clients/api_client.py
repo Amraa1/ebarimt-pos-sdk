@@ -1,8 +1,8 @@
 from httpx import AsyncClient, Client
 
 from .._types import HeaderTypes
-from ..auth import PasswordGrantAuth
 from ..resources import (
+    BunaResource,
     DistrictCodeResource,
     MerchantInfoResource,
     ProductTaxCodeResource,
@@ -21,7 +21,13 @@ class EbarimtApiClient(EbarimtBaseClient):
         async_client: AsyncClient | None = None,
         headers: HeaderTypes | None = None,
     ) -> None:
-        """Ebarimt public api client."""
+        """Ebarimt public api client.
+
+        These endpoints (district codes, TIN info, merchant info, product tax
+        codes, BÜNA classification) are publicly readable — no OAuth2 token
+        is required. The auth/ module is kept for future endpoints that may
+        require it.
+        """
 
         super().__init__(
             settings=settings,
@@ -29,17 +35,6 @@ class EbarimtApiClient(EbarimtBaseClient):
             async_client=async_client,
             headers=headers,
         )
-
-        # OAuth2.0
-        self.auth = PasswordGrantAuth(
-            settings=settings,
-            sync_client=self._sync_client,
-            async_client=self._async_client,
-            skew_seconds=settings.skew_seconds,
-        )
-
-        self._sync_client.auth = self.auth
-        self._async_client.auth = self.auth
 
         # Resources
         self.district_code = DistrictCodeResource(
@@ -61,6 +56,12 @@ class EbarimtApiClient(EbarimtBaseClient):
         )
 
         self.product_tax_code = ProductTaxCodeResource(
+            sync=self._sync_transport,
+            async_=self._async_transport,
+            headers=headers,
+        )
+
+        self.buna = BunaResource(
             sync=self._sync_transport,
             async_=self._async_transport,
             headers=headers,

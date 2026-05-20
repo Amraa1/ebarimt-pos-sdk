@@ -2,8 +2,12 @@
 Endpoints of Ebarimt as resources.
 """
 
-from .api.info.info import DistrictCodeResource, TinInfoResource
-from .api.info.schema import BranchInfo, GetDistrictCodeResponse, GetTinInfoResponse
+from .api.buna.buna import BunaResource
+from .api.buna.schema import GetBunaResponse
+from .api.district.district import DistrictCodeResource
+from .api.district.schema import BranchInfo, GetDistrictCodeResponse
+from .api.info.info import TinInfoResource
+from .api.info.schema import GetTinInfoResponse
 from .api.merchant.merchant import MerchantInfoResource
 from .api.merchant.schema import GetInfoResponse
 from .api.product.product import ProductTaxCodeResource
@@ -30,7 +34,9 @@ __all__ = [
     "SendDataResource",
     "BankAccountsResource",
     "BarCodeType",
+    "BunaResource",
     "CreateReceiptRequest",
+    "GetBunaResponse",
     "GetProductTaxCodeResponse",
     "ProductTaxCode",
     "ProductTaxCodeResource",

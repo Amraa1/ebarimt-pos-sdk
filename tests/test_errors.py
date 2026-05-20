@@ -180,14 +180,24 @@ def test_safe_request_str_strips_url_fragment() -> None:
     assert "FRAG" not in s
 
 
-def test_api_client_settings_post_init_rejects_none() -> None:
+def test_api_client_settings_accepts_no_credentials() -> None:
+    """Public ebarimt info endpoints don't require auth, so credential
+    fields default to None and must be accepted without error."""
+    from ebarimt_pos_sdk.settings import ApiClientSettings
+
+    settings = ApiClientSettings(base_url="https://example.com")
+    assert settings.token_url is None
+    assert settings.client_id is None
+    assert settings.normalized_token_url is None
+
+
+def test_api_client_settings_post_init_rejects_blank_strings() -> None:
+    """When credentials *are* supplied, empty/whitespace values are still
+    a misconfiguration and must be rejected."""
     from ebarimt_pos_sdk.settings import ApiClientSettings
 
     with pytest.raises(ValueError, match="token_url"):
         ApiClientSettings(
             base_url="https://example.com",
-            client_id="c",
-            username="u",
-            password="p",
-            token_url=None,  # type: ignore[arg-type]
+            token_url="   ",
         )

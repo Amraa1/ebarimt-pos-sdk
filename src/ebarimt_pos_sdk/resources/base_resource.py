@@ -157,6 +157,7 @@ class BaseResource:
         self,
         method: HttpMethod,
         *,
+        path: str | None = None,
         params: QueryParamTypes | None = None,
         payload_model: type[T] | None = None,
         payload: T | dict[str, Any] | None = None,
@@ -169,6 +170,7 @@ class BaseResource:
         self,
         method: HttpMethod,
         *,
+        path: str | None = None,
         params: QueryParamTypes | None = None,
         payload_model: type[T] | None = None,
         payload: T | dict[str, Any] | None = None,
@@ -180,20 +182,22 @@ class BaseResource:
         self,
         method: HttpMethod,
         *,
+        path: str | None = None,
         params: QueryParamTypes | None = None,
         payload_model: type[T] | None = None,
         payload: T | dict[str, Any] | None = None,
         response_model: type[N] | None = None,
         headers: HeaderTypes | None = None,
     ) -> N | None:
-        """Send sync request."""
+        """Send sync request. `path` overrides `self._path` for resources
+        that build the URL dynamically (e.g. hierarchical drill-down)."""
         send_kwargs = self._prepare_send_kwargs(
             params=params,
             payload_model=payload_model,
             payload=payload,
             headers=headers,
         )
-        result = self._sync.send(method, self._path, **send_kwargs)
+        result = self._sync.send(method, path or self._path, **send_kwargs)
         return self._decode_and_validate(result.response, response_model)
 
     @overload
@@ -201,6 +205,7 @@ class BaseResource:
         self,
         method: HttpMethod,
         *,
+        path: str | None = None,
         params: QueryParamTypes | None = None,
         payload_model: type[T] | None = None,
         payload: T | dict[str, Any] | None = None,
@@ -213,6 +218,7 @@ class BaseResource:
         self,
         method: HttpMethod,
         *,
+        path: str | None = None,
         params: QueryParamTypes | None = None,
         payload_model: type[T] | None = None,
         payload: T | dict[str, Any] | None = None,
@@ -224,18 +230,20 @@ class BaseResource:
         self,
         method: HttpMethod,
         *,
+        path: str | None = None,
         params: QueryParamTypes | None = None,
         payload_model: type[T] | None = None,
         payload: T | dict[str, Any] | None = None,
         response_model: type[N] | None = None,
         headers: HeaderTypes | None = None,
     ) -> N | None:
-        """Send async request."""
+        """Send async request. `path` overrides `self._path` for resources
+        that build the URL dynamically (e.g. hierarchical drill-down)."""
         send_kwargs = self._prepare_send_kwargs(
             params=params,
             payload_model=payload_model,
             payload=payload,
             headers=headers,
         )
-        result = await self._async.send(method, self._path, **send_kwargs)
+        result = await self._async.send(method, path or self._path, **send_kwargs)
         return self._decode_and_validate(result.response, response_model)

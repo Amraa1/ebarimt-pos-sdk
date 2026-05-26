@@ -6,7 +6,11 @@ import respx
 
 from ebarimt_pos_sdk import ApiClientSettings, EbarimtApiClient
 
-from ..data.merchant_info import SUCCESS_RESPONSE
+from ..data.merchant_info import (
+    NON_VATPAYER_RESPONSE,
+    NOT_FOUND_RESPONSE,
+    SUCCESS_RESPONSE,
+)
 from ..helpers import BASE_API_URL
 
 
@@ -37,4 +41,32 @@ async def test_merchant_info_async_ok() -> None:
         resp = await client.merchant_info.aread("01234567891")
         assert resp.data.name == "Test"
         assert resp.data.vatpayer_registered_date == date(2002, 4, 9)
+        assert route.called
+
+
+@respx.mock
+def test_merchant_info_null_registered_date() -> None:
+    # Non-VAT-payers come back with a null vatpayerRegisteredDate; the SDK must
+    # accept the response rather than raising a validation error.
+    route = respx.get(f"{BASE_API_URL}/api/info/check/getInfo").mock(
+        return_value=httpx.Response(status_code=200, json=NON_VATPAYER_RESPONSE)
+    )
+    with EbarimtApiClient(settings=_settings()) as client:
+        resp = client.merchant_info.read("01234567891")
+        assert resp.data is not None
+        assert resp.data.vatpayer_registered_date is None
+        assert resp.data.vat_payer is False
+        assert route.called
+
+
+@respx.mock
+def test_merchant_info_null_data() -> None:
+    # An unknown TIN yields a 200 with a null data object.
+    route = respx.get(f"{BASE_API_URL}/api/info/check/getInfo").mock(
+        return_value=httpx.Response(status_code=200, json=NOT_FOUND_RESPONSE)
+    )
+    with EbarimtApiClient(settings=_settings()) as client:
+        resp = client.merchant_info.read("00000000000")
+        assert resp.data is None
+        assert resp.status == 200
         assert route.called

@@ -11,3 +11,25 @@ SUCCESS_RESPONSE = {
         "isGovernment": False,
     },
 }
+
+# A non-VAT-payer: the live server returns 200 with a null registration date.
+NON_VATPAYER_RESPONSE = {
+    "msg": "Амжилттай",
+    "status": 200,
+    "data": {
+        "name": "Test User",
+        "freeProject": False,
+        "cityPayer": False,
+        "vatPayer": False,
+        "found": True,
+        "vatpayerRegisteredDate": None,
+        "isGovernment": False,
+    },
+}
+
+# A TIN the server doesn't know about: 200 with a null data object.
+NOT_FOUND_RESPONSE = {
+    "msg": "Амжилттай",
+    "status": 200,
+    "data": None,
+}

@@ -21,11 +21,11 @@ class MerchantInfo(BaseEbarimtModel):
     city_payer: bool
     vat_payer: bool
     found: bool
-    vatpayer_registered_date: date
+    vatpayer_registered_date: date | None = None
     is_government: bool
 
 
 class GetInfoResponse(BaseEbarimtModel):
     msg: str
     status: int
-    data: MerchantInfo
+    data: MerchantInfo | None = None

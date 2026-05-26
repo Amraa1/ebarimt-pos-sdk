@@ -142,4 +142,5 @@ def test_integration_merchant_info_read():
         info = client.merchant_info.read(tin)
 
     assert info.status == 200
+    assert info.data
     assert info.data.name

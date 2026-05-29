@@ -22,7 +22,8 @@ class MerchantInfo(BaseEbarimtModel):
     vat_payer: bool
     found: bool
     vatpayer_registered_date: date | None = None
-    is_government: bool
+    # Server may return null when the government-organization flag is undetermined.
+    is_government: bool | None = None
 
 
 class GetInfoResponse(BaseEbarimtModel):

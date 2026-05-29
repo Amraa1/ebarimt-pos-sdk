@@ -9,6 +9,7 @@ from ebarimt_pos_sdk import ApiClientSettings, EbarimtApiClient
 from ..data.merchant_info import (
     NON_VATPAYER_RESPONSE,
     NOT_FOUND_RESPONSE,
+    NULL_GOVERNMENT_RESPONSE,
     SUCCESS_RESPONSE,
 )
 from ..helpers import BASE_API_URL
@@ -56,6 +57,20 @@ def test_merchant_info_null_registered_date() -> None:
         assert resp.data is not None
         assert resp.data.vatpayer_registered_date is None
         assert resp.data.vat_payer is False
+        assert route.called
+
+
+@respx.mock
+def test_merchant_info_null_is_government() -> None:
+    # The server may return a null isGovernment flag; the SDK must accept it
+    # rather than raising a validation error (issue #74).
+    route = respx.get(f"{BASE_API_URL}/api/info/check/getInfo").mock(
+        return_value=httpx.Response(status_code=200, json=NULL_GOVERNMENT_RESPONSE)
+    )
+    with EbarimtApiClient(settings=_settings()) as client:
+        resp = client.merchant_info.read("01234567891")
+        assert resp.data is not None
+        assert resp.data.is_government is None
         assert route.called
 
 

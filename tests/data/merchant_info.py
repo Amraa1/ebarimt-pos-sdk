@@ -33,3 +33,18 @@ NOT_FOUND_RESPONSE = {
     "status": 200,
     "data": None,
 }
+
+# The live server may return a null isGovernment flag; the SDK must tolerate it.
+NULL_GOVERNMENT_RESPONSE = {
+    "msg": "Амжилттай",
+    "status": 200,
+    "data": {
+        "name": "Test",
+        "freeProject": False,
+        "cityPayer": True,
+        "vatPayer": True,
+        "found": True,
+        "vatpayerRegisteredDate": "2002-04-09",
+        "isGovernment": None,
+    },
+}

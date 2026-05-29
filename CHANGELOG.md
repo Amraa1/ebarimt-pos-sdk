@@ -45,6 +45,14 @@ All notable changes to this project will be documented here.
 
 ---
 
+## [0.3.2] — 2026-05-29
+
+### Fixed
+
+- `MerchantInfo.is_government` is now nullable (`bool | None`). The `getInfo`
+  endpoint can return `isGovernment: null`, which previously raised a pydantic
+  `bool_type` validation error (#74)
+
 ## [0.2.8] — 2025
 
 - Bug fix (#65)

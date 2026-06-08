@@ -24,7 +24,7 @@ on:
 
 jobs:
     dev-tools:
-        name: python (uv + ruff + mypy)
+        name: python (uv + ruff + ty)
         runs-on: ubuntu-latest
 
         steps:
@@ -49,5 +49,5 @@ jobs:
             - name: Ruff
               run: uv run ruff check
 
-            - name: Mypy
-              run: uv run mypy src
+            - name: ty
+              run: uv run ty check

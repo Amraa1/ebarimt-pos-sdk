@@ -17,8 +17,7 @@
 ## Онцлог
 
 - **Async-first** — үйлдэл бүр синхрон болон `async` хувилбартай (`method()` / `amethod()`). `httpx` дээр суурилсан.
-- **Хатуу төрөлтэй** — Pydantic v2 загварууд, camelCase ↔ snake_case хөрвүүлэгчтэй. `mypy --strict` горимд бүрэн
-  нийцсэн.
+- **Хатуу төрөлтэй** — Pydantic v2 загварууд, camelCase ↔ snake_case хөрвүүлэгчтэй. `ty`-ээр төрөл шалгасан.
 - **Хоёр тусгайлсан клиент** — олон нийтийн OAuth2 API-д `EbarimtApiClient`, дотоод POS REST API-д `EbarimtRestClient`.
 - **OAuth2 токен удирдлага** — password grant урсгал болон токен шинэчлэх (refresh) логик, хугацаа дуусахаас өмнө
   автоматаар шинэчилдэг.
@@ -226,8 +225,8 @@ uv run pytest -m "not integration" --cov
 uv run ruff check
 uv run ruff format
 
-# Төрөл шалгах (strict)
-uv run mypy src
+# Төрөл шалгах
+uv run ty check
 ```
 
 Integration тестүүд (`@pytest.mark.integration` тэмдэгтэй) нь амьд PosAPI сервер болон нэвтрэх мэдээллийг шаардах тул

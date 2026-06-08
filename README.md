@@ -18,7 +18,7 @@ interface.
 
 - **Async-first** — every operation exposes both a synchronous and an `async` variant (`method()` / `amethod()`), built
   on `httpx`.
-- **Strictly typed** — Pydantic v2 models with camelCase ↔ snake_case aliasing; full `mypy --strict` compliance.
+- **Strictly typed** — Pydantic v2 models with camelCase ↔ snake_case aliasing; type-checked with `ty`.
 - **Two focused clients** — `EbarimtApiClient` for the public OAuth2 API, `EbarimtRestClient` for the local POS REST
   API.
 - **Managed OAuth2** — built-in password-grant flow with automatic token refresh and proactive expiry handling.
@@ -276,8 +276,8 @@ uv run pytest -m "not integration" --cov
 uv run ruff check
 uv run ruff format
 
-# Type check (strict)
-uv run mypy src
+# Type check
+uv run ty check
 ```
 
 Integration tests (marked `@pytest.mark.integration`) require a live PosAPI server and credentials; they are excluded

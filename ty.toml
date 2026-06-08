@@ -1,0 +1,11 @@
+# ty configuration — replaces mypy.ini.
+# Docs: https://docs.astral.sh/ty/
+
+[environment]
+# Mirrors the former mypy `python_version = 3.10`.
+python-version = "3.10"
+
+[src]
+# Type-check the package only; tests are excluded (matches the former
+# mypy `files = src` / `exclude = tests/`).
+include = ["src"]

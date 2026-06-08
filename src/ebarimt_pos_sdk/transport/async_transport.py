@@ -1,9 +1,11 @@
 import asyncio
 import logging
+import time
 from typing import Any
 
 import httpx
 
+from .._logging import log_request, log_response, log_retry, new_request_id
 from ..errors import PosApiTransportError
 from ..settings.retry_settings import RetrySettings
 from .http import (
@@ -38,6 +40,10 @@ class AsyncTransport:
         payload: dict[str, Any] | None = None,
         **kwargs: Any,
     ) -> HttpRequestResponse:
+        request_id = new_request_id()
+        # Carried on the request so the error path (PosApiError) can read it
+        # back and stay correlatable with the emitted log lines.
+        extensions = {**kwargs.pop("extensions", {}), "request_id": request_id}
         last_request: httpx.Request | None = None
         response: httpx.Response | None = None
         for attempt in range(self._retry.max_retries):
@@ -47,25 +53,46 @@ class AsyncTransport:
                 params=params,
                 headers=headers,
                 json=payload,
+                extensions=extensions,
                 **kwargs,
             )
             last_request = request
+            log_request(logger, request, request_id)
+            started = time.perf_counter()
             try:
-                logger.debug("→ %s %s", method, url)
                 response = await self._client.send(request)
-                logger.debug("← %s", response.status_code)
             except (httpx.TimeoutException, httpx.NetworkError) as exc:
                 if attempt < self._retry.max_retries - 1:
-                    await asyncio.sleep(self._retry.sleep_seconds(attempt))
+                    sleep_s = self._retry.sleep_seconds(attempt)
+                    log_retry(
+                        logger,
+                        request_id,
+                        attempt + 1,
+                        self._retry.max_retries,
+                        type(exc).__name__,
+                        sleep_s,
+                    )
+                    await asyncio.sleep(sleep_s)
                     continue
                 raise build_transport_error(request, exc) from exc
             except httpx.HTTPError as exc:
                 raise build_transport_error(request, exc) from exc
 
+            log_response(logger, response, request_id, (time.perf_counter() - started) * 1000)
+
             if response.status_code not in self._retry.retryable_statuses:
                 return HttpRequestResponse(request=request, response=response)
             if attempt < self._retry.max_retries - 1:
-                await asyncio.sleep(self._retry.sleep_seconds(attempt))
+                sleep_s = self._retry.sleep_seconds(attempt)
+                log_retry(
+                    logger,
+                    request_id,
+                    attempt + 1,
+                    self._retry.max_retries,
+                    str(response.status_code),
+                    sleep_s,
+                )
+                await asyncio.sleep(sleep_s)
 
         if response is None or last_request is None:
             raise PosApiTransportError("retry loop exited without sending a request")

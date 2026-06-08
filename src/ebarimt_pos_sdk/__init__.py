@@ -1,3 +1,5 @@
+import logging
+
 from .clients import EbarimtApiClient, EbarimtRestClient
 from .errors import (
     PosApiBusinessError,
@@ -25,6 +27,11 @@ from .resources import (
     TaxType,
 )
 from .settings import ApiClientSettings, RestClientSettings
+
+# Library logging hygiene: attach a NullHandler so the SDK never emits to the
+# root logger or prints "No handlers could be found" warnings. Applications opt
+# in by configuring the "ebarimt_pos_sdk" logger themselves.
+logging.getLogger("ebarimt_pos_sdk").addHandler(logging.NullHandler())
 
 __all__ = [
     "EbarimtApiClient",

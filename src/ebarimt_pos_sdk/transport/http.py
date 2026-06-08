@@ -6,6 +6,7 @@ from typing import Literal, TypeAlias
 
 import httpx
 
+from .._redaction import redact_url
 from ..errors import (
     PosApiTransportError,
 )
@@ -28,7 +29,7 @@ def build_transport_error(
 ) -> PosApiTransportError:
     """Build Pos Api Transport layer error."""
     return PosApiTransportError(
-        f"Transport error for {request.method} {request.url}: {exc}",
+        f"Transport error for {request.method} {redact_url(request.url)}: {exc}",
         request=request,
     )
 

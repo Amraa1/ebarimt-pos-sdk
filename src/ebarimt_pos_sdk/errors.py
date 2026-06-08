@@ -4,41 +4,11 @@ from __future__ import annotations
 
 from datetime import datetime
 from typing import Literal
-from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 
 import httpx
 from pydantic import ValidationError
 
-_SENSITIVE_HEADERS = frozenset(
-    {
-        "authorization",
-        "proxy-authorization",
-        "cookie",
-        "set-cookie",
-        "x-api-key",
-        "x-auth-token",
-    }
-)
-_SENSITIVE_QUERY_PARAMS = frozenset(
-    {
-        "access_token",
-        "refresh_token",
-        "token",
-        "id_token",
-        "code",
-        "client_secret",
-    }
-)
-
-
-def _redact_url(url: httpx.URL) -> str:
-    """Strip token-bearing query params and any URL fragment from a URL."""
-    parts = urlsplit(str(url))
-    if not parts.query and not parts.fragment:
-        return str(url)
-    pairs = parse_qsl(parts.query, keep_blank_values=True)
-    redacted = [(k, "***" if k.lower() in _SENSITIVE_QUERY_PARAMS else v) for k, v in pairs]
-    return urlunsplit((parts.scheme, parts.netloc, parts.path, urlencode(redacted), ""))
+from ._redaction import redact_headers, redact_url
 
 
 class PosApiError(Exception):
@@ -57,21 +27,25 @@ class PosApiError(Exception):
         self.request = request
         self.response = response
         self.cause = cause
+        # Correlation id stamped onto the request by the transport, so a raised
+        # error can be matched to the request/response/retry log lines.
+        self.request_id: str | None = (
+            request.extensions.get("request_id") if request is not None else None
+        )
 
     @staticmethod
     def _safe_request_str(request: httpx.Request | None) -> str:
         """Return a string representation of the request with sensitive data redacted."""
         if request is None:
             return "None"
-        safe_headers = {
-            k: "***" if k.lower() in _SENSITIVE_HEADERS else v for k, v in request.headers.items()
-        }
-        safe_url = _redact_url(request.url)
+        safe_headers = redact_headers(request.headers)
+        safe_url = redact_url(request.url)
         return f"{request.method} {safe_url} headers={safe_headers}"
 
     def __str__(self) -> str:
         lines = [
             f"Message: {self.message}",
+            f"RequestId: {self.request_id}",
             f"Request: {self._safe_request_str(self.request)}",
             f"Response: {self.response}",
             f"Cause: {self.cause}",

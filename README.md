@@ -201,6 +201,52 @@ deployments.
 
 ---
 
+## Logging
+
+The SDK logs through the standard library under the `ebarimt_pos_sdk` namespace and follows library-logging
+hygiene: a `NullHandler` is attached, so **nothing is emitted until your application configures logging**. The SDK
+never adds handlers or sets levels itself.
+
+```python
+import logging
+
+logging.basicConfig(level=logging.INFO)
+logging.getLogger("ebarimt_pos_sdk").setLevel(logging.DEBUG)
+```
+
+What you get:
+
+- **`DEBUG`** — one line per request and response: `→ POST /rest/receipt [a1b2c3d4]` / `← 200 in 42ms [a1b2c3d4]`.
+- **`WARNING`** — one line per retried attempt: `retry 1/3 after 503, sleeping 1.00s [a1b2c3d4]`.
+- Failures are **not** logged — they raise a typed `PosApiError`. The same `request_id` is available as
+  `error.request_id`, so an exception in production correlates with the log lines.
+
+Each record also carries structured fields (`request_id`, `http_method`, `http_status`, `duration_ms`, `attempt`)
+via `extra=`, ready for JSON log pipelines.
+
+**Safety:** records are metadata only — method, status, timing, ids. Headers and request/response bodies are never
+logged. URLs have sensitive query parameters (tokens, secrets) masked. Path segments are left intact; the only
+identifiers the SDK puts in a path are TINs, which are public.
+
+To also see httpx's own output, configure its loggers directly — `httpx` at `INFO` emits an `HTTP Request:` line
+(note: the **raw** URL, unredacted), and `httpcore` at `DEBUG` emits connection/wire detail:
+
+```python
+import logging.config
+
+logging.config.dictConfig({
+    "version": 1,
+    "handlers": {"default": {"class": "logging.StreamHandler"}},
+    "loggers": {
+        "ebarimt_pos_sdk": {"handlers": ["default"], "level": "DEBUG"},
+        "httpx": {"handlers": ["default"], "level": "INFO"},
+        "httpcore": {"handlers": ["default"], "level": "WARNING"},
+    },
+})
+```
+
+---
+
 ## Validation philosophy
 
 The SDK validates **structure, not policy**:

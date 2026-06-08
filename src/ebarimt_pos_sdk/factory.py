@@ -5,7 +5,6 @@ Ebarimt api settings factory
 from dataclasses import dataclass
 from enum import Enum, auto
 
-from ._types import HeaderTypes
 from .settings import ApiClientSettings
 
 
@@ -43,7 +42,6 @@ def create_api_settings(
     scope: str | None = None,
     timeout_s: float = 10.0,
     verify_tls: bool = True,
-    headers: HeaderTypes | None = None,
     skew_seconds: float = 30,
 ) -> ApiClientSettings:
     """Ebarimt api settings factory.
@@ -65,6 +63,5 @@ def create_api_settings(
         scope=scope,
         timeout_s=timeout_s,
         verify_tls=verify_tls,
-        headers=headers,
         skew_seconds=skew_seconds,
     )

@@ -35,12 +35,24 @@ class EbarimtBaseClient:
             base_url=self._base_url,
             timeout=settings.timeout_s,
             verify=settings.verify_tls,
+            headers=headers,
         )
         self._async_client = async_client or httpx.AsyncClient(
             base_url=self._base_url,
             timeout=settings.timeout_s,
             verify=settings.verify_tls,
+            headers=headers,
         )
+
+        # When the caller injects their own client, apply the SDK-level headers
+        # to its defaults so client headers behave identically regardless of who
+        # created the client. httpx merges these with per-request headers on
+        # every outgoing request (per-request wins on key conflicts).
+        if headers:
+            if not self._owns_sync:
+                self._sync_client.headers.update(headers)
+            if not self._owns_async:
+                self._async_client.headers.update(headers)
 
         self._sync_transport = SyncTransport(self._sync_client, retry=settings.retry)
         self._async_transport = AsyncTransport(self._async_client, retry=settings.retry)

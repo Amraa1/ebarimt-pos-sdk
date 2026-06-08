@@ -30,20 +30,16 @@ class EbarimtRestClient(EbarimtBaseClient):
         self.receipt = ReceiptResource(
             sync=self._sync_transport,
             async_=self._async_transport,
-            headers=self._headers,
         )
         self.info = InfoResource(
             sync=self._sync_transport,
             async_=self._async_transport,
-            headers=self._headers,
         )
         self.send_data = SendDataResource(
             sync=self._sync_transport,
             async_=self._async_transport,
-            headers=self._headers,
         )
         self.bank_accounts = BankAccountsResource(
             sync=self._sync_transport,
             async_=self._async_transport,
-            headers=self._headers,
         )

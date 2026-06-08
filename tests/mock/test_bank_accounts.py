@@ -11,7 +11,7 @@ from ..helpers import BASE_REST_URL, TIN
 @respx.mock
 def test_bank_accounts_read_sync_ok() -> None:
     base_url = BASE_REST_URL
-    settings = RestClientSettings(base_url=base_url, headers=None)
+    settings = RestClientSettings(base_url=base_url)
     tin = TIN
 
     route = respx.get(f"{base_url}/rest/bankAccounts").mock(

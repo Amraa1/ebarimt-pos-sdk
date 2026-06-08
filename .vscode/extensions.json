@@ -5,7 +5,7 @@
   // List of extensions which should be recommended for users of this workspace.
   "recommendations": [
     "charliermarsh.ruff",
-    "ms-python.mypy-type-checker",
+    "astral-sh.ty",
     "ms-python.python"
   ],
   // List of extensions recommended by VS Code that should not be recommended for users of this workspace.

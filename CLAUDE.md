@@ -17,7 +17,7 @@ Core design philosophy: **"Validate structure, not policy."** The SDK validates 
 - **uv** — package manager and build tool (replaces pip/venv)
 - **pytest + pytest-asyncio + respx** — testing
 - **ruff** — linting and formatting
-- **mypy** — static type checking (strict mode)
+- **ty** — static type checking (Astral, Rust-based)
 - **Sphinx** — documentation generation
 
 ## Key Commands
@@ -39,7 +39,7 @@ uv run ruff check
 uv run ruff format
 
 # Type check
-uv run mypy src
+uv run ty check
 
 # OpenAPI spec validation (requires Node.js)
 npm run spec:check
@@ -169,7 +169,7 @@ uv run pytest -m "not integration"
 - Line length: 100 characters (enforced by ruff)
 - Target: Python 3.10 syntax
 - Imports sorted by isort rules (ruff `I`)
-- Strict mypy — all functions must be typed; `disallow_untyped_defs = true`
+- Type-checked with **ty** (`uv run ty check`); annotate all functions. Note: ty is a gradual checker and, unlike mypy, does not enforce `disallow_untyped_defs` — keep annotations by convention.
 
 ## OpenAPI Spec
 

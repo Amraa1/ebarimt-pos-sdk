@@ -40,29 +40,24 @@ class EbarimtApiClient(EbarimtBaseClient):
         self.district_code = DistrictCodeResource(
             sync=self._sync_transport,
             async_=self._async_transport,
-            headers=headers,
         )
 
         self.tin_info = TinInfoResource(
             sync=self._sync_transport,
             async_=self._async_transport,
-            headers=headers,
         )
 
         self.merchant_info = MerchantInfoResource(
             sync=self._sync_transport,
             async_=self._async_transport,
-            headers=headers,
         )
 
         self.product_tax_code = ProductTaxCodeResource(
             sync=self._sync_transport,
             async_=self._async_transport,
-            headers=headers,
         )
 
         self.buna = BunaResource(
             sync=self._sync_transport,
             async_=self._async_transport,
-            headers=headers,
         )

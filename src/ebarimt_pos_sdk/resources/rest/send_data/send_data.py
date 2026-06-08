@@ -10,7 +10,7 @@ class SendDataResource(BaseResource):
         result = self._sync.send(
             "GET",
             self._path,
-            headers=self._build_headers(self._headers, headers),
+            headers=headers,
         )
 
         self._ensure_http_success(result.response)
@@ -21,7 +21,7 @@ class SendDataResource(BaseResource):
         result = await self._async.send(
             "GET",
             self._path,
-            headers=self._build_headers(self._headers, headers),
+            headers=headers,
         )
 
         self._ensure_http_success(result.response)

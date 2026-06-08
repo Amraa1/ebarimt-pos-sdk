@@ -19,7 +19,7 @@ class BankAccountsResource(BaseResource):
             "GET",
             self._path,
             params=httpx.QueryParams({"tin": tin}),
-            headers=self._build_headers(self._headers, headers),
+            headers=headers,
         )
 
         self._ensure_http_success(result.response)
@@ -36,7 +36,7 @@ class BankAccountsResource(BaseResource):
             "GET",
             self._path,
             params=httpx.QueryParams({"tin": tin}),
-            headers=self._build_headers(self._headers, headers),
+            headers=headers,
         )
 
         self._ensure_http_success(result.response)

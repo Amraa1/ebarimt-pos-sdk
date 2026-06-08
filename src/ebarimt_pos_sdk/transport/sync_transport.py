@@ -6,7 +6,13 @@ import httpx
 
 from ..errors import PosApiTransportError
 from ..settings.retry_settings import RetrySettings
-from .http import HttpMethod, HttpRequestResponse, QueryParamTypes, build_transport_error
+from .http import (
+    HeaderTypes,
+    HttpMethod,
+    HttpRequestResponse,
+    QueryParamTypes,
+    build_transport_error,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -26,7 +32,7 @@ class SyncTransport:
         url: httpx.URL | str,
         *,
         params: QueryParamTypes | None = None,
-        headers: httpx.Headers | None = None,
+        headers: HeaderTypes | None = None,
         payload: dict[str, Any] | None = None,
         **kwargs: Any,
     ) -> HttpRequestResponse:

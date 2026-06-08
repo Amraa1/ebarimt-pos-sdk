@@ -20,11 +20,9 @@ class BaseResource:
         *,
         sync: SyncTransport,
         async_: AsyncTransport,
-        headers: HeaderTypes | None = None,
     ) -> None:
         self._sync = sync
         self._async = async_
-        self._headers = headers
 
     @property
     @abstractmethod
@@ -69,22 +67,6 @@ class BaseResource:
             ) from exc
 
     @staticmethod
-    def _build_headers(*headers: HeaderTypes | None) -> httpx.Headers:
-        """Merges headers and returns one header.
-
-        Note:
-            Highest priority header should be the last.
-
-        Returns:
-            httpx.Headers: Merged header.
-        """
-        out = httpx.Headers()
-        for header in headers:
-            if header is not None:
-                out.update(header)
-        return out
-
-    @staticmethod
     def _model_dump(payload: BaseModel) -> dict[str, Any]:
         return payload.model_dump(mode="json", by_alias=True, exclude_none=True)
 
@@ -106,7 +88,7 @@ class BaseResource:
 
         kwargs: dict[str, Any] = {
             "params": params,
-            "headers": self._build_headers(self._headers, headers),
+            "headers": headers,
         }
         if validated is not None:
             kwargs["payload"] = self._model_dump(validated)

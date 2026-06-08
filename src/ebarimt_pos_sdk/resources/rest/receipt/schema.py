@@ -24,7 +24,7 @@ _ReceiptType: TypeAlias = (
     ReceiptType | Literal["B2C_RECEIPT", "B2B_RECEIPT", "B2C_INVOICE", "B2B_INVOICE"]
 )
 
-_TaxType = TaxType | Literal["VAT_ABLE", "VAT_FREE", "VAT_ZERO", "NOT_VAT"]
+_TaxType = TaxType | Literal["VAT_ABLE", "VAT_FREE", "VAT_ZERO", "NO_VAT"]
 
 _BarCodeType: TypeAlias = BarCodeType | Literal["UNDEFINED", "GS1", "ISBN"]
 

@@ -116,6 +116,20 @@ with EbarimtApiClient(settings=settings) as client:
     print(info.data)
 ```
 
+#### Routing through a proxy
+
+The public API may only be reachable from a specific region (e.g. Mongolia). Route the API client through an
+HTTP/SOCKS proxy with the `proxy` argument:
+
+```python
+with EbarimtApiClient(settings, proxy="http://user:pass@mn-proxy:8080") as client:
+    info = client.tin_info.read("1234567890")
+```
+
+`proxy` accepts a URL string or an `httpx.Proxy`; SOCKS proxies need the `httpx[socks]` extra. It cannot be
+combined with an injected `sync_client`/`async_client` — set the proxy on that client instead. The local
+`EbarimtRestClient` has no `proxy` argument (it talks to a POS device on your own network).
+
 ---
 
 ## Clients at a glance

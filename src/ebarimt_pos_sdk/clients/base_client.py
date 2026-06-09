@@ -22,7 +22,17 @@ class EbarimtBaseClient:
         sync_client: httpx.Client | None = None,
         async_client: httpx.AsyncClient | None = None,
         headers: HeaderTypes | None = None,
+        proxy: str | httpx.Proxy | None = None,
     ) -> None:
+        # A proxy can only be applied to a client the SDK builds itself. An
+        # injected client is already constructed, so passing both is a
+        # contradiction — configure the proxy on the injected client instead.
+        if proxy is not None and (sync_client is not None or async_client is not None):
+            raise ValueError(
+                "proxy cannot be combined with an injected sync_client/async_client; "
+                "configure the proxy on your injected client instead."
+            )
+
         self._settings = settings
         self._headers = headers
 
@@ -36,12 +46,14 @@ class EbarimtBaseClient:
             timeout=settings.timeout_s,
             verify=settings.verify_tls,
             headers=headers,
+            proxy=proxy,
         )
         self._async_client = async_client or httpx.AsyncClient(
             base_url=self._base_url,
             timeout=settings.timeout_s,
             verify=settings.verify_tls,
             headers=headers,
+            proxy=proxy,
         )
 
         # When the caller injects their own client, apply the SDK-level headers

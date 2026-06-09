@@ -1,4 +1,4 @@
-from httpx import AsyncClient, Client
+from httpx import AsyncClient, Client, Proxy
 
 from .._types import HeaderTypes
 from ..resources import (
@@ -20,6 +20,7 @@ class EbarimtApiClient(EbarimtBaseClient):
         sync_client: Client | None = None,
         async_client: AsyncClient | None = None,
         headers: HeaderTypes | None = None,
+        proxy: str | Proxy | None = None,
     ) -> None:
         """Ebarimt public api client.
 
@@ -27,6 +28,13 @@ class EbarimtApiClient(EbarimtBaseClient):
         codes, BÜNA classification) are publicly readable — no OAuth2 token
         is required. The auth/ module is kept for future endpoints that may
         require it.
+
+        ``proxy`` routes every request through an HTTP/SOCKS proxy — useful
+        when the public API is only reachable from a specific region. Accepts a
+        URL string (``"http://user:pass@host:8080"``) or an ``httpx.Proxy``;
+        SOCKS proxies require the ``httpx[socks]`` extra. It cannot be combined
+        with an injected ``sync_client``/``async_client`` — configure the proxy
+        on that client instead.
         """
 
         super().__init__(
@@ -34,6 +42,7 @@ class EbarimtApiClient(EbarimtBaseClient):
             sync_client=sync_client,
             async_client=async_client,
             headers=headers,
+            proxy=proxy,
         )
 
         # Resources

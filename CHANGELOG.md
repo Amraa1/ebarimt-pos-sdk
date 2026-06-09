@@ -6,16 +6,20 @@ All notable changes to this project will be documented here.
 
 ## [Unreleased]
 
+## [0.4.0] — 2026-06-09
+
 ### Security
 
 - Redact `Authorization` header in `PosApiError.__str__()` to prevent token exposure in logs
+- Hoisted URL/header redaction into a shared `_redaction` module reused by error formatting and the new logging; fixed a leak where `build_transport_error` embedded the raw (unredacted) request URL in the error message (#86)
 
 ### Added
 
+- `proxy` argument on `EbarimtApiClient` (`str | httpx.Proxy`) to route the public API through an HTTP/SOCKS proxy — e.g. reaching the Mongolia-only API from another region. Forwarded to the underlying httpx clients; combining it with an injected `sync_client`/`async_client` raises `ValueError`; SOCKS needs the `httpx[socks]` extra (#91)
 - Token refresh flow in `PasswordGrantAuth` — tries refresh token before falling back to full password grant
 - `_refresh_token_sync()` and `_refresh_token_async()` methods on `PasswordGrantAuth`
 - Retry logic in `SyncTransport` and `AsyncTransport` — up to 3 attempts with backoff on 5xx / network errors
-- Debug logging in transport layer (`logging.getLogger(__name__)`) at `DEBUG` level
+- Structured request/response logging in the transport layer under the `ebarimt_pos_sdk.*` namespace: lifecycle lines at `DEBUG`, retries at `WARNING`, a per-request `request_id` (carried via `request.extensions` and exposed on `PosApiError.request_id`), and structured `extra` fields. Metadata only — headers/bodies are never logged and sensitive URL query params are redacted. A `NullHandler` is attached to the package root so nothing is emitted until the application configures logging (#86)
 - `__post_init__` validation on `ApiClientSettings` — rejects empty/whitespace `token_url`, `client_id`, `username`, `password` when supplied (fields themselves are optional; see [Changed])
 - `@field_validator` on `Item.qty` and `Item.unit_price` — rejects values `<= 0`
 - `@field_validator` on `SubReceipt.items` — rejects empty list
@@ -28,6 +32,7 @@ All notable changes to this project will be documented here.
 
 ### Changed
 
+- Tooling: replaced mypy with `ty` (Astral) as the static type checker, and moved ruff config from `pyproject.toml` to `ruff.toml` (#87, #90)
 - **Breaking**: `EbarimtApiClient` no longer attaches `PasswordGrantAuth` to its `httpx` clients. The public ebarimt info endpoints (`/api/info/check/getBranchInfo`, `getTinInfo`, `getInfo`, `barcode/v2/...`, and `/api/receipt/receipt/getProductTaxCode`) have no `security:` declaration in the OpenAPI spec — the OAuth2 token fetch was an unnecessary round-trip. The `auth/` module (`PasswordGrantAuth`, `OAuth2Token`) is kept intact for any future endpoint that may require token auth
 - **Breaking**: `ApiClientSettings` credential fields (`token_url`, `client_id`, `username`, `password`) are now optional `str | None = None`. `factory.create_api_settings` likewise accepts `client_id`, `username`, `password` as optional keyword arguments. Existing call sites that pass these continue to work; new call sites for the public info endpoints can construct settings as `ApiClientSettings(base_url=...)`
 - `DistrictCodeResource`, `BranchInfo`, and `GetDistrictCodeResponse` moved from `resources/api/info/` to a dedicated `resources/api/district/` package and re-exported from `ebarimt_pos_sdk.resources`
@@ -35,6 +40,7 @@ All notable changes to this project will be documented here.
 
 ### Fixed
 
+- `TaxType` raw-string Literal corrected from `NOT_VAT` to `NO_VAT` to match the value the live server accepts; the `TaxType` enum was already correct (#88)
 - Token fetch / refresh errors now raise `PosApiTransportError` instead of raw authlib / httpx exceptions
 - Async token lock race condition: removed unprotected pre-lock read, all logic now inside `async with self._async_lock`
 - Sync token lock simplified to same pattern for consistency

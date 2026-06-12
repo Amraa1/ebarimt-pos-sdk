@@ -160,7 +160,7 @@ class CreateReceiptResponse(_CreateReceiptBase):
     pos_id: int
     status: _ReceiptCreateStatus
     qr_data: str
-    lottery: str
+    lottery: str | None = None
     date: datetime
     easy: bool
     receipts: list[SubReceiptResponse]

@@ -41,7 +41,9 @@ acknowledgement within 5 business days.
   hard-code them. The SDK does not read `.env` files itself.
 - Treat the local POS REST endpoint (`EbarimtRestClient`) as trusted-network
   only — it has no authentication of its own.
-- Retries are enabled by default for 5xx and network errors. Receipt creation
-  (`POST /rest/receipt`) is not guaranteed idempotent server-side; if duplicate
-  issuance is a concern in your deployment, lower `RetrySettings.max_retries`
-  to `1` for the REST client and handle retries at the application level.
+- Retries are enabled by default for 5xx and network errors, but only for
+  idempotent methods (`GET`/`HEAD`/`OPTIONS`/`PUT`/`DELETE`). Receipt creation
+  (`POST /rest/receipt`) is sent exactly once, because PosAPI exposes no
+  idempotency key and a retry after a lost response can issue a duplicate
+  receipt. Opt `POST` in via `RetrySettings.retry_methods` only if your
+  application can detect duplicates.

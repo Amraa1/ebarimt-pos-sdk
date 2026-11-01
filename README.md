@@ -22,8 +22,9 @@ interface.
 - **Two focused clients** — `EbarimtApiClient` for the public OAuth2 API, `EbarimtRestClient` for the local POS REST
   API.
 - **Managed OAuth2** — built-in password-grant flow with automatic token refresh and proactive expiry handling.
-- **Resilient transport** — configurable retry with exponential backoff on 5xx and network errors, per-request timeouts,
-  and TLS verification.
+- **Resilient transport** — configurable retry with exponential backoff on 5xx and network errors for idempotent
+  methods (`GET`/`HEAD`/`OPTIONS`/`PUT`/`DELETE`), per-request timeouts, and TLS verification. `POST` is never
+  retried unless you opt in, so a lost response can't become a duplicate receipt.
 - **Structured errors** — a clear exception hierarchy distinguishing transport, HTTP, decode, validation, and business
   failures. Sensitive headers and tokens are automatically redacted from error output.
 - **Environment presets** — one-line switch between `STAGING` and `PRODUCTION` endpoints via `create_api_settings`.
@@ -206,12 +207,21 @@ settings = RestClientSettings(
         max_retries=3,
         backoff_base_seconds=1.0,
         retryable_statuses=frozenset({500, 502, 503, 504}),
+        retry_methods=RetrySettings.DEFAULT_RETRY_METHODS,  # GET/HEAD/OPTIONS/PUT/DELETE
     ),
 )
 ```
 
 The default retry policy — 3 attempts with exponential backoff on 5xx and network errors — is suitable for most
 deployments.
+
+**Retries only apply to idempotent methods.** `receipt.create` is a `POST`: if the local PosAPI persists the receipt
+but the response is lost to a timeout, a retry would issue a *second* е-баримт. The SDK therefore sends `POST` (and
+`PATCH`) exactly once regardless of `max_retries`. If your deployment can tolerate or detect duplicates, opt in:
+
+```python
+RetrySettings(retry_methods=RetrySettings.DEFAULT_RETRY_METHODS | {"POST"})
+```
 
 ---
 

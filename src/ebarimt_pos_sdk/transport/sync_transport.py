@@ -43,7 +43,10 @@ class SyncTransport:
         extensions = {**kwargs.pop("extensions", {}), "request_id": request_id}
         last_request: httpx.Request | None = None
         response: httpx.Response | None = None
-        for attempt in range(self._retry.max_retries):
+        # Non-idempotent methods (POST/PATCH by default) get exactly one attempt
+        # so a lost response can never turn into a duplicate write (#77).
+        attempts = self._retry.attempts_for(method)
+        for attempt in range(attempts):
             request = self._client.build_request(
                 method=method,
                 url=url,
@@ -59,13 +62,13 @@ class SyncTransport:
             try:
                 response = self._client.send(request)
             except (httpx.TimeoutException, httpx.NetworkError) as exc:
-                if attempt < self._retry.max_retries - 1:
+                if attempt < attempts - 1:
                     sleep_s = self._retry.sleep_seconds(attempt)
                     log_retry(
                         logger,
                         request_id,
                         attempt + 1,
-                        self._retry.max_retries,
+                        attempts,
                         type(exc).__name__,
                         sleep_s,
                     )
@@ -79,13 +82,13 @@ class SyncTransport:
 
             if response.status_code not in self._retry.retryable_statuses:
                 return HttpRequestResponse(request=request, response=response)
-            if attempt < self._retry.max_retries - 1:
+            if attempt < attempts - 1:
                 sleep_s = self._retry.sleep_seconds(attempt)
                 log_retry(
                     logger,
                     request_id,
                     attempt + 1,
-                    self._retry.max_retries,
+                    attempts,
                     str(response.status_code),
                     sleep_s,
                 )

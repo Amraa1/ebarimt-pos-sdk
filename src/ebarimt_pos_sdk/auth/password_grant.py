@@ -22,6 +22,12 @@ class PasswordGrantAuth(httpx.Auth):
     Constraints:
       - Uses the same httpx clients owned by ApiClient (no extra clients).
       - Token calls bypass auth via `auth=None` to avoid recursion.
+
+    401 handling: if the server rejects a token the client still considers
+    valid (revocation, clock drift, server-side session purge), the flow
+    renews the token once — refresh if possible, otherwise a fresh password
+    grant — and re-sends the request exactly once. A second 401 is returned
+    to the caller as-is, so a genuinely invalid credential cannot loop.
     """
 
     requires_request_body = True
@@ -131,14 +137,75 @@ class PasswordGrantAuth(httpx.Auth):
                 self._token = await self._fetch_token_async()
             return self._token
 
+    def _renew_after_401_sync(self, rejected: OAuth2Token) -> OAuth2Token:
+        """Obtain a new token after the server rejected ``rejected`` with 401.
+
+        If another thread already replaced the token, reuse theirs. Otherwise
+        try the refresh grant when one is available and fall back to a full
+        password grant if the refresh is itself rejected (a revoked session
+        typically invalidates both tokens).
+        """
+        with self._sync_lock:
+            current = self._token
+            if current is not None and current is not rejected:
+                return current
+            new_token: OAuth2Token | None = None
+            if (
+                self._settings.normalized_refresh_url is not None
+                and not rejected.is_refresh_expired(skew_seconds=self._skew)
+            ):
+                try:
+                    new_token = self._refresh_token_sync(rejected)
+                except PosApiTransportError:
+                    new_token = None
+            if new_token is None:
+                new_token = self._fetch_token_sync()
+            self._token = new_token
+            return new_token
+
+    async def _renew_after_401_async(self, rejected: OAuth2Token) -> OAuth2Token:
+        """Async twin of :meth:`_renew_after_401_sync`."""
+        async with self._async_lock:
+            current = self._token
+            if current is not None and current is not rejected:
+                return current
+            new_token: OAuth2Token | None = None
+            if (
+                self._settings.normalized_refresh_url is not None
+                and not rejected.is_refresh_expired(skew_seconds=self._skew)
+            ):
+                try:
+                    new_token = await self._refresh_token_async(rejected)
+                except PosApiTransportError:
+                    new_token = None
+            if new_token is None:
+                new_token = await self._fetch_token_async()
+            self._token = new_token
+            return new_token
+
+    @staticmethod
+    def _apply(request: httpx.Request, tok: OAuth2Token) -> None:
+        request.headers["Authorization"] = f"{tok.token_type} {tok.access_token}"
+
     def auth_flow(self, request: httpx.Request) -> Generator[httpx.Request, httpx.Response, None]:
         tok = self._ensure_token_sync()
-        request.headers["Authorization"] = f"{tok.token_type} {tok.access_token}"
+        self._apply(request, tok)
+        response = yield request
+        if response.status_code != httpx.codes.UNAUTHORIZED:
+            return
+        # One transparent renew-and-retry; a second 401 surfaces to the caller.
+        tok = self._renew_after_401_sync(tok)
+        self._apply(request, tok)
         yield request
 
     async def async_auth_flow(
         self, request: httpx.Request
     ) -> AsyncGenerator[httpx.Request, httpx.Response]:
         tok = await self._ensure_token_async()
-        request.headers["Authorization"] = f"{tok.token_type} {tok.access_token}"
+        self._apply(request, tok)
+        response = yield request
+        if response.status_code != httpx.codes.UNAUTHORIZED:
+            return
+        tok = await self._renew_after_401_async(tok)
+        self._apply(request, tok)
         yield request

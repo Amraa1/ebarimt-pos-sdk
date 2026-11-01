@@ -6,6 +6,16 @@ All notable changes to this project will be documented here.
 
 ## [Unreleased]
 
+### Added
+
+- `PasswordGrantAuth` now handles a `401 Unauthorized` transparently: when the server rejects a
+  token the client still considered valid (revocation, clock drift, server-side session purge),
+  the auth flow renews the token once — refresh grant if available, falling back to a full
+  password grant if the refresh is rejected too — re-sets `Authorization`, and re-sends the
+  request exactly once. A second `401` is returned to the caller unchanged, so a genuinely
+  invalid credential cannot loop. Works for both `auth_flow` and `async_auth_flow`; a token
+  already renewed by a concurrent caller is reused instead of fetched again (#81)
+
 ### Changed
 
 - **Retry backoff is now jittered, capped, and honours `Retry-After`.** `RetrySettings.sleep_seconds`

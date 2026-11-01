@@ -28,7 +28,8 @@ All notable changes to this project will be documented here.
   silently disabling certificate verification
 - New `Dependency Audit` workflow runs `pip-audit --strict` against the locked dependency set on
   every `pyproject.toml` / `uv.lock` change and weekly on a schedule
-- CI hardening: `persist-credentials: false` on all checkouts; release build now uses Python 3.12
+- CI hardening: every GitHub Action is pinned to a full commit SHA (with the resolved version in a
+  trailing comment) instead of a mutable major tag; `persist-credentials: false` on all checkouts; release build now uses Python 3.12
   (was 3.9, below the package's own `requires-python`); dev-tools job pinned to the same uv
   version as the release job
 - Added `SECURITY.md` with the disclosure process and the SDK's secret-handling guarantees

@@ -192,7 +192,7 @@ def test_retry_settings_rejects_negative_backoff() -> None:
 
 
 def test_retry_settings_sleep_seconds_is_exponential() -> None:
-    s = RetrySettings(backoff_base_seconds=1.0)
+    s = RetrySettings(backoff_base_seconds=1.0, jitter=False)
     assert s.sleep_seconds(0) == 1.0
     assert s.sleep_seconds(1) == 2.0
     assert s.sleep_seconds(2) == 4.0
@@ -243,7 +243,7 @@ async def test_async_max_retries_one_means_no_retry() -> None:
 # --------------------------
 
 
-@pytest.mark.parametrize("status", [500, 502, 503, 504])
+@pytest.mark.parametrize("status", [429, 500, 502, 503, 504])
 @respx.mock
 def test_sync_retries_each_default_retryable_status(status: int) -> None:
     route = respx.get(f"{BASE}/x").mock(
@@ -271,7 +271,7 @@ def test_sync_does_not_retry_default_non_retryable_statuses(status: int) -> None
 
 
 @respx.mock
-def test_sync_custom_retryable_statuses_includes_429() -> None:
+def test_sync_custom_retryable_statuses_only_429_and_503() -> None:
     route = respx.get(f"{BASE}/x").mock(
         side_effect=[httpx.Response(429), httpx.Response(200, json={})]
     )
@@ -313,7 +313,7 @@ def test_sync_backoff_uses_settings_sleep_seconds(monkeypatch: pytest.MonkeyPatc
     )
     transport = SyncTransport(
         httpx.Client(base_url=BASE),
-        retry=RetrySettings(max_retries=3, backoff_base_seconds=0.5),
+        retry=RetrySettings(max_retries=3, backoff_base_seconds=0.5, jitter=False),
     )
     result = transport.send("GET", "/x")
     assert result.response.status_code == 200
@@ -358,7 +358,7 @@ async def test_async_backoff_uses_settings_sleep_seconds(
     respx.get(f"{BASE}/x").mock(side_effect=[httpx.Response(503), httpx.Response(200, json={})])
     transport = AsyncTransport(
         httpx.AsyncClient(base_url=BASE),
-        retry=RetrySettings(max_retries=3, backoff_base_seconds=2.0),
+        retry=RetrySettings(max_retries=3, backoff_base_seconds=2.0, jitter=False),
     )
     await transport.send("GET", "/x")
     assert sleeps == [2.0]  # one retry, slept once with attempt=0 → 2.0 * 2^0

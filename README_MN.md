@@ -188,13 +188,19 @@ settings = RestClientSettings(
     retry=RetrySettings(
         max_retries=3,
         backoff_base_seconds=1.0,
-        retryable_statuses=frozenset({500, 502, 503, 504}),
+        max_backoff_seconds=30.0,
+        jitter=True,                 # full jitter: sleep ~ U(0, backoff)
+        respect_retry_after=True,    # серверийн Retry-After давуу (дээд хязгаартай)
+        retryable_statuses=frozenset({429, 500, 502, 503, 504}),
         retry_methods=RetrySettings.DEFAULT_RETRY_METHODS,  # GET/HEAD/OPTIONS/PUT/DELETE
     ),
 )
 ```
 
-Үндсэн retry policy — 5xx болон сүлжээний алдаанд экспоненциал backoff-той 3 оролдлого — ихэнх тохиолдолд тохиромжтой.
+Үндсэн retry policy — 429/5xx болон сүлжээний алдаанд jitter-тэй экспоненциал backoff бүхий 3 оролдлого — ихэнх
+тохиолдолд тохиромжтой. *Full jitter* (`[0, backoff]` завсраас санамсаргүй утга) олон POS төхөөрөмж нэгэн зэрэг
+алдаа гарахад бүгд зэрэг дахин оролдохоос сэргийлнэ; серверийн `Retry-After` header (секунд эсвэл HTTP-date) тооцсон
+backoff-ыг орлох ба `max_backoff_seconds`-оор хязгаарлагдана. Тестэд тогтмол хугацаа хэрэгтэй бол `jitter=False`.
 
 **Retry зөвхөн idempotent method-уудад үйлчилнэ.** `receipt.create` нь `POST` хүсэлт: PosAPI баримтыг хадгалсан ч
 хариу timeout-оор алдагдвал дахин илгээснээр *давхар* е-баримт үүснэ. Тиймээс SDK `POST` (болон `PATCH`) хүсэлтийг

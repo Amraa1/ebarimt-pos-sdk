@@ -6,6 +6,21 @@ All notable changes to this project will be documented here.
 
 ## [Unreleased]
 
+### Changed
+
+- **Retry backoff is now jittered, capped, and honours `Retry-After`.** `RetrySettings.sleep_seconds`
+  applies *full jitter* (uniform in `[0, backoff]`) so devices that fail together do not retry in
+  lockstep, and caps the delay at the new `max_backoff_seconds` (default 30s). When the server sends
+  a `Retry-After` header (delta-seconds or HTTP-date, RFC 9110 §10.2.3) the transports sleep for
+  that long instead (not jittered, still capped). `429 Too Many Requests` is now in the default
+  `retryable_statuses`. Set `jitter=False` for deterministic timing in tests (#80)
+
+### Added
+
+- `RetrySettings.max_backoff_seconds`, `RetrySettings.jitter`, `RetrySettings.respect_retry_after`;
+  `sleep_seconds()` takes an optional `retry_after` keyword
+- `ebarimt_pos_sdk.transport.parse_retry_after()` — public parser for `Retry-After` values
+
 ### Fixed
 
 - **Transport no longer retries non-idempotent requests.** `receipt.create` (`POST`) could be

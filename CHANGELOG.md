@@ -6,6 +6,30 @@ All notable changes to this project will be documented here.
 
 ## [Unreleased]
 
+## [0.5.0] — 2026-11-01
+
+Behaviour release: closes every issue open since June (#77–#82). Two public defaults change —
+read **Changed** before upgrading.
+
+### Changed
+
+- **Transport no longer retries non-idempotent requests.** `receipt.create` (`POST`) could be
+  re-sent after a timeout even though PosAPI may already have persisted the receipt, issuing a
+  duplicate е-баримт. Retries now apply only to methods listed in the new
+  `RetrySettings.retry_methods` (default: `GET`/`HEAD`/`OPTIONS`/`PUT`/`DELETE`); `POST` and
+  `PATCH` are sent exactly once regardless of `max_retries`. A `POST` that previously succeeded
+  on a later attempt after a transient 5xx now surfaces that first failure as
+  `PosApiHttpError` / `PosApiTransportError`. Opt in with
+  `RetrySettings(retry_methods=RetrySettings.DEFAULT_RETRY_METHODS | {"POST"})`. PosAPI 3.0
+  exposes no idempotency key, so none is threaded through (#77)
+- **Retry backoff is now jittered, capped, and honours `Retry-After`.** `RetrySettings.sleep_seconds`
+  applies *full jitter* (uniform in `[0, backoff]`) so devices that fail together do not retry in
+  lockstep, and caps the delay at the new `max_backoff_seconds` (default 30s). When the server sends
+  a `Retry-After` header (delta-seconds or HTTP-date, RFC 9110 §10.2.3) the transports sleep for
+  that long instead (not jittered, still capped). `429 Too Many Requests` is now in the default
+  `retryable_statuses`, so idempotent requests throttled with 429 are retried instead of failing
+  immediately. Set `jitter=False` for deterministic timing in tests (#80)
+
 ### Added
 
 - `PasswordGrantAuth` now handles a `401 Unauthorized` transparently: when the server rejects a
@@ -15,31 +39,14 @@ All notable changes to this project will be documented here.
   request exactly once. A second `401` is returned to the caller unchanged, so a genuinely
   invalid credential cannot loop. Works for both `auth_flow` and `async_auth_flow`; a token
   already renewed by a concurrent caller is reused instead of fetched again (#81)
-
-### Changed
-
-- **Retry backoff is now jittered, capped, and honours `Retry-After`.** `RetrySettings.sleep_seconds`
-  applies *full jitter* (uniform in `[0, backoff]`) so devices that fail together do not retry in
-  lockstep, and caps the delay at the new `max_backoff_seconds` (default 30s). When the server sends
-  a `Retry-After` header (delta-seconds or HTTP-date, RFC 9110 §10.2.3) the transports sleep for
-  that long instead (not jittered, still capped). `429 Too Many Requests` is now in the default
-  `retryable_statuses`. Set `jitter=False` for deterministic timing in tests (#80)
-
-### Added
-
+- `RetrySettings.retry_methods`, `RetrySettings.DEFAULT_RETRY_METHODS`,
+  `RetrySettings.is_retryable_method()` and `RetrySettings.attempts_for()` (#77)
 - `RetrySettings.max_backoff_seconds`, `RetrySettings.jitter`, `RetrySettings.respect_retry_after`;
-  `sleep_seconds()` takes an optional `retry_after` keyword
-- `ebarimt_pos_sdk.transport.parse_retry_after()` — public parser for `Retry-After` values
+  `sleep_seconds()` takes an optional `retry_after` keyword (#80)
+- `ebarimt_pos_sdk.transport.parse_retry_after()` — public parser for `Retry-After` values (#80)
 
 ### Fixed
 
-- **Transport no longer retries non-idempotent requests.** `receipt.create` (`POST`) could be
-  re-sent after a timeout even though PosAPI may already have persisted the receipt, issuing a
-  duplicate е-баримт. Retries now apply only to methods listed in the new
-  `RetrySettings.retry_methods` (default: `GET`/`HEAD`/`OPTIONS`/`PUT`/`DELETE`); `POST` and
-  `PATCH` are sent exactly once regardless of `max_retries`. Opt in with
-  `RetrySettings(retry_methods=RetrySettings.DEFAULT_RETRY_METHODS | {"POST"})`. PosAPI 3.0
-  exposes no idempotency key, so none is threaded through (#77)
 - `PosApiBusinessError` is now actually raised: a 2xx response whose JSON body carries
   `status: "ERROR"` (PosAPI's domain-level rejection, e.g. an invalid receipt) raises
   `PosApiBusinessError` with the server's `status`/`message`/`code` and the request/response
@@ -54,11 +61,6 @@ All notable changes to this project will be documented here.
   handler and masks the real `PosApiHttpError`; `date` is left `None` instead (#82)
 - Release workflow: publishing to PyPI is now gated on a `verify` job (ruff, ty, unit tests)
   that must pass on the tagged commit (#82)
-
-### Added
-
-- `RetrySettings.retry_methods`, `RetrySettings.DEFAULT_RETRY_METHODS`,
-  `RetrySettings.is_retryable_method()` and `RetrySettings.attempts_for()`
 
 ## [0.4.2] — 2026-11-01
 

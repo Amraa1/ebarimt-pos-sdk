@@ -22,8 +22,8 @@ interface.
 - **Two focused clients** — `EbarimtApiClient` for the public OAuth2 API, `EbarimtRestClient` for the local POS REST
   API.
 - **Managed OAuth2** — built-in password-grant flow with automatic token refresh and proactive expiry handling.
-- **Resilient transport** — configurable retry with exponential backoff on 5xx and network errors for idempotent
-  methods (`GET`/`HEAD`/`OPTIONS`/`PUT`/`DELETE`), per-request timeouts, and TLS verification. `POST` is never
+- **Resilient transport** — configurable retry with jittered exponential backoff on 429/5xx and network errors for
+  idempotent methods (`GET`/`HEAD`/`OPTIONS`/`PUT`/`DELETE`), per-request timeouts, and TLS verification. `POST` is never
   retried unless you opt in, so a lost response can't become a duplicate receipt.
 - **Structured errors** — a clear exception hierarchy distinguishing transport, HTTP, decode, validation, and business
   failures. Sensitive headers and tokens are automatically redacted from error output.
@@ -206,14 +206,19 @@ settings = RestClientSettings(
     retry=RetrySettings(
         max_retries=3,
         backoff_base_seconds=1.0,
-        retryable_statuses=frozenset({500, 502, 503, 504}),
+        max_backoff_seconds=30.0,
+        jitter=True,                 # full jitter: sleep ~ U(0, backoff)
+        respect_retry_after=True,    # server's Retry-After wins (capped)
+        retryable_statuses=frozenset({429, 500, 502, 503, 504}),
         retry_methods=RetrySettings.DEFAULT_RETRY_METHODS,  # GET/HEAD/OPTIONS/PUT/DELETE
     ),
 )
 ```
 
-The default retry policy — 3 attempts with exponential backoff on 5xx and network errors — is suitable for most
-deployments.
+The default retry policy — 3 attempts with jittered exponential backoff on 429/5xx and network errors — is suitable
+for most deployments. *Full jitter* (a uniform draw in `[0, backoff]`) stops a fleet of POS devices that fail together
+from retrying in lockstep; a `Retry-After` header (delta-seconds or HTTP-date) replaces the computed backoff, capped at
+`max_backoff_seconds`. Set `jitter=False` for deterministic timing in tests.
 
 **Retries only apply to idempotent methods.** `receipt.create` is a `POST`: if the local PosAPI persists the receipt
 but the response is lost to a timeout, a retry would issue a *second* е-баримт. The SDK therefore sends `POST` (and

@@ -13,6 +13,7 @@ from .http import (
     HttpRequestResponse,
     QueryParamTypes,
     build_transport_error,
+    retry_after_from,
 )
 
 logger = logging.getLogger(__name__)
@@ -83,7 +84,7 @@ class SyncTransport:
             if response.status_code not in self._retry.retryable_statuses:
                 return HttpRequestResponse(request=request, response=response)
             if attempt < attempts - 1:
-                sleep_s = self._retry.sleep_seconds(attempt)
+                sleep_s = self._retry.sleep_seconds(attempt, retry_after=retry_after_from(response))
                 log_retry(
                     logger,
                     request_id,

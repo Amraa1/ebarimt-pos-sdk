@@ -1,12 +1,21 @@
 [project]
 name = "ebarimt-pos-sdk"
-version = "0.4.1"
+version = "0.4.2"
 description = "Python SDK for Ebarimt POS API 3.0"
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }
 authors = [{ name = "SenergyTech" }]
-dependencies = ["authlib>=1.7.0", "httpx>=0.27.0", "pydantic>=2.7.0"]
+dependencies = [
+    # authlib < 1.9.1 carries several 2026 advisories (JWS signature-verification
+    # bypass, is_secure_transport() loopback spoofing, empty-HMAC-key acceptance).
+    "authlib>=1.9.1",
+    # certifi < 2026.10.18 ships the compromised "emSign ECC Root CA - G3" root.
+    # httpx pulls certifi transitively; the explicit floor protects pip installs.
+    "certifi>=2026.10.18",
+    "httpx>=0.27.0",
+    "pydantic>=2.7.0",
+]
 
 
 [dependency-groups]

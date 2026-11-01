@@ -1,6 +1,6 @@
 import time
 from collections.abc import Mapping
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Any
 
 
@@ -22,18 +22,21 @@ class OAuth2Token:
         raw: Original token response for advanced usage.
     """
 
-    access_token: str
+    # Token material is excluded from ``repr()`` so an OAuth2Token that ends
+    # up in a log line, traceback, or debugger dump never prints a bearer
+    # token. ``raw`` is excluded for the same reason (it holds both tokens).
+    access_token: str = field(repr=False)
     token_type: str
     expires_in: int
     expires_at: int
 
-    refresh_token: str | None = None
+    refresh_token: str | None = field(default=None, repr=False)
     refresh_expires_in: int | None = None
     scope: str | None = None
     not_before_policy: int | None = None
     session_state: str | None = None
 
-    raw: Mapping[str, Any] | None = None
+    raw: Mapping[str, Any] | None = field(default=None, repr=False)
 
     def is_expired(self, *, skew_seconds: float = 30) -> bool:
         """

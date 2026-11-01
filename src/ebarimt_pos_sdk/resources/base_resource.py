@@ -7,6 +7,7 @@ from typing import Any, TypeVar, overload
 import httpx
 from pydantic import BaseModel, ValidationError
 
+from .._redaction import redact_url
 from ..errors import PosApiDecodeError, PosApiHttpError, PosApiValidationError
 from ..transport import AsyncTransport, HeaderTypes, HttpMethod, QueryParamTypes, SyncTransport
 
@@ -43,7 +44,7 @@ class BaseResource:
             ) from exc
 
     @staticmethod
-    def _validate_payload(model: type[T], payload: T | dict[str, Any]) -> T:
+    def _validate_payload(model: type[T], payload: BaseModel | dict[str, Any]) -> T:
         if isinstance(payload, model):
             return payload
         try:
@@ -75,7 +76,7 @@ class BaseResource:
         *,
         params: QueryParamTypes | None,
         payload_model: type[T] | None,
-        payload: T | dict[str, Any] | None,
+        payload: BaseModel | dict[str, Any] | None,
         headers: HeaderTypes | None,
     ) -> dict[str, Any]:
         """Validate payload, merge headers, build the kwargs dict for transport.send()."""
@@ -117,7 +118,12 @@ class BaseResource:
                 error = None
             status = None
             date = None
-            message = f"Http Error {response.status_code}, {exc.request}, {exc.response}."
+            # Fallback message uses the *redacted* URL — httpx's Request repr
+            # would embed raw query params (e.g. tokens) verbatim.
+            message = (
+                f"Http Error {response.status_code} for "
+                f"{exc.request.method} {redact_url(exc.request.url)}."
+            )
             if isinstance(error, dict):
                 status = error.get("status")
                 if error.get("date"):
@@ -142,7 +148,7 @@ class BaseResource:
         path: str | None = None,
         params: QueryParamTypes | None = None,
         payload_model: type[T] | None = None,
-        payload: T | dict[str, Any] | None = None,
+        payload: BaseModel | dict[str, Any] | None = None,
         response_model: None = None,
         headers: HeaderTypes | None = None,
     ) -> None: ...
@@ -155,7 +161,7 @@ class BaseResource:
         path: str | None = None,
         params: QueryParamTypes | None = None,
         payload_model: type[T] | None = None,
-        payload: T | dict[str, Any] | None = None,
+        payload: BaseModel | dict[str, Any] | None = None,
         response_model: type[N],
         headers: HeaderTypes | None = None,
     ) -> N: ...
@@ -167,7 +173,7 @@ class BaseResource:
         path: str | None = None,
         params: QueryParamTypes | None = None,
         payload_model: type[T] | None = None,
-        payload: T | dict[str, Any] | None = None,
+        payload: BaseModel | dict[str, Any] | None = None,
         response_model: type[N] | None = None,
         headers: HeaderTypes | None = None,
     ) -> N | None:
@@ -190,7 +196,7 @@ class BaseResource:
         path: str | None = None,
         params: QueryParamTypes | None = None,
         payload_model: type[T] | None = None,
-        payload: T | dict[str, Any] | None = None,
+        payload: BaseModel | dict[str, Any] | None = None,
         response_model: None = None,
         headers: HeaderTypes | None = None,
     ) -> None: ...
@@ -203,7 +209,7 @@ class BaseResource:
         path: str | None = None,
         params: QueryParamTypes | None = None,
         payload_model: type[T] | None = None,
-        payload: T | dict[str, Any] | None = None,
+        payload: BaseModel | dict[str, Any] | None = None,
         response_model: type[N],
         headers: HeaderTypes | None = None,
     ) -> N: ...
@@ -215,7 +221,7 @@ class BaseResource:
         path: str | None = None,
         params: QueryParamTypes | None = None,
         payload_model: type[T] | None = None,
-        payload: T | dict[str, Any] | None = None,
+        payload: BaseModel | dict[str, Any] | None = None,
         response_model: type[N] | None = None,
         headers: HeaderTypes | None = None,
     ) -> N | None:

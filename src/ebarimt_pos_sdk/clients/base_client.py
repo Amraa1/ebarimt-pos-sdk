@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 from types import TracebackType
 
 import httpx
@@ -8,6 +9,8 @@ from typing_extensions import Self
 from .._types import HeaderTypes
 from ..settings.base_settings import BaseSettings
 from ..transport import AsyncTransport, SyncTransport
+
+logger = logging.getLogger(__name__)
 
 
 class EbarimtBaseClient:
@@ -40,6 +43,16 @@ class EbarimtBaseClient:
         self._owns_async = async_client is None
 
         self._base_url = self._settings.base_url
+
+        if not settings.verify_tls and self._base_url.lower().startswith("https://"):
+            # Disabling certificate verification on an https:// endpoint exposes
+            # receipts and credentials to man-in-the-middle interception. Allowed
+            # (local/dev setups), but never silent.
+            logger.warning(
+                "TLS certificate verification is DISABLED for %s; "
+                "traffic is vulnerable to interception. Do not use in production.",
+                self._base_url,
+            )
 
         self._sync_client = sync_client or httpx.Client(
             base_url=self._base_url,

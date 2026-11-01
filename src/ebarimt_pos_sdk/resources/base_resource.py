@@ -8,7 +8,12 @@ import httpx
 from pydantic import BaseModel, ValidationError
 
 from .._redaction import redact_url
-from ..errors import PosApiDecodeError, PosApiHttpError, PosApiValidationError
+from ..errors import (
+    PosApiBusinessError,
+    PosApiDecodeError,
+    PosApiHttpError,
+    PosApiValidationError,
+)
 from ..transport import AsyncTransport, HeaderTypes, HttpMethod, QueryParamTypes, SyncTransport
 
 T = TypeVar("T", bound=BaseModel)
@@ -16,6 +21,12 @@ N = TypeVar("N", bound=BaseModel)
 
 
 class BaseResource:
+    # Values of a 2xx body's ``status`` field that denote a domain-level
+    # failure (PosAPI 3.0: "ERROR — Төлбөрийн баримтын мэдээлэл үүсгэхэд алдаа
+    # гарсан"). Structural check only: the SDK does not interpret *why* the
+    # server rejected the request. Subclasses may override.
+    _business_error_statuses: frozenset[str] = frozenset({"ERROR"})
+
     def __init__(
         self,
         *,
@@ -57,15 +68,47 @@ class BaseResource:
             ) from exc
 
     @staticmethod
-    def _validate_response(model: type[T], response: Any) -> T:
+    def _validate_response(
+        model: type[T],
+        data: Any,
+        *,
+        response: httpx.Response | None = None,
+    ) -> T:
+        """Validate a decoded 2xx body against ``model``, surfacing failures as
+        ``PosApiValidationError(stage="response")`` rather than a bare pydantic
+        ``ValidationError``."""
         try:
-            return model.model_validate(response)
+            return model.model_validate(data)
         except ValidationError as exc:
             raise PosApiValidationError(
                 stage="response",
                 model=model,
                 validation_error=exc,
+                request=response.request if response is not None else None,
+                response=response,
             ) from exc
+
+    def _ensure_business_success(self, data: Any, response: httpx.Response) -> None:
+        """Raise ``PosApiBusinessError`` when a 2xx body carries an error status.
+
+        PosAPI reports some failures (e.g. receipt rejected) with HTTP 200 and
+        ``{"status": "ERROR", "message": "..."}``. Such a body usually lacks the
+        fields of the success model, so without this check it would surface as
+        a misleading response-validation error.
+        """
+        if not isinstance(data, dict):
+            return
+        status = data.get("status")
+        if not isinstance(status, str) or status not in self._business_error_statuses:
+            return
+        message = data.get("message")
+        raise PosApiBusinessError(
+            str(message) if message else f"Server returned status {status!r}",
+            status=status,
+            code=data.get("code"),
+            request=response.request,
+            response=response,
+        )
 
     @staticmethod
     def _model_dump(payload: BaseModel) -> dict[str, Any]:
@@ -102,8 +145,17 @@ class BaseResource:
     ) -> N | None:
         self._ensure_http_success(response)
         if response_model is None:
+            # No body expected (e.g. receipt delete). Still inspect a JSON body
+            # for a business error, but tolerate non-JSON/empty bodies.
+            try:
+                data = self._decode_json(response)
+            except PosApiDecodeError:
+                return None
+            self._ensure_business_success(data, response)
             return None
-        return response_model.model_validate(self._decode_json(response))
+        data = self._decode_json(response)
+        self._ensure_business_success(data, response)
+        return self._validate_response(response_model, data, response=response)
 
     def _ensure_http_success(self, response: httpx.Response) -> None:
         try:
@@ -127,7 +179,12 @@ class BaseResource:
             if isinstance(error, dict):
                 status = error.get("status")
                 if error.get("date"):
-                    date = datetime.fromisoformat(error["date"])
+                    # Never let a malformed date raise *inside* the error
+                    # handler and mask the real HTTP error.
+                    try:
+                        date = datetime.fromisoformat(str(error["date"]))
+                    except ValueError:
+                        date = None
                 if error.get("message"):
                     message = str(error["message"])
 

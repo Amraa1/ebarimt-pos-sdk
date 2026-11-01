@@ -8,23 +8,15 @@ class InfoResource(BaseResource):
         return "/rest/info"
 
     def read(self, *, headers: HeaderTypes | None = None) -> ReadInfoResponse:
-        result = self._sync.send(
+        return self._send_sync_request(
             "GET",
-            self._path,
+            response_model=ReadInfoResponse,
             headers=headers,
         )
-
-        self._ensure_http_success(result.response)
-
-        return ReadInfoResponse.model_validate(self._decode_json(result.response))
 
     async def aread(self, *, headers: HeaderTypes | None = None) -> ReadInfoResponse:
-        result = await self._async.send(
+        return await self._send_async_request(
             "GET",
-            self._path,
+            response_model=ReadInfoResponse,
             headers=headers,
         )
-
-        self._ensure_http_success(result.response)
-
-        return ReadInfoResponse.model_validate(self._decode_json(result.response))

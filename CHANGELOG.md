@@ -6,6 +6,23 @@ All notable changes to this project will be documented here.
 
 ## [Unreleased]
 
+### Fixed
+
+- `PosApiBusinessError` is now actually raised: a 2xx response whose JSON body carries
+  `status: "ERROR"` (PosAPI's domain-level rejection, e.g. an invalid receipt) raises
+  `PosApiBusinessError` with the server's `status`/`message`/`code` and the request/response
+  attached. Previously such bodies surfaced as a confusing `PosApiValidationError` because they
+  lack the fields of the success model (#78)
+- Response validation failures no longer escape as bare `pydantic.ValidationError`: every 2xx body
+  now goes through `BaseResource._validate_response`, so a malformed server payload raises
+  `PosApiValidationError(stage="response")` with `request`/`response` attached. `InfoResource`
+  and `BankAccountsResource` were bypassing the wrapper; `BankAccountsResource` additionally
+  rejects a non-array body with a response-stage validation error instead of a `TypeError` (#79)
+- A malformed `date` in a non-2xx error body no longer raises `ValueError` inside the error
+  handler and masks the real `PosApiHttpError`; `date` is left `None` instead (#82)
+- Release workflow: publishing to PyPI is now gated on a `verify` job (ruff, ty, unit tests)
+  that must pass on the tagged commit (#82)
+
 ## [0.4.2] — 2026-11-01
 
 ### Security

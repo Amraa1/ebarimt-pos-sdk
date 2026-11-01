@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 from .base_settings import BaseSettings
 
@@ -18,9 +18,11 @@ class ApiClientSettings(BaseSettings):
     token_url: str | None = None
     refresh_url: str | None = None
     client_id: str | None = None
-    client_secret: str | None = None
+    # Secrets are excluded from ``repr()`` so a settings object that ends up in
+    # a log line, traceback, or debugger dump never prints credentials.
+    client_secret: str | None = field(default=None, repr=False)
     username: str | None = None
-    password: str | None = None
+    password: str | None = field(default=None, repr=False)
     scope: str | None = None
     skew_seconds: float = 30
 

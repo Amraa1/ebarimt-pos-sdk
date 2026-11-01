@@ -6,6 +6,40 @@ All notable changes to this project will be documented here.
 
 ## [Unreleased]
 
+## [0.4.2] — 2026-11-01
+
+### Security
+
+- Raised dependency floors: `authlib>=1.9.1` (fixes JWS signature-verification bypass,
+  `is_secure_transport()` loopback spoofing via URL userinfo, empty-HMAC-key acceptance and
+  related 2026 advisories) and a new explicit `certifi>=2026.10.18` floor (drops the compromised
+  "emSign ECC Root CA - G3" root from the trust store used for every HTTPS call)
+- Refreshed `uv.lock`: `cryptography` 46.0.7 → 50.0.2 (statically linked OpenSSL advisory, name-
+  constraint wildcard escape, chain-resolution DoS), `joserfc` 1.6.4 → 1.7.7, `idna` → 3.20,
+  `anyio` → 4.16.0, `urllib3` → 2.8.0. `pip-audit` reports no known vulnerabilities against the lock
+- Credentials no longer appear in `repr()`: `ApiClientSettings.password` / `client_secret` and
+  `OAuth2Token.access_token` / `refresh_token` / `raw` are `repr=False`, so a settings or token
+  object that lands in a log line, traceback or debugger dump cannot leak secrets
+- `redact_url()` now also masks `user:pass@` URL userinfo (e.g. a proxy or base URL carrying
+  basic-auth credentials) in log lines and `PosApiError` messages
+- `PosApiHttpError` fallback message (non-JSON error bodies) now embeds the *redacted* request
+  URL instead of httpx's raw `Request` repr, which printed query parameters verbatim
+- `verify_tls=False` against an `https://` base URL now emits a `WARNING` log line instead of
+  silently disabling certificate verification
+- New `Dependency Audit` workflow runs `pip-audit --strict` against the locked dependency set on
+  every `pyproject.toml` / `uv.lock` change and weekly on a schedule
+- CI hardening: every GitHub Action is pinned to a full commit SHA (with the resolved version in a
+  trailing comment) instead of a mutable major tag; `persist-credentials: false` on all checkouts; release build now uses Python 3.12
+  (was 3.9, below the package's own `requires-python`); dev-tools job pinned to the same uv
+  version as the release job
+- Added `SECURITY.md` with the disclosure process and the SDK's secret-handling guarantees
+
+### Fixed
+
+- `BaseResource` payload parameters are typed `BaseModel | dict[str, Any]` instead of
+  `T | dict[str, Any]`, resolving a `ty` 0.0.95 generic-bound diagnostic on
+  `ReceiptResource.delete` / `adelete` (no runtime change)
+
 ## [0.4.0] — 2026-06-09
 
 ### Security

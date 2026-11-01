@@ -8,6 +8,13 @@ All notable changes to this project will be documented here.
 
 ### Fixed
 
+- **Transport no longer retries non-idempotent requests.** `receipt.create` (`POST`) could be
+  re-sent after a timeout even though PosAPI may already have persisted the receipt, issuing a
+  duplicate е-баримт. Retries now apply only to methods listed in the new
+  `RetrySettings.retry_methods` (default: `GET`/`HEAD`/`OPTIONS`/`PUT`/`DELETE`); `POST` and
+  `PATCH` are sent exactly once regardless of `max_retries`. Opt in with
+  `RetrySettings(retry_methods=RetrySettings.DEFAULT_RETRY_METHODS | {"POST"})`. PosAPI 3.0
+  exposes no idempotency key, so none is threaded through (#77)
 - `PosApiBusinessError` is now actually raised: a 2xx response whose JSON body carries
   `status: "ERROR"` (PosAPI's domain-level rejection, e.g. an invalid receipt) raises
   `PosApiBusinessError` with the server's `status`/`message`/`code` and the request/response
@@ -22,6 +29,11 @@ All notable changes to this project will be documented here.
   handler and masks the real `PosApiHttpError`; `date` is left `None` instead (#82)
 - Release workflow: publishing to PyPI is now gated on a `verify` job (ruff, ty, unit tests)
   that must pass on the tagged commit (#82)
+
+### Added
+
+- `RetrySettings.retry_methods`, `RetrySettings.DEFAULT_RETRY_METHODS`,
+  `RetrySettings.is_retryable_method()` and `RetrySettings.attempts_for()`
 
 ## [0.4.2] — 2026-11-01
 

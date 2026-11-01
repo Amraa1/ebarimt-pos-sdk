@@ -15,6 +15,15 @@ from ebarimt_pos_sdk.transport.sync_transport import SyncTransport
 
 BASE = "https://example.com"
 
+# Non-idempotent methods are not retried by default (#77); tests that exercise
+# the retry loop with POST/PATCH opt in explicitly.
+_RETRY_POST_OPT_IN = RetrySettings(
+    max_retries=3, retry_methods=RetrySettings.DEFAULT_RETRY_METHODS | {"POST"}
+)
+_RETRY_ALL_METHODS = RetrySettings(
+    max_retries=3, retry_methods=RetrySettings.DEFAULT_RETRY_METHODS | {"POST", "PATCH"}
+)
+
 
 @pytest.fixture(autouse=True)
 def _no_sleep(monkeypatch: pytest.MonkeyPatch) -> None:
@@ -95,7 +104,7 @@ def test_sync_post_body_is_resent_on_retry() -> None:
             httpx.Response(200, json={"ok": True}),
         ]
     )
-    transport = SyncTransport(httpx.Client(base_url=BASE), retry=RetrySettings(max_retries=3))
+    transport = SyncTransport(httpx.Client(base_url=BASE), retry=_RETRY_POST_OPT_IN)
     result = transport.send("POST", "/x", payload={"hello": "world"})
     assert result.response.status_code == 200
     assert route.call_count == 3
@@ -140,7 +149,7 @@ async def test_async_post_body_is_resent_on_retry() -> None:
             httpx.Response(200, json={"ok": True}),
         ]
     )
-    transport = AsyncTransport(httpx.AsyncClient(base_url=BASE), retry=RetrySettings(max_retries=3))
+    transport = AsyncTransport(httpx.AsyncClient(base_url=BASE), retry=_RETRY_POST_OPT_IN)
     result = await transport.send("POST", "/x", payload={"a": 1})
     assert result.response.status_code == 200
     assert route.call_count == 2
@@ -426,7 +435,7 @@ def test_sync_method_preserved_on_retry(method: str) -> None:
     route = respx.route(method=method, url=f"{BASE}/x").mock(
         side_effect=[httpx.Response(503), httpx.Response(200, json={})]
     )
-    transport = SyncTransport(httpx.Client(base_url=BASE), retry=RetrySettings(max_retries=3))
+    transport = SyncTransport(httpx.Client(base_url=BASE), retry=_RETRY_ALL_METHODS)
     payload = {"k": "v"} if method in {"POST", "PUT", "PATCH"} else None
     transport.send(method, "/x", payload=payload)  # type: ignore[arg-type]
     assert route.call_count == 2
@@ -469,3 +478,142 @@ async def test_async_non_retryable_http_error_does_not_retry() -> None:
     with pytest.raises(PosApiTransportError):
         await transport.send("GET", "/x")
     assert len(calls) == 1
+
+
+# --------------------------
+# #77 — non-idempotent methods are never retried by default
+# --------------------------
+
+
+def test_retry_settings_default_methods_exclude_post_and_patch() -> None:
+    r = RetrySettings()
+    assert r.retry_methods == frozenset({"GET", "HEAD", "OPTIONS", "PUT", "DELETE"})
+    assert not r.is_retryable_method("POST")
+    assert not r.is_retryable_method("PATCH")
+    assert r.attempts_for("GET") == 3
+    assert r.attempts_for("POST") == 1
+
+
+def test_retry_settings_normalises_method_case() -> None:
+    r = RetrySettings(retry_methods=frozenset({"get", "post"}))
+    assert r.retry_methods == frozenset({"GET", "POST"})
+    assert r.is_retryable_method("post")
+
+
+@pytest.mark.parametrize("method", ["POST", "PATCH"])
+@respx.mock
+def test_sync_non_idempotent_method_not_retried_on_5xx(method: str) -> None:
+    route = respx.route(method=method, url=f"{BASE}/receipt").mock(return_value=httpx.Response(503))
+    transport = SyncTransport(httpx.Client(base_url=BASE), retry=RetrySettings(max_retries=3))
+    result = transport.send(method, "/receipt", payload={"k": "v"})  # type: ignore[arg-type]
+    assert result.response.status_code == 503
+    assert route.call_count == 1
+
+
+@respx.mock
+def test_sync_post_not_retried_on_timeout() -> None:
+    """The dangerous case: PosAPI may have persisted the receipt before the
+    response was lost. A retry would issue a duplicate е-баримт."""
+    route = respx.post(f"{BASE}/receipt").mock(side_effect=httpx.TimeoutException("timeout"))
+    transport = SyncTransport(httpx.Client(base_url=BASE), retry=RetrySettings(max_retries=3))
+    with pytest.raises(PosApiTransportError):
+        transport.send("POST", "/receipt", payload={"k": "v"})
+    assert route.call_count == 1
+
+
+@respx.mock
+def test_sync_post_not_retried_on_network_error() -> None:
+    route = respx.post(f"{BASE}/receipt").mock(side_effect=httpx.ConnectError("boom"))
+    transport = SyncTransport(httpx.Client(base_url=BASE), retry=RetrySettings(max_retries=3))
+    with pytest.raises(PosApiTransportError):
+        transport.send("POST", "/receipt", payload={"k": "v"})
+    assert route.call_count == 1
+
+
+@pytest.mark.asyncio
+@respx.mock
+async def test_async_post_not_retried_on_5xx() -> None:
+    route = respx.post(f"{BASE}/receipt").mock(return_value=httpx.Response(503))
+    transport = AsyncTransport(httpx.AsyncClient(base_url=BASE), retry=RetrySettings(max_retries=3))
+    result = await transport.send("POST", "/receipt", payload={"k": "v"})
+    assert result.response.status_code == 503
+    assert route.call_count == 1
+
+
+@pytest.mark.asyncio
+@respx.mock
+async def test_async_post_not_retried_on_timeout() -> None:
+    route = respx.post(f"{BASE}/receipt").mock(side_effect=httpx.TimeoutException("timeout"))
+    transport = AsyncTransport(httpx.AsyncClient(base_url=BASE), retry=RetrySettings(max_retries=3))
+    with pytest.raises(PosApiTransportError):
+        await transport.send("POST", "/receipt", payload={"k": "v"})
+    assert route.call_count == 1
+
+
+@respx.mock
+def test_sync_delete_is_still_retried_by_default() -> None:
+    route = respx.delete(f"{BASE}/receipt").mock(
+        side_effect=[httpx.Response(503), httpx.Response(200, json={})]
+    )
+    transport = SyncTransport(httpx.Client(base_url=BASE), retry=RetrySettings(max_retries=3))
+    result = transport.send("DELETE", "/receipt", payload={"id": "1"})
+    assert result.response.status_code == 200
+    assert route.call_count == 2
+
+
+@respx.mock
+def test_sync_post_retried_when_opted_in() -> None:
+    route = respx.post(f"{BASE}/receipt").mock(
+        side_effect=[httpx.TimeoutException("timeout"), httpx.Response(200, json={})]
+    )
+    transport = SyncTransport(httpx.Client(base_url=BASE), retry=_RETRY_POST_OPT_IN)
+    result = transport.send("POST", "/receipt", payload={"k": "v"})
+    assert result.response.status_code == 200
+    assert route.call_count == 2
+
+
+@respx.mock
+def test_sync_post_single_attempt_does_not_sleep(monkeypatch: pytest.MonkeyPatch) -> None:
+    sleeps: list[float] = []
+    monkeypatch.setattr(time, "sleep", lambda s: sleeps.append(s))
+    respx.post(f"{BASE}/receipt").mock(return_value=httpx.Response(503))
+    transport = SyncTransport(httpx.Client(base_url=BASE), retry=RetrySettings(max_retries=3))
+    transport.send("POST", "/receipt", payload={})
+    assert sleeps == []
+
+
+@respx.mock
+def test_rest_client_receipt_create_is_sent_exactly_once_on_timeout() -> None:
+    """End-to-end: the default REST client must never re-send a receipt POST."""
+    from ebarimt_pos_sdk import EbarimtRestClient, RestClientSettings
+
+    route = respx.post(f"{BASE}/rest/receipt").mock(side_effect=httpx.TimeoutException("t"))
+    payload = {
+        "branchNo": "001",
+        "totalAmount": 1000,
+        "merchantTin": "12345678901",
+        "posNo": "001",
+        "type": "B2C_RECEIPT",
+        "billIdSuffix": "01",
+        "receipts": [
+            {
+                "totalAmount": 1000,
+                "taxType": "VAT_ABLE",
+                "merchantTin": "12345678901",
+                "items": [
+                    {
+                        "name": "Bread",
+                        "barCode": "19059010880001",
+                        "measureUnit": "senlovesfits",
+                        "qty": 1,
+                        "unitPrice": 1000,
+                        "totalAmount": 1000,
+                    }
+                ],
+            }
+        ],
+    }
+    with EbarimtRestClient(RestClientSettings(base_url=BASE)) as client:
+        with pytest.raises(PosApiTransportError):
+            client.receipt.create(payload)
+    assert route.call_count == 1

@@ -189,11 +189,20 @@ settings = RestClientSettings(
         max_retries=3,
         backoff_base_seconds=1.0,
         retryable_statuses=frozenset({500, 502, 503, 504}),
+        retry_methods=RetrySettings.DEFAULT_RETRY_METHODS,  # GET/HEAD/OPTIONS/PUT/DELETE
     ),
 )
 ```
 
 Үндсэн retry policy — 5xx болон сүлжээний алдаанд экспоненциал backoff-той 3 оролдлого — ихэнх тохиолдолд тохиромжтой.
+
+**Retry зөвхөн idempotent method-уудад үйлчилнэ.** `receipt.create` нь `POST` хүсэлт: PosAPI баримтыг хадгалсан ч
+хариу timeout-оор алдагдвал дахин илгээснээр *давхар* е-баримт үүснэ. Тиймээс SDK `POST` (болон `PATCH`) хүсэлтийг
+`max_retries`-ээс үл хамааран яг нэг удаа илгээнэ. Давхардлыг илрүүлж чаддаг бол дараах байдлаар идэвхжүүлнэ:
+
+```python
+RetrySettings(retry_methods=RetrySettings.DEFAULT_RETRY_METHODS | {"POST"})
+```
 
 ---
 

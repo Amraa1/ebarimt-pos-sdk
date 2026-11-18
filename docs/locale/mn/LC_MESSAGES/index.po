@@ -1,0 +1,120 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, Amraa1
+# This file is distributed under the same license as the ebarimt-pos-sdk
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ebarimt-pos-sdk 0.6.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-18 06:53+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: mn <LL@li.org>\n"
+"Language: mn\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Generated-By: Babel 2.18.0\n"
+
+msgid "Getting started"
+msgstr "Эхлэл"
+
+msgid "Guides"
+msgstr "Заавар"
+
+msgid "Changelog"
+msgstr "Өөрчлөлтийн түүх"
+
+msgid "Reference"
+msgstr "Лавлах"
+
+msgid "ebarimt-pos-sdk"
+msgstr ""
+
+msgid ""
+"[Монгол](https://ebarimt-pos-sdk.readthedocs.io/mn/latest/) · [English](https://ebarimt-pos-"
+"sdk.readthedocs.io/en/latest/)"
+msgstr ""
+
+msgid ""
+"A typed, async-first Python SDK for the **Ebarimt POS API 3.0**, Mongolia's electronic receipt "
+"(e-barimt) system."
+msgstr ""
+"**Ebarimt POS API 3.0**-тай ажиллах, төрөл заасан, async-first Python SDK. Ebarimt нь Монгол Улсын"
+" цахим төлбөрийн баримтын (е-баримт) систем юм."
+
+msgid "The SDK gives you two clients:"
+msgstr "SDK нь хоёр клиенттэй:"
+
+msgid "Client"
+msgstr "Клиент"
+
+msgid "Talks to"
+msgstr "Холбогдох систем"
+
+msgid "Use it for"
+msgstr "Хэрэглээ"
+
+msgid "`EbarimtRestClient`"
+msgstr ""
+
+msgid "The PosAPI service running on your own machine or network"
+msgstr "Таны компьютер эсвэл дотоод сүлжээнд ажиллаж буй PosAPI үйлчилгээ"
+
+msgid ""
+"Issuing and cancelling receipts, reading PosAPI status, pushing receipts to the tax authority, "
+"listing bank accounts"
+msgstr ""
+"Баримт үүсгэх, буцаах, PosAPI-ийн төлөвийг унших, баримтыг татварын албанд илгээх, банкны дансны "
+"жагсаалт авах"
+
+msgid "`EbarimtApiClient`"
+msgstr ""
+
+msgid "The public Ebarimt API (`api.ebarimt.mn`)"
+msgstr "Ebarimt-ийн нийтийн API (`api.ebarimt.mn`)"
+
+msgid "Looking up taxpayers, district codes, product tax codes and the BUNA classification"
+msgstr "Татвар төлөгч, байршлын код, татварын бүтээгдэхүүний код, БҮНА ангиллыг лавлах"
+
+msgid ""
+"Every operation has a synchronous method and an `async` twin with an `a` prefix, for example "
+"`receipt.create()` and `receipt.acreate()`."
+msgstr ""
+"Үйлдэл бүр синхрон методтой бөгөөд `a` угтвартай `async` хувилбартай, жишээ нь `receipt.create()` "
+"ба `receipt.acreate()`."
+
+msgid "Where to start"
+msgstr "Хаанаас эхлэх вэ"
+
+msgid "New to the SDK: read [](installation.md), then [](quickstart.md)."
+msgstr ""
+"SDK-г анх удаа ашиглаж байгаа бол эхлээд [](installation.md), дараа нь [](quickstart.md) хуудсыг "
+"уншина уу."
+
+msgid ""
+"Issuing receipts: [](guides/rest-client.md) and [](guides/errors.md). Read the section on "
+"duplicate receipts before going to production."
+msgstr ""
+"Баримт үүсгэх: [](guides/rest-client.md) болон [](guides/errors.md). Бодит орчинд ашиглаж "
+"эхлэхээсээ өмнө давхар баримтын тухай хэсгийг уншина уу."
+
+msgid "Looking up reference data: [](guides/api-client.md)."
+msgstr "Лавлах мэдээлэл авах: [](guides/api-client.md)."
+
+msgid "Exact signatures and fields: the [API reference](api/index.md)."
+msgstr "Методын тодорхойлолт, талбаруудын нарийвчилсан мэдээлэл: [API лавлах](api/index.md)."
+
+msgid ""
+"The official PosAPI 3.0 specification is published by the tax authority's IT centre at "
+"[developer.itc.gov.mn](https://developer.itc.gov.mn/docs/ebarimt-api/inbishdm2zj3x-pos-"
+"api-3-0-sistemijn-api-holbolt-zaavruud). This documentation covers the SDK, not the business rules"
+" of the e-barimt system."
+msgstr ""
+"PosAPI 3.0-ийн албан ёсны тодорхойлолтыг татварын албаны мэдээллийн технологийн төв "
+"[developer.itc.gov.mn](https://developer.itc.gov.mn/docs/ebarimt-api/inbishdm2zj3x-pos-"
+"api-3-0-sistemijn-api-holbolt-zaavruud) хаягт нийтэлдэг. Энэхүү баримт бичиг нь SDK-г тайлбарлах "
+"бөгөөд е-баримтын системийн бизнесийн дүрмийг хамрахгүй."

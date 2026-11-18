@@ -1,0 +1,244 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, Amraa1
+# This file is distributed under the same license as the ebarimt-pos-sdk
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ebarimt-pos-sdk 0.6.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-18 06:53+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: mn <LL@li.org>\n"
+"Language: mn\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Generated-By: Babel 2.18.0\n"
+
+msgid "Configuration"
+msgstr "Тохиргоо"
+
+msgid ""
+"Clients are configured with a settings object passed to the constructor. Settings are immutable "
+"dataclasses: build them once and share them."
+msgstr ""
+"Клиентийг байгуулагчид дамжуулах тохиргооны объектоор тохируулна. Тохиргоо нь өөрчлөгдөшгүй "
+"(immutable) dataclass: нэг удаа үүсгээд хамтран ашиглана."
+
+msgid "Common settings"
+msgstr "Нийтлэг тохиргоо"
+
+msgid "`RestClientSettings` and `ApiClientSettings` share these fields."
+msgstr "`RestClientSettings` болон `ApiClientSettings` дараах талбаруудыг хуваалцана."
+
+msgid "Field"
+msgstr "Талбар"
+
+msgid "Default"
+msgstr "Анхдагч утга"
+
+msgid "Meaning"
+msgstr "Тайлбар"
+
+msgid "`base_url`"
+msgstr ""
+
+msgid "required"
+msgstr "заавал"
+
+msgid "Root URL of the service. A trailing slash is ignored."
+msgstr "Үйлчилгээний үндсэн URL. Төгсгөлийн налуу зураасыг тооцохгүй."
+
+msgid "`timeout_s`"
+msgstr ""
+
+msgid "`10.0`"
+msgstr ""
+
+msgid "Timeout in seconds, applied to connecting, sending and reading."
+msgstr "Секундээр илэрхийлсэн timeout. Холбогдох, илгээх, уншихад үйлчилнэ."
+
+msgid "`verify_tls`"
+msgstr ""
+
+msgid "`True`"
+msgstr ""
+
+msgid "Verify the server's TLS certificate."
+msgstr "Серверийн TLS гэрчилгээг шалгах эсэх."
+
+msgid "`retry`"
+msgstr ""
+
+msgid "`RetrySettings()`"
+msgstr ""
+
+msgid "Retry policy, described below."
+msgstr "Дахин оролдох бодлого, доор тайлбарласан."
+
+msgid "`ApiClientSettings` adds optional credential fields, see [](api-client.md#authentication)."
+msgstr ""
+"`ApiClientSettings` нь нэвтрэх мэдээллийн нэмэлт талбаруудтай, [](api-client.md#authentication) "
+"хэсгийг үзнэ үү."
+
+msgid ""
+"Setting `verify_tls=False` on an `https://` URL logs a warning, because it exposes the traffic to "
+"interception. Do not use it in production."
+msgstr ""
+"`https://` URL дээр `verify_tls=False` гэж тохируулбал урсгалыг дундаас нь барьж авах эрсдэлтэй "
+"болдог тул анхааруулга log-д бичигдэнэ. Бодит орчинд бүү ашигла."
+
+msgid "Retries"
+msgstr "Дахин оролдлого"
+
+msgid ""
+"The SDK retries a request when it fails with a network error or when the server answers with one "
+"of the retryable status codes. Between attempts it waits with exponential backoff."
+msgstr ""
+"Хүсэлт сүлжээний алдаагаар амжилтгүй болох эсвэл сервер дахин оролдох боломжтой статус кодоор "
+"хариулахад SDK хүсэлтийг дахин илгээнэ. Оролдлогуудын хооронд экспоненциал backoff-оор хүлээнэ."
+
+msgid "`max_retries`"
+msgstr ""
+
+msgid "`3`"
+msgstr ""
+
+msgid "Total number of attempts, including the first one. Must be at least 1."
+msgstr "Эхний оролдлогыг оруулсан нийт оролдлогын тоо. Дор хаяж 1 байна."
+
+msgid "`retryable_statuses`"
+msgstr ""
+
+msgid "`429, 500, 502, 503, 504`"
+msgstr ""
+
+msgid "Status codes that trigger a retry."
+msgstr "Дахин оролдлого үүсгэх статус кодууд."
+
+msgid "`backoff_base_seconds`"
+msgstr ""
+
+msgid "`1.0`"
+msgstr ""
+
+msgid "The wait before retry *n* is at most `base * 2**n`."
+msgstr "*n* дэх дахин оролдлогын өмнөх хүлээлт ихдээ `base * 2**n`."
+
+msgid "`max_backoff_seconds`"
+msgstr ""
+
+msgid "`30.0`"
+msgstr ""
+
+msgid "Upper limit for a single wait."
+msgstr "Нэг хүлээлтийн дээд хязгаар."
+
+msgid "`jitter`"
+msgstr ""
+
+msgid "Wait a random time between zero and the computed backoff."
+msgstr "Тэгээс тооцоолсон backoff хүртэлх санамсаргүй хугацаагаар хүлээнэ."
+
+msgid "`respect_retry_after`"
+msgstr ""
+
+msgid "Use the server's `Retry-After` header instead of the computed backoff."
+msgstr "Тооцоолсон backoff-ын оронд серверийн `Retry-After` header-ийг ашиглана."
+
+msgid "`retry_methods`"
+msgstr ""
+
+msgid "`GET, HEAD, OPTIONS, PUT, DELETE`"
+msgstr ""
+
+msgid "HTTP methods that may be retried."
+msgstr "Дахин оролдож болох HTTP методууд."
+
+msgid "`retry_unsent`"
+msgstr ""
+
+msgid "`False`"
+msgstr ""
+
+msgid "Also retry other methods when the request provably never left the client."
+msgstr "Хүсэлт клиентээс огт гараагүй нь батлагдсан үед бусад методыг мөн дахин оролдоно."
+
+msgid ""
+"Jitter keeps a group of POS machines that fail at the same moment from retrying at the same "
+"moment. Set `jitter=False` if you need predictable timing in tests."
+msgstr ""
+"Jitter нь нэгэн зэрэг алдаа гарсан олон POS машин нэгэн зэрэг дахин оролдохоос сэргийлнэ. Тестэд "
+"тогтмол хугацаа хэрэгтэй бол `jitter=False` гэж тохируулна."
+
+msgid "To switch retries off, set `max_retries=1`."
+msgstr "Дахин оролдлогыг унтраах бол `max_retries=1` гэж тохируулна."
+
+msgid "If every attempt fails, the error from the last attempt is raised."
+msgstr "Бүх оролдлого амжилтгүй болбол сүүлийн оролдлогын алдаа гарна."
+
+msgid "Retrying receipt requests"
+msgstr "Баримтын хүсэлтийг дахин оролдох"
+
+msgid ""
+"Retries apply only to the methods in `retry_methods`. `receipt.create()` is a `POST`, so by "
+"default it is sent once, whatever `max_retries` says. This is deliberate: if PosAPI stored the "
+"receipt and only the response was lost, a retry would issue a second receipt."
+msgstr ""
+"Дахин оролдлого зөвхөн `retry_methods` дахь методуудад үйлчилнэ. `receipt.create()` нь `POST` тул "
+"анхдагчаар `max_retries`-ээс үл хамааран нэг удаа илгээгдэнэ. Энэ нь санаатай: PosAPI баримтыг "
+"хадгалсан ч зөвхөн хариу нь алдагдсан бол дахин оролдлого хоёр дахь баримт үүсгэнэ."
+
+msgid "`receipt.delete()`, `info.read()` and all lookups use retryable methods."
+msgstr ""
+"`receipt.delete()`, `info.read()` болон бүх лавлах дуудлага дахин оролдох боломжтой метод "
+"ашигладаг."
+
+msgid "You have two ways to change this for `POST`:"
+msgstr "`POST`-ийн хувьд үүнийг хоёр аргаар өөрчилж болно:"
+
+msgid ""
+"With `retry_unsent=True` a `POST` still ends after the first attempt for any response, including "
+"`503`, and for any failure after the request may have been sent."
+msgstr ""
+"`retry_unsent=True` үед ч `POST` нь аливаа хариу (`503` орно) болон хүсэлт илгээгдсэн байж "
+"болзошгүй аливаа алдааны дараа эхний оролдлогоор дуусна."
+
+msgid "Default headers"
+msgstr "Анхдагч header"
+
+msgid "Pass `headers` to the client constructor to send them with every request."
+msgstr "Хүсэлт бүрт илгээх header-уудыг клиентийн байгуулагчид `headers`-ээр дамжуулна."
+
+msgid "A `headers` argument on a single method call overrides a default header with the same name."
+msgstr "Нэг методын дуудлагад өгсөн `headers` аргумент ижил нэртэй анхдагч header-ийг дарж бичнэ."
+
+msgid "Using your own httpx client"
+msgstr "Өөрийн httpx клиентийг ашиглах"
+
+msgid ""
+"Pass your own `httpx.Client` and `httpx.AsyncClient` when you need settings the SDK does not "
+"expose, such as connection limits, a custom transport, or event hooks."
+msgstr ""
+"Холболтын хязгаар, тусгай transport, event hook зэрэг SDK-ийн гаргаж өгөөгүй тохиргоо хэрэгтэй бол"
+" өөрийн `httpx.Client` болон `httpx.AsyncClient`-ийг дамжуулна."
+
+msgid "Two things change when you inject a client:"
+msgstr "Клиент дамжуулахад хоёр зүйл өөрчлөгдөнө:"
+
+msgid ""
+"The SDK uses your client's `base_url`, timeout and TLS options. `timeout_s` and `verify_tls` from "
+"the settings are not applied to it, so set `base_url` on your client yourself."
+msgstr ""
+"SDK таны клиентийн `base_url`, timeout, TLS тохиргоог ашиглана. Тохиргооны `timeout_s` болон "
+"`verify_tls` түүнд үйлчлэхгүй тул `base_url`-ийг клиент дээрээ өөрөө тохируулна уу."
+
+msgid "The SDK does not close a client it did not create. Closing it is your job."
+msgstr "SDK өөрөө үүсгээгүй клиентийг хаадаггүй. Хаах нь таны үүрэг."
+
+msgid "The retry policy from the settings still applies."
+msgstr "Тохиргооны дахин оролдох бодлого хэвээр үйлчилнэ."

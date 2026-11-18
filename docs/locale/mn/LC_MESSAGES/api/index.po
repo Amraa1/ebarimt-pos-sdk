@@ -1,0 +1,37 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, Amraa1
+# This file is distributed under the same license as the ebarimt-pos-sdk
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ebarimt-pos-sdk 0.6.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-18 06:53+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: mn <LL@li.org>\n"
+"Language: mn\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Generated-By: Babel 2.18.0\n"
+
+msgid "API reference"
+msgstr "API лавлах"
+
+msgid ""
+"This reference is generated from the source code. The descriptions are in English in every edition"
+" of the documentation."
+msgstr ""
+"Энэхүү лавлах эх кодоос үүсгэгддэг. Тайлбарууд баримт бичгийн бүх хэл дээрх хувилбарт англи хэлээр"
+" байна."
+
+msgid ""
+"Everything a typical application needs can be imported from the top-level `ebarimt_pos_sdk` "
+"package. `RetrySettings` is imported from `ebarimt_pos_sdk.settings`."
+msgstr ""
+"Ердийн програмд хэрэгтэй бүхнийг дээд түвшний `ebarimt_pos_sdk` багцаас импортолж болно. "
+"`RetrySettings`-ийг `ebarimt_pos_sdk.settings`-ээс импортолно."

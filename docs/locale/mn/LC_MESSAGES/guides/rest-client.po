@@ -1,0 +1,273 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, Amraa1
+# This file is distributed under the same license as the ebarimt-pos-sdk
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ebarimt-pos-sdk 0.6.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-18 06:53+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: mn <LL@li.org>\n"
+"Language: mn\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Generated-By: Babel 2.18.0\n"
+
+msgid "Local REST client"
+msgstr "Дотоод REST клиент"
+
+msgid ""
+"`EbarimtRestClient` wraps the REST interface of the PosAPI service that runs on your POS machine "
+"or local network. It needs no authentication."
+msgstr ""
+"`EbarimtRestClient` нь таны POS машин эсвэл дотоод сүлжээнд ажиллаж буй PosAPI үйлчилгээний REST "
+"интерфэйсийг хялбарчилж өгдөг. Нэвтрэлт шаардахгүй."
+
+msgid "Attribute"
+msgstr "Атрибут"
+
+msgid "Method"
+msgstr "Метод"
+
+msgid "HTTP request"
+msgstr "HTTP хүсэлт"
+
+msgid "Returns"
+msgstr "Буцаах утга"
+
+msgid "`client.receipt`"
+msgstr ""
+
+msgid "`create(payload)`"
+msgstr ""
+
+msgid "`POST /rest/receipt`"
+msgstr ""
+
+msgid "`CreateReceiptResponse`"
+msgstr ""
+
+msgid "`delete(payload)`"
+msgstr ""
+
+msgid "`DELETE /rest/receipt`"
+msgstr ""
+
+msgid "`None`"
+msgstr ""
+
+msgid "`client.info`"
+msgstr ""
+
+msgid "`read()`"
+msgstr ""
+
+msgid "`GET /rest/info`"
+msgstr ""
+
+msgid "`ReadInfoResponse`"
+msgstr ""
+
+msgid "`client.send_data`"
+msgstr ""
+
+msgid "`send()`"
+msgstr ""
+
+msgid "`GET /rest/sendData`"
+msgstr ""
+
+msgid "`client.bank_accounts`"
+msgstr ""
+
+msgid "`read(tin)`"
+msgstr ""
+
+msgid "`GET /rest/bankAccounts`"
+msgstr ""
+
+msgid "`list[BankAccount]`"
+msgstr ""
+
+msgid "Each method has an async twin: `acreate`, `adelete`, `aread`, `asend`."
+msgstr "Метод бүр async хувилбартай: `acreate`, `adelete`, `aread`, `asend`."
+
+msgid "Client lifecycle"
+msgstr "Клиентийн амьдралын мөчлөг"
+
+msgid ""
+"The client owns a connection pool. Close it when you are done, or use it as a context manager so "
+"that it is closed for you."
+msgstr ""
+"Клиент нь холболтын pool-ийг эзэмшдэг. Ажил дууссаны дараа хаах, эсвэл автоматаар хаагдахаар "
+"context manager хэлбэрээр ашиглана."
+
+msgid ""
+"Without a context manager, call `client.close()` for synchronous use and `await client.aclose()` "
+"for asynchronous use."
+msgstr ""
+"Context manager ашиглахгүй бол синхрон горимд `client.close()`, асинхрон горимд `await "
+"client.aclose()`-г дуудна."
+
+msgid ""
+"Create one client and reuse it for the lifetime of your application. Creating a client for every "
+"request throws away the connection pool."
+msgstr ""
+"Нэг клиент үүсгээд програмын ажиллах хугацааны туршид дахин ашиглана уу. Хүсэлт бүрт шинэ клиент "
+"үүсгэвэл холболтын pool-ийн ашиг алдагдана."
+
+msgid "Issuing a receipt"
+msgstr "Баримт үүсгэх"
+
+msgid ""
+"`receipt.create()` takes a `CreateReceiptRequest` or a `dict` with the same fields, and returns a "
+"`CreateReceiptResponse`."
+msgstr ""
+"`receipt.create()` нь `CreateReceiptRequest` эсвэл ижил талбартай `dict` хүлээн авч, "
+"`CreateReceiptResponse` буцаана."
+
+msgid ""
+"A receipt contains one or more sub-receipts (`receipts`). Each sub-receipt has one tax type and "
+"one seller, and lists its items. A sale that mixes taxable and tax-free goods therefore has two "
+"sub-receipts."
+msgstr ""
+"Нэг баримт нэг буюу хэд хэдэн дэд баримтаас (`receipts`) бүрдэнэ. Дэд баримт бүр нэг татварын "
+"төрөл, нэг борлуулагчтай бөгөөд бараа, үйлчилгээгээ жагсаана. Тиймээс НӨАТ-тай болон НӨАТ-аас "
+"чөлөөлөгдсөн бараа хамт зарагдсан борлуулалт хоёр дэд баримттай байна."
+
+msgid "The fields you will use most from the response:"
+msgstr "Хариунаас хамгийн их ашиглах талбарууд:"
+
+msgid "Field"
+msgstr "Талбар"
+
+msgid "Meaning"
+msgstr "Тайлбар"
+
+msgid "`id`"
+msgstr ""
+
+msgid "Receipt number (ДДТД). Keep it: you need it to cancel the receipt."
+msgstr "Баримтын дугаар (ДДТД). Хадгалж авна уу: баримтыг буцаахад хэрэгтэй."
+
+msgid "`date`"
+msgstr ""
+
+msgid "Time the receipt was created. Also needed to cancel it."
+msgstr "Баримт үүссэн огноо, цаг. Буцаахад мөн хэрэгтэй."
+
+msgid "`qr_data`"
+msgstr ""
+
+msgid "Text to encode in the QR code printed on the receipt."
+msgstr "Баримт дээр хэвлэх QR кодод оруулах текст."
+
+msgid "`lottery`"
+msgstr ""
+
+msgid "Lottery number. `None` when the response contains no lottery number."
+msgstr "Сугалааны дугаар. Хариунд сугалааны дугаар байхгүй бол `None`."
+
+msgid "`status`"
+msgstr ""
+
+msgid "`SUCCESS`, `ERROR` or `PAYMENT`."
+msgstr "`SUCCESS`, `ERROR` эсвэл `PAYMENT`."
+
+msgid "`receipts`"
+msgstr ""
+
+msgid "The sub-receipts, each with its own `id`."
+msgstr "Дэд баримтууд, тус бүр өөрийн `id`-тай."
+
+msgid ""
+"The SDK checks the shape of the request before sending it: required fields, types, enum values, a "
+"positive `qty` and `unit_price`, and at least one item per sub-receipt. It does not check totals, "
+"tax calculations or any other rule of the e-barimt system. PosAPI does that and its verdict is "
+"reported as an error, see [](errors.md)."
+msgstr ""
+"SDK нь хүсэлтийг илгээхээс өмнө бүтцийг нь шалгана: заавал байх талбар, төрөл, enum утга, `qty` "
+"болон `unit_price` эерэг эсэх, дэд баримт бүр дор хаяж нэг бараатай эсэх. Нийт дүн, татварын "
+"тооцоо болон е-баримтын системийн бусад дүрмийг шалгахгүй. Тэдгээрийг PosAPI шалгах бөгөөд үр дүн "
+"нь алдаа хэлбэрээр ирнэ, [](errors.md) хуудсыг үзнэ үү."
+
+msgid ""
+"The PosAPI specification forbids storing `lottery` and `qr_data` in any form other than printing "
+"them on the receipt."
+msgstr ""
+"PosAPI-ийн тодорхойлолтоор `lottery` болон `qr_data`-г баримт дээр хэвлэхээс өөр ямар ч хэлбэрээр "
+"хадгалахыг хориглодог."
+
+msgid ""
+"`receipt.create()` is never retried automatically. If it fails with a network error, the receipt "
+"may already exist. Read [](errors.md#avoiding-duplicate-receipts) before adding your own retry."
+msgstr ""
+"`receipt.create()`-г SDK хэзээ ч автоматаар дахин илгээдэггүй. Сүлжээний алдаагаар амжилтгүй "
+"болсон ч баримт аль хэдийн үүссэн байж болзошгүй. Өөрөө дахин илгээх логик нэмэхээсээ өмнө "
+"[](errors.md#avoiding-duplicate-receipts) хэсгийг уншина уу."
+
+msgid "Cancelling a receipt"
+msgstr "Баримт буцаах"
+
+msgid "Pass the `id` of the receipt and the `date` it was created."
+msgstr "Баримтын `id` болон үүссэн `date`-г дамжуулна."
+
+msgid ""
+"`date` is a `datetime`. The SDK sends it in the `yyyy-MM-dd HH:mm:ss` format PosAPI expects. The "
+"method returns `None` and raises an error if PosAPI rejects the cancellation."
+msgstr ""
+"`date` нь `datetime` төрөлтэй. SDK үүнийг PosAPI-ийн хүлээж авдаг `yyyy-MM-dd HH:mm:ss` форматаар "
+"илгээнэ. Метод `None` буцаах бөгөөд PosAPI буцаалтаас татгалзвал алдаа гаргана."
+
+msgid "Reading PosAPI status"
+msgstr "PosAPI-ийн төлөвийг унших"
+
+msgid "`info.read()` returns the configuration and state of the PosAPI instance."
+msgstr "`info.read()` нь PosAPI-ийн тохиргоо болон төлөвийг буцаана."
+
+msgid ""
+"`left_lotteries` and `last_sent_date` are worth monitoring: they show whether the instance is "
+"running out of lottery numbers and whether it is still uploading receipts."
+msgstr ""
+"`left_lotteries` болон `last_sent_date`-г хянаж байх нь зүйтэй: сугалааны дугаар дуусаж байгаа "
+"эсэх, баримтаа илгээсээр байгаа эсэхийг эдгээр харуулна."
+
+msgid "Sending receipts to the central system"
+msgstr "Баримтыг нэгдсэн системд илгээх"
+
+msgid ""
+"`send_data.send()` asks PosAPI to send its stored receipts to the central e-barimt system now. "
+"PosAPI also refreshes its bank account list during this operation."
+msgstr ""
+"`send_data.send()` нь PosAPI-д хадгалагдсан баримтуудыг е-баримтын нэгдсэн системд одоо илгээхийг "
+"хүснэ. Энэ үйлдлийн үеэр PosAPI банкны дансны жагсаалтаа мөн шинэчилдэг."
+
+msgid "Listing bank accounts"
+msgstr "Банкны дансны жагсаалт авах"
+
+msgid "`bank_accounts.read()` returns the bank accounts that PosAPI has registered for a taxpayer."
+msgstr ""
+"`bank_accounts.read()` нь тухайн татвар төлөгчийн PosAPI-д бүртгэлтэй банкны дансуудыг буцаана."
+
+msgid "Per-request headers"
+msgstr "Хүсэлт тус бүрийн header"
+
+msgid ""
+"Every method accepts a `headers` keyword argument. The headers are added to that one request and "
+"override client-level headers with the same name."
+msgstr ""
+"Метод бүр `headers` нэртэй аргумент хүлээн авна. Эдгээр header зөвхөн тухайн хүсэлтэд нэмэгдэх "
+"бөгөөд клиентийн түвшний ижил нэртэй header-ийг дарж бичнэ."
+
+msgid ""
+"To send a header with every request, pass `headers` to the client constructor, see "
+"[](configuration.md#default-headers)."
+msgstr ""
+"Хүсэлт бүрт header илгээхийн тулд клиентийн байгуулагчид `headers` дамжуулна, "
+"[](configuration.md#default-headers) хэсгийг үзнэ үү."

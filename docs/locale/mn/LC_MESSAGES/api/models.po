@@ -1,0 +1,118 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, Amraa1
+# This file is distributed under the same license as the ebarimt-pos-sdk
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ebarimt-pos-sdk 0.6.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-18 06:53+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: mn <LL@li.org>\n"
+"Language: mn\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Generated-By: Babel 2.18.0\n"
+
+msgid "Models"
+msgstr "Моделиуд"
+
+msgid "Receipt"
+msgstr "Баримт"
+
+#, python-brace-format
+msgid ""
+"items[].data Note: docs show lotNo + stockQR, but examples also show nested \"data\": "
+"{\"stockQR\":[...]} sometimes. This model follows the schema: lotNo, stockQR directly under data."
+msgstr ""
+
+msgid "Single product or service included in a receipt."
+msgstr ""
+
+msgid "Sub-receipt containing items, tax info, and seller details."
+msgstr ""
+
+msgid "Card payment metadata when using PAYMENT_CARD."
+msgstr ""
+
+msgid "Payment information associated with a receipt."
+msgstr ""
+
+msgid "Request payload for creating a new receipt."
+msgstr ""
+
+msgid "Response returned after receipt creation."
+msgstr ""
+
+msgid "Request payload for deleting an existing receipt."
+msgstr ""
+
+msgid "Enumerations"
+msgstr "Enum төрлүүд"
+
+msgid "Type of receipt or invoice issued to consumer or business."
+msgstr ""
+
+msgid "VAT applicability of the receipt items."
+msgstr ""
+
+msgid "Barcode standard used to identify the item."
+msgstr ""
+
+msgid "Payment method used for the transaction."
+msgstr ""
+
+msgid "Current status of the payment."
+msgstr ""
+
+msgid "Result status returned after creating a receipt."
+msgstr ""
+
+msgid "PosAPI information"
+msgstr "PosAPI-ийн мэдээлэл"
+
+msgid "Runtime and environment information of the PosAPI application."
+msgstr ""
+
+msgid "Customer organization registered under the merchant."
+msgstr ""
+
+msgid "Merchant organization registered in PosAPI."
+msgstr ""
+
+msgid "Response returned from GET /rest/info containing PosAPI system information."
+msgstr ""
+
+msgid "Bank accounts"
+msgstr "Банкны данс"
+
+msgid "Bank account record."
+msgstr ""
+
+msgid "Public API responses"
+msgstr "Нийтийн API-ийн хариу"
+
+msgid "Hierarchical БҮНА (Бараа, Үйлчилгээний Нэгдсэн Ангилал) lookup."
+msgstr ""
+
+msgid ""
+"The response is a JSON array of rows. Each row is itself an array of strings whose shape depends "
+"on the level returned:"
+msgstr ""
+
+msgid ""
+"Classification rows (Салбар / Дэд салбар / Бүлэг / Анги / Дэд анги / БҮНА код): ``[code, name]``"
+msgstr ""
+
+msgid "Barcode rows (leaf level): ``[barcode, name, registered_date]``"
+msgstr ""
+
+msgid ""
+"Per the SDK's \"validate structure, not policy\" rule we only assert that each row is a list of "
+"strings — interpretation is left to the caller."
+msgstr ""

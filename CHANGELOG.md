@@ -6,6 +6,15 @@ All notable changes to this project will be documented here.
 
 ## [Unreleased]
 
+### Documentation
+
+- Rewrote the Read the Docs site: installation, quickstart, guides for both clients, models and
+  validation, error handling, configuration and logging, plus an API reference generated from the
+  current modules (the previous reference pointed at modules that no longer exist)
+- The documentation is now published in English and Mongolian from one set of sources; Mongolian
+  lives in `docs/locale/mn` as gettext catalogues (see `docs/README.md`)
+- README: default headers are passed to the client constructor, not to the settings object
+
 ## [0.6.0] — 2026-11-18
 
 Feature release, no breaking changes. A failed request now tells you whether it could have reached

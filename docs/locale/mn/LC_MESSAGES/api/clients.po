@@ -1,0 +1,42 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, Amraa1
+# This file is distributed under the same license as the ebarimt-pos-sdk
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ebarimt-pos-sdk 0.6.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-18 06:53+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: mn <LL@li.org>\n"
+"Language: mn\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Generated-By: Babel 2.18.0\n"
+
+msgid "Clients"
+msgstr "Клиентүүд"
+
+msgid "Ebarimt REST api client."
+msgstr ""
+
+msgid "Ebarimt public api client."
+msgstr ""
+
+msgid ""
+"These endpoints (district codes, TIN info, merchant info, product tax codes, BÜNA classification) "
+"are publicly readable — no OAuth2 token is required. The auth/ module is kept for future endpoints"
+" that may require it."
+msgstr ""
+
+msgid ""
+"``proxy`` routes every request through an HTTP/SOCKS proxy — useful when the public API is only "
+"reachable from a specific region. Accepts a URL string (``\"http://user:pass@host:8080\"``) or an "
+"``httpx.Proxy``; SOCKS proxies require the ``httpx[socks]`` extra. It cannot be combined with an "
+"injected ``sync_client``/``async_client`` — configure the proxy on that client instead."
+msgstr ""

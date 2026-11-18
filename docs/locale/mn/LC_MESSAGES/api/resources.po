@@ -1,0 +1,60 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, Amraa1
+# This file is distributed under the same license as the ebarimt-pos-sdk
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ebarimt-pos-sdk 0.6.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-18 06:53+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: mn <LL@li.org>\n"
+"Language: mn\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Generated-By: Babel 2.18.0\n"
+
+msgid "Resources"
+msgstr "Resource-ууд"
+
+msgid ""
+"Resources are the objects behind client attributes such as ``client.receipt``. You do not create "
+"them yourself."
+msgstr ""
+"Resource нь ``client.receipt`` зэрэг клиентийн атрибутын ард байдаг объект юм. Тэдгээрийг та өөрөө"
+" үүсгэхгүй."
+
+msgid "Local REST API"
+msgstr "Дотоод REST API"
+
+msgid "Public API"
+msgstr "Нийтийн API"
+
+msgid "БҮНА (Бараа, Үйлчилгээний Нэгдсэн Ангилал) classification lookup."
+msgstr ""
+
+#, python-brace-format
+msgid ""
+"Wraps ``GET /api/info/check/barcode/v2[/{code}...]``. The endpoint is hierarchical: call "
+"``read()`` (no segments) to get the top-level \"Салбар\" list, then drill down by passing the code"
+" at each level as the next segment. Codes nest as prefixes::"
+msgstr ""
+
+#, python-brace-format
+msgid ""
+"Note on the OpenAPI spec: the path template is documented as ``{p4}/{p5}/{p1}/{p2}/{p3}/{p6}`` "
+"with all six segments — that is a Stoplight modeling artifact, not the real call shape. The live "
+"API is variable-depth (0..6 segments) and segments go in logical top-down order, as verified "
+"directly against the production server::"
+msgstr ""
+
+msgid ""
+"Each segment is just the code of the level you are expanding; the parameter names p1..p6 in the "
+"spec are labels for \"depth N\" in logical order (p1=Салбар, p2=Дэд салбар, …, p6=БҮНА код), "
+"regardless of how they appear in the URL template."
+msgstr ""

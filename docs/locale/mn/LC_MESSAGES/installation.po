@@ -1,0 +1,67 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, Amraa1
+# This file is distributed under the same license as the ebarimt-pos-sdk
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ebarimt-pos-sdk 0.6.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-18 06:53+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: mn <LL@li.org>\n"
+"Language: mn\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Generated-By: Babel 2.18.0\n"
+
+msgid "Installation"
+msgstr "Суулгах"
+
+msgid "The SDK requires Python 3.10 or newer."
+msgstr "SDK нь Python 3.10 буюу түүнээс шинэ хувилбар шаардана."
+
+msgid "With `uv`:"
+msgstr "`uv` ашиглавал:"
+
+msgid "The package installs `httpx`, `pydantic` (v2) and `authlib` as dependencies."
+msgstr "Багц нь `httpx`, `pydantic` (v2) болон `authlib`-ийг хамт суулгана."
+
+msgid "Optional: SOCKS proxy support"
+msgstr "Нэмэлт: SOCKS proxy-ийн дэмжлэг"
+
+msgid ""
+"`EbarimtApiClient` can send its requests through a proxy. HTTP proxies work out of the box. For a "
+"SOCKS proxy, install the `httpx` extra as well:"
+msgstr ""
+"`EbarimtApiClient` хүсэлтээ proxy-оор дамжуулан илгээж чадна. HTTP proxy нэмэлт тохиргоогүйгээр "
+"ажиллана. SOCKS proxy ашиглах бол `httpx`-ийн нэмэлт багцыг суулгана:"
+
+msgid "What you need before you start"
+msgstr "Эхлэхээс өмнө бэлдэх зүйл"
+
+msgid ""
+"To issue receipts you need a running **PosAPI 3.0** service. It is the program distributed by the "
+"tax authority that signs receipts and forwards them to the central system. The SDK does not "
+"include it. PosAPI listens on port `7080` by default, so the base URL is usually "
+"`http://localhost:7080`."
+msgstr ""
+"Баримт үүсгэхийн тулд ажиллаж буй **PosAPI 3.0** үйлчилгээ хэрэгтэй. Энэ нь татварын албанаас "
+"түгээдэг програм бөгөөд баримтыг баталгаажуулж, нэгдсэн системд дамжуулдаг. SDK-д PosAPI "
+"багтаагүй. PosAPI анхдагчаар `7080` порт дээр ажилладаг тул үндсэн хаяг нь ихэвчлэн "
+"`http://localhost:7080` байна."
+
+msgid ""
+"The lookup endpoints used by `EbarimtApiClient` are public and need no PosAPI installation. They "
+"may only be reachable from inside Mongolia, see [](guides/api-client.md#using-a-proxy)."
+msgstr ""
+"`EbarimtApiClient`-ийн ашигладаг лавлах endpoint-ууд нь нээлттэй бөгөөд PosAPI суулгах "
+"шаардлагагүй. Тэдгээрт зөвхөн Монгол Улсын дотроос хандах боломжтой байж болзошгүй, [](guides/api-"
+"client.md#using-a-proxy) хэсгийг үзнэ үү."
+
+msgid "Check the installation"
+msgstr "Суулгалтыг шалгах"

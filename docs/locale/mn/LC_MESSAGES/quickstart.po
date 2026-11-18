@@ -1,0 +1,85 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, Amraa1
+# This file is distributed under the same license as the ebarimt-pos-sdk
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ebarimt-pos-sdk 0.6.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-18 06:53+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: mn <LL@li.org>\n"
+"Language: mn\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Generated-By: Babel 2.18.0\n"
+
+msgid "Quickstart"
+msgstr "Түргэн эхлэл"
+
+msgid ""
+"This page issues a receipt, cancels it, and looks up a taxpayer. Each step is explained in more "
+"detail in the guides."
+msgstr ""
+"Энэ хуудсанд баримт үүсгэж, буцааж, татвар төлөгчийн мэдээлэл лавлана. Алхам бүрийг заавруудад "
+"илүү дэлгэрэнгүй тайлбарласан."
+
+msgid "Issue a receipt"
+msgstr "Баримт үүсгэх"
+
+msgid "Create a client that points at your PosAPI service and call `receipt.create()`."
+msgstr "Өөрийн PosAPI үйлчилгээ рүү заасан клиент үүсгээд `receipt.create()`-г дуудна."
+
+msgid ""
+"The identifiers and amounts above are sample values. Use the values registered for your own "
+"merchant and POS."
+msgstr ""
+"Дээрх дугаар, дүнгүүд нь жишээ утга. Өөрийн байгууллага болон POS-т бүртгэлтэй утгуудыг ашиглана "
+"уу."
+
+msgid ""
+"The payload can be a plain `dict` as shown, or a `CreateReceiptRequest` model. Field names are "
+"written in `snake_case`; the SDK converts them to the `camelCase` names PosAPI expects. See "
+"[](guides/models.md)."
+msgstr ""
+"Өгөгдлийг дээрх шиг энгийн `dict`-ээр, эсвэл `CreateReceiptRequest` модель хэлбэрээр дамжуулж "
+"болно. Талбарын нэрийг `snake_case`-ээр бичих бөгөөд SDK нь PosAPI-ийн хүлээж авдаг `camelCase` "
+"нэр рүү хөрвүүлнэ. [](guides/models.md) хуудсыг үзнэ үү."
+
+msgid "Cancel a receipt"
+msgstr "Баримт буцаах"
+
+msgid "The same thing with asyncio"
+msgstr "Мөн үйлдлийг asyncio-оор"
+
+msgid "Use `async with` and the `a`-prefixed methods."
+msgstr "`async with` болон `a` угтвартай методуудыг ашиглана."
+
+msgid "Look up a taxpayer"
+msgstr "Татвар төлөгчийн мэдээлэл лавлах"
+
+msgid ""
+"`EbarimtApiClient` talks to the public Ebarimt API. `create_api_settings` fills in the URLs for "
+"the environment you choose."
+msgstr ""
+"`EbarimtApiClient` нь Ebarimt-ийн нийтийн API-тай харилцана. `create_api_settings` нь таны "
+"сонгосон орчны URL-уудыг бөглөж өгнө."
+
+msgid "Handle failures"
+msgstr "Алдааг боловсруулах"
+
+msgid "Every error raised by the SDK derives from `PosApiError`."
+msgstr "SDK-ийн гаргадаг алдаа бүр `PosApiError`-оос удамшсан."
+
+msgid ""
+"A failed `receipt.create()` needs more care than this, because resending it blindly can issue a "
+"second receipt. [](guides/errors.md) explains how to tell the safe cases from the unsafe ones."
+msgstr ""
+"Амжилтгүй болсон `receipt.create()`-д үүнээс илүү анхаарал хэрэгтэй, учир нь шалгалгүй дахин "
+"илгээвэл хоёр дахь баримт үүсэж болзошгүй. Аюулгүй болон аюултай тохиолдлыг хэрхэн ялгахыг "
+"[](guides/errors.md) хуудсанд тайлбарласан."

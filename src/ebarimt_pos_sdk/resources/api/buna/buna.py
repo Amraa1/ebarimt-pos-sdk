@@ -8,7 +8,7 @@ class BunaResource(BaseResource):
     Wraps ``GET /api/info/check/barcode/v2[/{code}...]``. The endpoint is
     hierarchical: call ``read()`` (no segments) to get the top-level
     "Салбар" list, then drill down by passing the code at each level as
-    the next segment. Codes nest as prefixes:
+    the next segment. Codes nest as prefixes::
 
         read()                      -> Салбар
         read("0")                   -> Дэд салбар of "0"
@@ -26,7 +26,7 @@ class BunaResource(BaseResource):
     ``{p4}/{p5}/{p1}/{p2}/{p3}/{p6}`` with all six segments — that is a
     Stoplight modeling artifact, not the real call shape. The live API
     is variable-depth (0..6 segments) and segments go in logical
-    top-down order, as verified directly against the production server:
+    top-down order, as verified directly against the production server::
 
         GET https://api.ebarimt.mn/api/info/check/barcode/v2     -> Салбар
         GET https://api.ebarimt.mn/api/info/check/barcode/v2/9   -> drills "9"

@@ -1,0 +1,241 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, Amraa1
+# This file is distributed under the same license as the ebarimt-pos-sdk
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ebarimt-pos-sdk 0.6.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-18 06:53+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: mn <LL@li.org>\n"
+"Language: mn\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Generated-By: Babel 2.18.0\n"
+
+msgid "Models and validation"
+msgstr "Модель ба шалгалт"
+
+msgid ""
+"Requests and responses are [pydantic](https://docs.pydantic.dev/) v2 models. This page explains "
+"how they map to the JSON that PosAPI uses and what the SDK does and does not validate."
+msgstr ""
+"Хүсэлт, хариу нь [pydantic](https://docs.pydantic.dev/) v2 моделиуд юм. Энэ хуудсанд тэдгээр нь "
+"PosAPI-ийн ашигладаг JSON-той хэрхэн харгалзах, SDK юуг шалгадаг, юуг шалгадаггүйг тайлбарлана."
+
+msgid "Field names"
+msgstr "Талбарын нэр"
+
+msgid ""
+"PosAPI uses `camelCase` JSON names such as `merchantTin`. The models use `snake_case` attribute "
+"names such as `merchant_tin` and convert between the two."
+msgstr ""
+"PosAPI нь `merchantTin` гэх мэт `camelCase` JSON нэр ашигладаг. Моделиуд нь `merchant_tin` гэх мэт"
+" `snake_case` атрибутын нэр ашиглах бөгөөд хоёрын хооронд хөрвүүлнэ."
+
+msgid "Input accepts either spelling:"
+msgstr "Оролтод аль ч бичлэгийг хүлээн авна:"
+
+msgid "On responses you always read the `snake_case` attribute:"
+msgstr "Хариунаас үргэлж `snake_case` атрибутаар уншина:"
+
+msgid "To get the JSON form back, for example to store the response, dump the model by alias:"
+msgstr "JSON хэлбэрийг буцааж авах, жишээ нь хариуг хадгалахын тулд моделийг alias-аар нь гаргана:"
+
+msgid ""
+"A few names do not follow the simple rule. The SDK handles them, you only see the `snake_case` "
+"name:"
+msgstr ""
+"Цөөн хэдэн нэр энгийн дүрмийг дагадаггүй. SDK тэдгээрийг зохицуулдаг тул та зөвхөн `snake_case` "
+"нэрийг харна:"
+
+msgid "Attribute"
+msgstr "Атрибут"
+
+msgid "JSON name"
+msgstr "JSON нэр"
+
+msgid "`total_vat`"
+msgstr ""
+
+msgid "`totalVAT`"
+msgstr ""
+
+msgid "`terminal_id`"
+msgstr ""
+
+msgid "`terminalID`"
+msgstr ""
+
+msgid "`iban`"
+msgstr ""
+
+msgid "`iBan`"
+msgstr ""
+
+msgid "`operator_tin`"
+msgstr ""
+
+msgid "`operatorTIN`"
+msgstr ""
+
+msgid "Dictionaries or models"
+msgstr "Dictionary эсвэл модель"
+
+msgid ""
+"Methods that take a payload accept a model instance or a `dict`. A `dict` is validated against the"
+" model before anything is sent, so both forms get the same checks. Models give you editor "
+"completion and type checking; dictionaries are convenient when the data already comes from JSON."
+msgstr ""
+"Өгөгдөл авдаг методууд моделийн объект эсвэл `dict` хүлээн авна. `dict`-ийг илгээхээс өмнө "
+"моделиор шалгадаг тул хоёр хэлбэрт ижил шалгалт хийгдэнэ. Модель ашиглавал редакторын автомат "
+"гүйцээлт, төрлийн шалгалт ажиллана; өгөгдөл аль хэдийн JSON-оос ирсэн бол dictionary тохиромжтой."
+
+msgid "Enumerations"
+msgstr "Enum төрлүүд"
+
+msgid "Fields with a fixed set of values accept the enum member or its string value."
+msgstr "Тогтсон утгатай талбарууд enum-ын гишүүн эсвэл түүний тэмдэгт мөр утгыг хүлээн авна."
+
+msgid "Enum"
+msgstr "Enum"
+
+msgid "Values"
+msgstr "Утгууд"
+
+msgid "`ReceiptType`"
+msgstr ""
+
+msgid "`B2C_RECEIPT`, `B2B_RECEIPT`, `B2C_INVOICE`, `B2B_INVOICE`"
+msgstr ""
+
+msgid "`TaxType`"
+msgstr ""
+
+msgid "`VAT_ABLE`, `VAT_FREE`, `VAT_ZERO`, `NO_VAT`"
+msgstr ""
+
+msgid "`BarCodeType`"
+msgstr ""
+
+msgid "`UNDEFINED`, `GS1`, `ISBN`"
+msgstr ""
+
+msgid "`PaymentCode`"
+msgstr ""
+
+msgid "`CASH`, `PAYMENT_CARD`"
+msgstr ""
+
+msgid "`PaymentStatus`"
+msgstr ""
+
+msgid "`PAID`, `PAY`, `REVERSED`, `ERROR`"
+msgstr ""
+
+msgid "`ReceiptCreateStatus`"
+msgstr ""
+
+msgid "`SUCCESS`, `ERROR`, `PAYMENT`"
+msgstr ""
+
+msgid "Amounts"
+msgstr "Мөнгөн дүн"
+
+msgid ""
+"Amount and quantity fields accept `int`, `float` or `decimal.Decimal`. Use `Decimal` or integers "
+"for money to avoid floating-point rounding."
+msgstr ""
+"Дүн болон тоо хэмжээний талбарууд `int`, `float` эсвэл `decimal.Decimal` хүлээн авна. Бутархай "
+"тооны нарийвчлалын алдаанаас зайлсхийхийн тулд мөнгөн дүнд `Decimal` эсвэл бүхэл тоо ашиглана уу."
+
+msgid "Dates"
+msgstr "Огноо"
+
+msgid ""
+"`CreateReceiptResponse.date` is parsed from PosAPI's `yyyy-MM-dd HH:mm:ss` text into a `datetime`."
+" PosAPI sends no time zone. The SDK labels the value as UTC without shifting the clock time, so "
+"read the hour and minute as PosAPI reported them."
+msgstr ""
+"`CreateReceiptResponse.date` нь PosAPI-ийн `yyyy-MM-dd HH:mm:ss` текстээс `datetime` болж хөрвөнө."
+" PosAPI цагийн бүс илгээдэггүй. SDK нь цагийг шилжүүлэлгүйгээр утгыг UTC гэж тэмдэглэдэг тул цаг, "
+"минутыг PosAPI-ийн мэдээлснээр нь уншина уу."
+
+msgid "What is validated"
+msgstr "Юуг шалгадаг вэ"
+
+msgid "The SDK follows one rule: **validate structure, not policy**."
+msgstr "SDK нэг дүрэм баримталдаг: **бүтцийг шалгана, бодлогыг биш**."
+
+msgid "It checks:"
+msgstr "Шалгадаг зүйлс:"
+
+msgid "that required fields are present and have the right type;"
+msgstr "заавал байх талбарууд байгаа, төрөл нь зөв эсэх;"
+
+msgid "that enum fields hold one of the known values;"
+msgstr "enum талбарууд мэдэгдэж буй утгуудын аль нэг эсэх;"
+
+msgid "simple numeric limits, such as `qty` and `unit_price` being greater than zero;"
+msgstr "тооны энгийн хязгаар, жишээ нь `qty` болон `unit_price` тэгээс их эсэх;"
+
+msgid "that a sub-receipt has at least one item."
+msgstr "дэд баримт дор хаяж нэг бараатай эсэх."
+
+msgid "It does not check:"
+msgstr "Шалгадаггүй зүйлс:"
+
+msgid "business rules, such as which fields a receipt type requires;"
+msgstr "бизнесийн дүрэм, жишээ нь баримтын төрөл ямар талбар шаарддаг;"
+
+msgid "relations between fields, such as totals matching the sum of the items or the VAT amount;"
+msgstr ""
+"талбар хоорондын хамаарал, жишээ нь нийт дүн барааны дүнгийн нийлбэртэй эсвэл НӨАТ-ын дүнтэй "
+"таарах эсэх;"
+
+msgid "whether a TIN, district code or classification code exists."
+msgstr "ТТД, байршлын код, ангиллын код бүртгэлтэй эсэх."
+
+msgid ""
+"The server owns those rules and can change them at any time. Keeping them out of the SDK means a "
+"rule change does not force you to upgrade."
+msgstr ""
+"Эдгээр дүрмийг сервер эзэмшдэг бөгөөд хэзээ ч өөрчилж болно. Тэдгээрийг SDK-д оруулаагүй тул дүрэм"
+" өөрчлөгдөхөд SDK-г шинэчлэх шаардлага гарахгүй."
+
+msgid ""
+"A request that fails the structural checks raises `PosApiValidationError` before any network call."
+" A request that the server rejects raises `PosApiBusinessError` or `PosApiHttpError`. See "
+"[](errors.md)."
+msgstr ""
+"Бүтцийн шалгалтад тэнцээгүй хүсэлт сүлжээний дуудлага хийгдэхээс өмнө `PosApiValidationError` "
+"гаргана. Серверээс татгалзсан хүсэлт `PosApiBusinessError` эсвэл `PosApiHttpError` гаргана. "
+"[](errors.md) хуудсыг үзнэ үү."
+
+msgid "Unknown fields"
+msgstr "Үл мэдэгдэх талбар"
+
+msgid "Models ignore fields they do not know."
+msgstr "Моделиуд танихгүй талбараа үл тоомсорлоно."
+
+msgid ""
+"For responses this means that existing code keeps working when PosAPI starts returning a new "
+"field. The field is not available on the model until the SDK adds it."
+msgstr ""
+"Хариуны хувьд энэ нь PosAPI шинэ талбар буцааж эхлэхэд одоогийн код хэвээр ажиллана гэсэн үг. SDK "
+"нэмэх хүртэл тэр талбар модель дээр харагдахгүй."
+
+msgid ""
+"For requests it means that a key the model does not define is dropped and not sent. A misspelled "
+"optional field therefore does not raise an error. Building the request from model classes instead "
+"of a `dict` lets your editor and type checker catch such mistakes."
+msgstr ""
+"Хүсэлтийн хувьд модельд тодорхойлоогүй түлхүүр хасагдаж, илгээгдэхгүй гэсэн үг. Тиймээс заавал биш"
+" талбарын нэрийг буруу бичсэн ч алдаа гарахгүй. Хүсэлтийг `dict`-ийн оронд моделийн классуудаар "
+"үүсгэвэл редактор болон төрөл шалгагч ийм алдааг илрүүлнэ."

@@ -8,7 +8,8 @@
 нийтийн API болон POS төхөөрөмж дээр ажилладаг дотоод REST API-г хоёуланг нь нэгдсэн, төрөлжсэн, эвтэйхэн интерфэйсээр
 бүрхэж өгдөг.
 
-> 📖 Албан ёсны баримт бичиг: <https://ebarimt-pos-sdk.readthedocs.io/mn/latest/> 📘 Ebarimt POS API 3.0 заавар:
+> 📖 Баримт бичиг: [Монгол](https://ebarimt-pos-sdk.readthedocs.io/mn/latest/) ·
+> [English](https://ebarimt-pos-sdk.readthedocs.io/en/latest/) 📘 Ebarimt POS API 3.0 заавар:
 > <https://developer.itc.gov.mn/docs/ebarimt-api/inbishdm2zj3x-pos-api-3-0-sistemijn-api-holbolt-zaavruud> 🇬🇧 English
 > version: [README.md](./README.md)
 
@@ -197,7 +198,8 @@ Idempotent хүсэлтийг дахин оролдох үед алдаа нь �
 ## Тохиргоо
 
 Бүх settings нь өөрчлөгдөшгүй (immutable) dataclass-ууд — нэг удаа үүсгээд клиентэд дамжуулна. Timeout, TLS
-баталгаажуулалт, нэмэлт header, retry-ийн зан төлөв нь хоёр клиентэд `BaseSettings`-ээр дамжуулан нийтлэг.
+баталгаажуулалт, retry-ийн зан төлөв нь хоёр клиентэд `BaseSettings`-ээр дамжуулан нийтлэг. Нэмэлт header-ийг клиентийн
+байгуулагчид дамжуулна: `EbarimtRestClient(settings, headers={"X-Request-Source": "pos-42"})`.
 
 ```python
 from ebarimt_pos_sdk import RestClientSettings
@@ -207,7 +209,6 @@ settings = RestClientSettings(
     base_url="http://localhost:1234",
     timeout_s=5.0,
     verify_tls=True,
-    headers={"X-Request-Source": "pos-42"},
     retry=RetrySettings(
         max_retries=3,
         backoff_base_seconds=1.0,

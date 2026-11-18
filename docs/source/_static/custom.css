@@ -1,0 +1,6 @@
+/* sphinx_rtd_theme does not wrap table cells by default, which pushes wide
+   tables off the page. Let prose cells wrap. */
+.wy-table-responsive table td,
+.wy-table-responsive table th {
+    white-space: normal;
+}

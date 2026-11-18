@@ -44,8 +44,9 @@ uv run ty check
 # OpenAPI spec validation (requires Node.js)
 npm run spec:check
 
-# Build documentation
-cd docs && make html
+# Build documentation (English, then Mongolian); see docs/README.md
+uv run --extra docs make -C docs html
+uv run --extra docs make -C docs html-mn
 ```
 
 ## Project Structure

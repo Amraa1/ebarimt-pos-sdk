@@ -1,0 +1,230 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, Amraa1
+# This file is distributed under the same license as the ebarimt-pos-sdk
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ebarimt-pos-sdk 0.6.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-18 06:53+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: mn <LL@li.org>\n"
+"Language: mn\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Generated-By: Babel 2.18.0\n"
+
+msgid "Public API client"
+msgstr "Нийтийн API клиент"
+
+msgid ""
+"`EbarimtApiClient` wraps the lookup endpoints of the public Ebarimt API. They return reference "
+"data that you need to fill in a receipt correctly."
+msgstr ""
+"`EbarimtApiClient` нь Ebarimt-ийн нийтийн API-ийн лавлах endpoint-уудыг хялбарчилж өгдөг. Эдгээр "
+"нь баримтыг зөв бөглөхөд хэрэгтэй лавлах мэдээллийг буцаана."
+
+msgid "Attribute"
+msgstr "Атрибут"
+
+msgid "Method"
+msgstr "Метод"
+
+msgid "Returns"
+msgstr "Буцаах утга"
+
+msgid "`client.tin_info`"
+msgstr ""
+
+msgid "`read(reg_no)`"
+msgstr ""
+
+msgid "The TIN for a registration number"
+msgstr "Регистрийн дугаарт харгалзах ТТД"
+
+msgid "`client.merchant_info`"
+msgstr ""
+
+msgid "`read(tin)`"
+msgstr ""
+
+msgid "Name and tax status of a taxpayer"
+msgstr "Татвар төлөгчийн нэр, татварын төлөв"
+
+msgid "`client.district_code`"
+msgstr ""
+
+msgid "`read()`"
+msgstr ""
+
+msgid "All district (branch) codes"
+msgstr "Бүх байршлын (татварын алба, дэд албаны) код"
+
+msgid "`client.product_tax_code`"
+msgstr ""
+
+msgid "Product codes for tax-free and zero-rated goods"
+msgstr "НӨАТ-аас чөлөөлөгдөх болон 0 хувьтай барааны код"
+
+msgid "`client.buna`"
+msgstr ""
+
+msgid "`read(*segments)`"
+msgstr ""
+
+msgid "One level of the BUNA classification"
+msgstr "БҮНА ангиллын нэг түвшин"
+
+msgid ""
+"Each `read` has an async twin named `aread`. The client lifecycle is the same as for the REST "
+"client: use `with` / `async with`, or call `close()` / `aclose()`."
+msgstr ""
+"`read` бүр `aread` нэртэй async хувилбартай. Клиентийн амьдралын мөчлөг REST клиенттэй адил: "
+"`with` / `async with` ашиглах, эсвэл `close()` / `aclose()`-г дуудна."
+
+msgid "Environments"
+msgstr "Орчин"
+
+msgid "`create_api_settings` returns settings for one of two environments."
+msgstr "`create_api_settings` нь хоёр орчны аль нэгийн тохиргоог буцаана."
+
+msgid "Environment"
+msgstr "Орчин"
+
+msgid "Base URL"
+msgstr "Үндсэн URL"
+
+msgid "`Environment.PRODUCTION`"
+msgstr ""
+
+msgid "`https://api.ebarimt.mn`"
+msgstr ""
+
+msgid "`Environment.STAGING`"
+msgstr ""
+
+msgid "`https://st-api.ebarimt.mn`"
+msgstr ""
+
+msgid "To use another URL, build the settings yourself:"
+msgstr "Өөр URL ашиглах бол тохиргоог өөрөө үүсгэнэ:"
+
+msgid "Authentication"
+msgstr "Нэвтрэлт"
+
+msgid "The endpoints listed above are public. The client does not request or send a token for them."
+msgstr "Дээр жагсаасан endpoint-ууд нээлттэй. Клиент эдгээрт токен авахгүй, илгээхгүй."
+
+msgid ""
+"`create_api_settings` and `ApiClientSettings` still accept `client_id`, `username`, `password`, "
+"`client_secret` and `scope`. These are kept for endpoints that may require OAuth2 in the future "
+"and have no effect on the current endpoints, so you can leave them out. `password` and "
+"`client_secret` are hidden from the settings object's `repr()`."
+msgstr ""
+"`create_api_settings` болон `ApiClientSettings` нь `client_id`, `username`, `password`, "
+"`client_secret`, `scope`-ийг хүлээн авсаар байгаа. Эдгээрийг ирээдүйд OAuth2 шаардаж болзошгүй "
+"endpoint-уудад зориулж үлдээсэн бөгөөд одоогийн endpoint-уудад нөлөөгүй тул орхиж болно. "
+"`password` болон `client_secret` нь тохиргооны объектын `repr()`-д харагдахгүй."
+
+msgid "Looking up a taxpayer"
+msgstr "Татвар төлөгчийн мэдээлэл лавлах"
+
+msgid ""
+"Receipts identify buyers and sellers by TIN (ТТД). `tin_info.read()` converts a registration "
+"number into a TIN, and `merchant_info.read()` returns the details for a TIN."
+msgstr ""
+"Баримтад худалдан авагч, борлуулагчийг ТТД (TIN)-ээр тодорхойлдог. `tin_info.read()` нь регистрийн"
+" дугаарыг ТТД болгон хөрвүүлж, `merchant_info.read()` нь ТТД-д харгалзах мэдээллийг буцаана."
+
+msgid ""
+"`data` is `None` when the server does not know the TIN, so check it before use. "
+"`vatpayer_registered_date` and `is_government` can also be `None`."
+msgstr ""
+"Сервер тухайн ТТД-г танихгүй бол `data` нь `None` байдаг тул ашиглахаасаа өмнө шалгана уу. "
+"`vatpayer_registered_date` болон `is_government` мөн `None` байж болно."
+
+msgid "District codes"
+msgstr "Байршлын код"
+
+msgid ""
+"The `district_code` field of a receipt says where the sale took place. `district_code.read()` "
+"returns the list of tax offices (`branch_code`) and their sub-offices (`sub_branch_code`). The two"
+" codes joined together form the value, for example `0102`."
+msgstr ""
+"Баримтын `district_code` талбар нь борлуулалт хаана хийгдсэнийг заана. `district_code.read()` нь "
+"татварын алба (`branch_code`) болон дэд албаны (`sub_branch_code`) жагсаалтыг буцаана. Хоёр кодыг "
+"залгаж бичсэн нь талбарын утга болно, жишээ нь `0102`."
+
+msgid "Product tax codes"
+msgstr "Татварын бүтээгдэхүүний код"
+
+msgid ""
+"An item that is exempt from VAT or zero-rated carries a `tax_product_code` that names the legal "
+"basis. `product_tax_code.read()` returns the list of valid codes."
+msgstr ""
+"НӨАТ-аас чөлөөлөгдөх эсвэл 0 хувьтай бараа нь хуулийн үндэслэлийг заасан `tax_product_code`-той "
+"байна. `product_tax_code.read()` нь хүчинтэй кодуудын жагсаалтыг буцаана."
+
+msgid ""
+"This list and the district list change rarely. Cache them instead of fetching them for every "
+"receipt."
+msgstr ""
+"Энэ жагсаалт болон байршлын кодын жагсаалт ховор өөрчлөгддөг. Баримт бүрт татахын оронд cache-лэж "
+"хадгална уу."
+
+msgid "BUNA classification"
+msgstr "БҮНА ангилал"
+
+msgid ""
+"The `classification_code` of a receipt item comes from the BUNA classification of goods and "
+"services (БҮНА). The classification is a tree. `buna.read()` returns one level of it, and you go "
+"deeper by passing the code chosen at each level."
+msgstr ""
+"Баримтын барааны `classification_code` нь Бараа, үйлчилгээний нэгдсэн ангилал (БҮНА)-аас авсан код"
+" байна. Ангилал нь мод хэлбэртэй. `buna.read()` нь нэг түвшнийг буцаах бөгөөд түвшин бүрт сонгосон"
+" кодоо дамжуулж гүн рүү орно."
+
+msgid ""
+"The levels, from the top, are sector, sub-sector, group, class, sub-class and BUNA code. A seventh"
+" call with all six codes returns the barcodes registered under that BUNA code."
+msgstr ""
+"Түвшнүүд дээрээс доош: салбар, дэд салбар, бүлэг, анги, дэд анги, БҮНА код. Зургаан кодыг бүгдийг "
+"нь дамжуулсан долоо дахь дуудлага нь тухайн БҮНА кодод бүртгэлтэй баркодуудыг буцаана."
+
+msgid ""
+"The response is a list of rows and each row is a list of strings. Classification rows are `[code, "
+"name]`. Barcode rows are `[barcode, name, registered_date]`. The rows are available as "
+"`response.root`."
+msgstr ""
+"Хариу нь мөрүүдийн жагсаалт бөгөөд мөр бүр тэмдэгт мөрүүдийн жагсаалт байна. Ангиллын мөр нь "
+"`[code, name]`, баркодын мөр нь `[barcode, name, registered_date]` хэлбэртэй. Мөрүүдийг "
+"`response.root`-оос авна."
+
+msgid "Using a proxy"
+msgstr "Proxy ашиглах"
+
+msgid ""
+"The public API may refuse connections from outside Mongolia. If your server is elsewhere, send the"
+" requests through a proxy located in Mongolia."
+msgstr ""
+"Нийтийн API нь Монгол Улсын гаднаас ирсэн холболтоос татгалзаж болзошгүй. Таны сервер өөр газар "
+"байрладаг бол хүсэлтийг Монгол дахь proxy-оор дамжуулна."
+
+msgid ""
+"`proxy` accepts a URL or an `httpx.Proxy` object. SOCKS proxies need the `httpx[socks]` extra. If "
+"you pass your own `httpx` client to the constructor, configure the proxy on that client instead: "
+"combining `proxy` with `sync_client` or `async_client` raises `ValueError`."
+msgstr ""
+"`proxy` нь URL эсвэл `httpx.Proxy` объект хүлээн авна. SOCKS proxy-д `httpx[socks]` нэмэлт багц "
+"хэрэгтэй. Байгуулагчид өөрийн `httpx` клиентийг дамжуулж байгаа бол proxy-г тэр клиент дээрээ "
+"тохируулна: `proxy`-г `sync_client` эсвэл `async_client`-тэй хамт өгвөл `ValueError` гарна."
+
+msgid ""
+"`EbarimtRestClient` has no `proxy` argument because it talks to a service on your own network."
+msgstr ""
+"`EbarimtRestClient` нь таны дотоод сүлжээн дэх үйлчилгээтэй харилцдаг тул `proxy` аргументгүй."

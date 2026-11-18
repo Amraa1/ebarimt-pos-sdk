@@ -1,0 +1,117 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, Amraa1
+# This file is distributed under the same license as the ebarimt-pos-sdk
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ebarimt-pos-sdk 0.6.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-18 06:53+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: mn <LL@li.org>\n"
+"Language: mn\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Generated-By: Babel 2.18.0\n"
+
+msgid "Logging"
+msgstr "Log бичих"
+
+msgid ""
+"The SDK logs through the standard `logging` module under the logger name `ebarimt_pos_sdk`. It "
+"emits nothing until your application configures logging, and it never installs handlers or changes"
+" levels itself."
+msgstr ""
+"SDK нь стандарт `logging` модулиар, `ebarimt_pos_sdk` нэртэй logger-оор log бичдэг. Таны програм "
+"logging-ийг тохируулах хүртэл юу ч гаргахгүй бөгөөд өөрөө handler суулгах, түвшин өөрчлөхийг хэзээ"
+" ч хийдэггүй."
+
+msgid "What is logged"
+msgstr "Юу бичигддэг вэ"
+
+msgid "Level"
+msgstr "Түвшин"
+
+msgid "Event"
+msgstr "Үйл явдал"
+
+msgid "Example"
+msgstr "Жишээ"
+
+msgid "`DEBUG`"
+msgstr ""
+
+msgid "A request is sent"
+msgstr "Хүсэлт илгээгдсэн"
+
+msgid "`→ POST http://localhost:7080/rest/receipt [a1b2c3d4]`"
+msgstr ""
+
+msgid "A response arrives"
+msgstr "Хариу ирсэн"
+
+msgid "`← 200 in 42ms [a1b2c3d4]`"
+msgstr ""
+
+msgid "`WARNING`"
+msgstr ""
+
+msgid "An attempt failed and will be retried"
+msgstr "Оролдлого амжилтгүй болж, дахин оролдох гэж байна"
+
+msgid "`retry 1/3 after 503, sleeping 0.73s [a1b2c3d4]`"
+msgstr ""
+
+msgid "TLS verification is disabled for an `https://` URL"
+msgstr "`https://` URL-д TLS шалгалтыг унтраасан"
+
+msgid "Failures are not logged. They are raised as exceptions, and logging them is up to you."
+msgstr ""
+"Алдааг log-д бичдэггүй. Тэдгээр нь exception хэлбэрээр гарах бөгөөд log-д бичих эсэхийг та шийднэ."
+
+msgid "Correlating logs and errors"
+msgstr "Log болон алдааг холбох"
+
+msgid ""
+"The value in square brackets is a request id. It is the same for all attempts of one call, and it "
+"is available on the exception as `error.request_id`."
+msgstr ""
+"Дөрвөлжин хаалтан дахь утга нь хүсэлтийн дугаар. Нэг дуудлагын бүх оролдлогод ижил байх бөгөөд "
+"exception дээр `error.request_id` хэлбэрээр авах боломжтой."
+
+msgid "Structured fields"
+msgstr "Бүтэцлэгдсэн талбарууд"
+
+msgid ""
+"Each record carries extra attributes for JSON log pipelines: `request_id`, `http_method`, "
+"`http_status`, `duration_ms` and `attempt`. Not every record has all of them."
+msgstr ""
+"Бичлэг бүр JSON log системд зориулсан нэмэлт атрибуттай: `request_id`, `http_method`, "
+"`http_status`, `duration_ms`, `attempt`. Бичлэг бүрт бүгд байх албагүй."
+
+msgid "What is never logged"
+msgstr "Юуг хэзээ ч бичдэггүй вэ"
+
+msgid ""
+"Log records contain metadata only: method, URL, status, timing and ids. Request and response "
+"bodies and headers are never logged, so receipt contents and credentials stay out of your logs. "
+"Token parameters in URLs are masked."
+msgstr ""
+"Log бичлэг зөвхөн мета өгөгдөл агуулна: метод, URL, статус, хугацаа, дугаарууд. Хүсэлт, хариуны "
+"бие болон header-ийг хэзээ ч бичдэггүй тул баримтын агуулга, нэвтрэх мэдээлэл таны log-д орохгүй. "
+"URL дахь токен параметрүүд нуугдана."
+
+msgid "httpx logs"
+msgstr "httpx-ийн log"
+
+msgid ""
+"`httpx` and `httpcore` have their own loggers, which you configure separately. Note that `httpx` "
+"logs the full URL at `INFO` level without masking."
+msgstr ""
+"`httpx` болон `httpcore` нь өөрийн logger-уудтай бөгөөд тэдгээрийг тусад нь тохируулна. `httpx` нь"
+" `INFO` түвшинд URL-ийг бүтнээр нь, нуулгүйгээр бичдэгийг анхаарна уу."

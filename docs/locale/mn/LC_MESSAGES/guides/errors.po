@@ -1,0 +1,251 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, Amraa1
+# This file is distributed under the same license as the ebarimt-pos-sdk
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ebarimt-pos-sdk 0.6.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-18 06:53+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: mn <LL@li.org>\n"
+"Language: mn\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Generated-By: Babel 2.18.0\n"
+
+msgid "Error handling"
+msgstr "Алдаа боловсруулах"
+
+msgid ""
+"Every exception the SDK raises on purpose derives from `PosApiError`. Catch a subclass to react to"
+" one kind of failure, or the base class to catch them all."
+msgstr ""
+"SDK-ийн зориуд гаргадаг exception бүр `PosApiError`-оос удамшсан. Нэг төрлийн алдаанд хариу үйлдэл"
+" хийх бол дэд классыг, бүгдийг нь барих бол суурь классыг барина."
+
+msgid "All of them can be imported from `ebarimt_pos_sdk`."
+msgstr "Бүгдийг нь `ebarimt_pos_sdk`-ээс импортолж болно."
+
+msgid "Which error means what"
+msgstr "Алдаа бүрийн утга"
+
+msgid "Error"
+msgstr "Алдаа"
+
+msgid "When"
+msgstr "Хэзээ гардаг"
+
+msgid "Was the request processed?"
+msgstr "Хүсэлт боловсруулагдсан уу?"
+
+msgid "`PosApiValidationError`, `stage == \"request\"`"
+msgstr ""
+
+msgid "Your payload is malformed. Nothing was sent."
+msgstr "Таны өгөгдөл буруу бүтэцтэй. Юу ч илгээгдээгүй."
+
+msgid "No"
+msgstr "Үгүй"
+
+msgid "`PosApiTransportError`, `request_sent == False`"
+msgstr ""
+
+msgid "The connection could not be opened."
+msgstr "Холболт үүсгэж чадаагүй."
+
+msgid "`PosApiTransportError`, `request_sent == True`"
+msgstr ""
+
+msgid "The connection failed after the request may have been sent."
+msgstr "Хүсэлт илгээгдсэн байж болзошгүй үед холболт тасарсан."
+
+msgid "Unknown"
+msgstr "Тодорхойгүй"
+
+msgid "`PosApiHttpError`"
+msgstr ""
+
+msgid "The server returned 4xx or 5xx."
+msgstr "Сервер 4xx эсвэл 5xx буцаасан."
+
+msgid "Normally no, but treat 5xx as unknown"
+msgstr "Ихэвчлэн үгүй, гэхдээ 5xx-г тодорхойгүй гэж үзнэ"
+
+msgid "`PosApiBusinessError`"
+msgstr ""
+
+msgid "The server returned 2xx with `\"status\": \"ERROR\"`."
+msgstr "Сервер 2xx хариунд `\"status\": \"ERROR\"` буцаасан."
+
+msgid "No, it was rejected"
+msgstr "Үгүй, татгалзсан"
+
+msgid "`PosApiDecodeError`"
+msgstr ""
+
+msgid "The server returned 2xx with a body that is not JSON."
+msgstr "Сервер 2xx хариунд JSON биш бие буцаасан."
+
+msgid "`PosApiValidationError`, `stage == \"response\"`"
+msgstr ""
+
+msgid "The server returned 2xx with JSON the SDK cannot parse."
+msgstr "Сервер 2xx хариунд SDK-ийн задалж чадахгүй JSON буцаасан."
+
+msgid "Probably yes"
+msgstr "Магадгүй тийм"
+
+msgid "Common attributes"
+msgstr "Нийтлэг атрибутууд"
+
+msgid "Every error has these attributes:"
+msgstr "Алдаа бүр дараах атрибуттай:"
+
+msgid "Attribute"
+msgstr "Атрибут"
+
+msgid "Content"
+msgstr "Агуулга"
+
+msgid "`message`"
+msgstr ""
+
+msgid "Human-readable description."
+msgstr "Хүнд ойлгомжтой тайлбар."
+
+msgid "`request`"
+msgstr ""
+
+msgid "The `httpx.Request`, or `None` if no request was built."
+msgstr "`httpx.Request`, хүсэлт үүсээгүй бол `None`."
+
+msgid "`response`"
+msgstr ""
+
+msgid "The `httpx.Response`, or `None` if none was received."
+msgstr "`httpx.Response`, хариу ирээгүй бол `None`."
+
+msgid "`cause`"
+msgstr ""
+
+msgid "The underlying exception, if any."
+msgstr "Суурь болсон exception, байгаа бол."
+
+msgid "`request_id`"
+msgstr ""
+
+msgid "Short id that also appears in the SDK's log lines for this request."
+msgstr "Энэ хүсэлтийн SDK-ийн log мөрүүдэд мөн харагдах богино дугаар."
+
+msgid ""
+"`str(error)` is safe to log. `Authorization`, `Cookie` and similar headers are masked, and so are "
+"token parameters in the URL."
+msgstr ""
+"`str(error)`-г log-д бичихэд аюулгүй. `Authorization`, `Cookie` болон түүнтэй төстэй header-ууд, "
+"мөн URL дахь токен параметрүүд нуугдсан байна."
+
+msgid "Validation errors"
+msgstr "Validation алдаа"
+
+msgid "`PosApiValidationError` wraps a pydantic `ValidationError`."
+msgstr "`PosApiValidationError` нь pydantic-ийн `ValidationError`-ыг агуулна."
+
+msgid ""
+"`stage` is `\"request\"` when your payload is wrong and `\"response\"` when the server's answer "
+"does not match the model. A response-stage error on `receipt.create()` means PosAPI answered with "
+"success, so the receipt very likely exists. The raw body is in `error.response.text`."
+msgstr ""
+"`stage` нь таны өгөгдөл буруу үед `\"request\"`, серверийн хариу модельтой таараагүй үед "
+"`\"response\"` байна. `receipt.create()` дээр гарсан response шатны алдаа нь PosAPI амжилттай гэж "
+"хариулсныг илтгэх тул баримт үүссэн байх магадлал маш өндөр. Хариуны түүхий бие "
+"`error.response.text`-д байна."
+
+msgid "HTTP errors"
+msgstr "HTTP алдаа"
+
+msgid ""
+"`PosApiHttpError` is raised for any 4xx or 5xx response. PosAPI usually explains the problem in "
+"the body, and the SDK copies that into the error."
+msgstr ""
+"`PosApiHttpError` нь 4xx эсвэл 5xx хариу бүрт гарна. PosAPI ихэвчлэн асуудлыг хариуны биед "
+"тайлбарладаг бөгөөд SDK үүнийг алдаанд хуулж өгнө."
+
+msgid "Business errors"
+msgstr "Бизнесийн алдаа"
+
+#, python-brace-format
+msgid ""
+"PosAPI reports some rejections with HTTP 200 and a body such as `{\"status\": \"ERROR\", "
+"\"message\": \"...\"}`. The SDK turns these into `PosApiBusinessError`."
+msgstr ""
+"PosAPI зарим татгалзлыг HTTP 200 болон `{\"status\": \"ERROR\", \"message\": \"...\"}` гэх мэт "
+"биетэйгээр мэдээлдэг. SDK эдгээрийг `PosApiBusinessError` болгоно."
+
+msgid ""
+"The message comes from the server unchanged. It is the text to show to the cashier or to write to "
+"your log."
+msgstr "Мессеж серверээс өөрчлөгдөлгүй ирнэ. Үүнийг кассчинд харуулах эсвэл log-д бичихэд ашиглана."
+
+msgid "Transport errors"
+msgstr "Transport алдаа"
+
+msgid ""
+"`PosApiTransportError` means no response arrived. `cause` holds the original `httpx` exception."
+msgstr ""
+"`PosApiTransportError` нь хариу ирээгүй гэсэн үг. `cause` нь `httpx`-ийн анхны exception-ийг "
+"агуулна."
+
+msgid ""
+"Its `request_sent` attribute answers the question that matters for receipts: could the server have"
+" received the request?"
+msgstr ""
+"Түүний `request_sent` атрибут нь баримтын хувьд хамгийн чухал асуултад хариулна: сервер хүсэлтийг "
+"хүлээн авсан байж болох уу?"
+
+msgid ""
+"`False`: the failure happened before any byte was sent. This covers a refused connection, a DNS "
+"failure, a connect timeout and a proxy that refused the tunnel. The server cannot have acted on "
+"the request."
+msgstr ""
+"`False`: алдаа нэг ч байт илгээгдэхээс өмнө гарсан. Үүнд холболтоос татгалзсан, DNS алдаа, "
+"холболтын timeout, proxy tunnel-ээс татгалзсан тохиолдлууд орно. Сервер хүсэлтийг боловсруулсан "
+"байх боломжгүй."
+
+msgid ""
+"`True`: the request may have arrived. This covers read and write timeouts, a dropped connection "
+"and any failure the SDK does not recognise."
+msgstr ""
+"`True`: хүсэлт хүрсэн байж болзошгүй. Үүнд унших, бичих timeout, холболт тасрах болон SDK-ийн "
+"танихгүй аливаа алдаа орно."
+
+msgid "Avoiding duplicate receipts"
+msgstr "Давхар баримтаас сэргийлэх"
+
+msgid ""
+"PosAPI 3.0 has no idempotency key. If you send the same receipt twice, two receipts are issued. "
+"For that reason the SDK sends `receipt.create()` exactly once and leaves the decision to you."
+msgstr ""
+"PosAPI 3.0-д idempotency key байхгүй. Нэг баримтыг хоёр удаа илгээвэл хоёр баримт үүснэ. Ийм "
+"учраас SDK `receipt.create()`-г яг нэг удаа илгээж, шийдвэрийг танд үлдээдэг."
+
+msgid ""
+"When the outcome is unknown, do not resend automatically. Record the attempt and find out whether "
+"the receipt exists before you issue another one, for example by having an operator check it."
+msgstr ""
+"Үр дүн тодорхойгүй үед автоматаар дахин бүү илгээ. Оролдлогыг тэмдэглэж аваад дахин баримт "
+"үүсгэхээсээ өмнө баримт үүссэн эсэхийг тодруулна уу, жишээ нь операторт шалгуулна."
+
+msgid ""
+"If the only failure you want to ride out is a PosAPI service that is briefly unreachable, let the "
+"SDK do the safe resend for you with `RetrySettings(retry_unsent=True)`. See "
+"[](configuration.md#retrying-receipt-requests)."
+msgstr ""
+"Хэрэв PosAPI үйлчилгээ түр холбогдохгүй байх тохиолдлыг л давж гарахыг хүсвэл "
+"`RetrySettings(retry_unsent=True)`-аар аюулгүй дахин илгээлтийг SDK-д даалгана уу. "
+"[](configuration.md#retrying-receipt-requests) хэсгийг үзнэ үү."

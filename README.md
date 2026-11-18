@@ -8,7 +8,8 @@ A modern, async-first Python SDK for the **Ebarimt POS API 3.0** — Mongolia's 
 It wraps both the public OAuth2 API and the local REST API exposed by POS devices behind a single, typed, ergonomic
 interface.
 
-> 📖 Full documentation: <https://ebarimt-pos-sdk.readthedocs.io/mn/latest/> 📘 Ebarimt POS API 3.0 reference:
+> 📖 Full documentation: [English](https://ebarimt-pos-sdk.readthedocs.io/en/latest/) ·
+> [Монгол](https://ebarimt-pos-sdk.readthedocs.io/mn/latest/) 📘 Ebarimt POS API 3.0 reference:
 > <https://developer.itc.gov.mn/docs/ebarimt-api/inbishdm2zj3x-pos-api-3-0-sistemijn-api-holbolt-zaavruud> 🇲🇳 Mongolian
 > version of this README: [README_MN.md](./README_MN.md)
 
@@ -214,8 +215,9 @@ representation.
 
 ## Configuration
 
-All settings are immutable dataclasses — construct once and pass to the client. Timeouts, TLS verification, custom
-headers, and retry behaviour are shared across both clients via `BaseSettings`.
+All settings are immutable dataclasses — construct once and pass to the client. Timeouts, TLS verification, and retry
+behaviour are shared across both clients via `BaseSettings`. Default headers are passed to the client constructor:
+`EbarimtRestClient(settings, headers={"X-Request-Source": "pos-42"})`.
 
 ```python
 from ebarimt_pos_sdk import RestClientSettings
@@ -225,7 +227,6 @@ settings = RestClientSettings(
     base_url="http://localhost:1234",
     timeout_s=5.0,
     verify_tls=True,
-    headers={"X-Request-Source": "pos-42"},
     retry=RetrySettings(
         max_retries=3,
         backoff_base_seconds=1.0,

@@ -6,6 +6,23 @@ All notable changes to this project will be documented here.
 
 ## [Unreleased]
 
+### Added
+
+- `PosApiTransportError.request_sent` tells whether the failed request could have reached the
+  server. It is `False` for connect-phase failures (`httpx.ConnectError`, `httpx.ConnectTimeout`,
+  `httpx.ProxyError`) and when the OAuth token fetch fails before the resource request, so a
+  failed `receipt.create` can be resent safely; it is `True` for everything else (read/write
+  timeouts, dropped connections, unknown errors). With retries, it reflects the final attempt.
+  Shown as `RequestSent:` in the error's string form (#106)
+
+### Fixed
+
+- `httpx.ProxyError` (the proxy refused or failed the tunnel) is now retried for idempotent
+  methods, like other connect failures. It was previously raised on the first attempt. `POST`
+  and `PATCH` are still sent once
+- `PosApiTransportError.cause` now holds the underlying `httpx` (or authlib) exception instead of
+  always being `None` (#106)
+
 ## [0.5.0] — 2026-11-01
 
 Behaviour release: closes every issue open since June (#77–#82). Two public defaults change —

@@ -25,6 +25,21 @@ class HttpRequestResponse:
         return (self.request, self.response)
 
 
+# httpx exceptions raised before the request is written to the wire: the
+# connection (or proxy tunnel) was never established, so the server cannot have
+# received the request. Anything not listed here is treated as "maybe sent".
+_NOT_SENT_EXCEPTIONS: tuple[type[httpx.HTTPError], ...] = (
+    httpx.ConnectError,
+    httpx.ConnectTimeout,
+    httpx.ProxyError,
+)
+
+
+def request_was_sent(exc: BaseException) -> bool:
+    """Return ``False`` only when ``exc`` proves the request never left the client."""
+    return not isinstance(exc, _NOT_SENT_EXCEPTIONS)
+
+
 def build_transport_error(
     request: httpx.Request,
     exc: httpx.HTTPError,
@@ -33,6 +48,8 @@ def build_transport_error(
     return PosApiTransportError(
         f"Transport error for {request.method} {redact_url(request.url)}: {exc}",
         request=request,
+        cause=exc,
+        request_sent=request_was_sent(exc),
     )
 
 

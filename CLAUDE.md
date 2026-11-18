@@ -120,11 +120,9 @@ class SomeResource(BaseResource):
     def _path(self) -> str:
         return "/api/endpoint"
 
-    def method(self, payload: Model, *, headers=None) -> Response:
-        ...
+    def method(self, payload: Model, *, headers=None) -> Response: ...
 
-    async def amethod(self, payload: Model, *, headers=None) -> Response:
-        ...
+    async def amethod(self, payload: Model, *, headers=None) -> Response: ...
 ```
 
 ### Model Pattern

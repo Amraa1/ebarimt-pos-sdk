@@ -55,26 +55,32 @@ from ebarimt_pos_sdk import EbarimtRestClient, RestClientSettings
 settings = RestClientSettings(base_url="http://localhost:1234")
 
 with EbarimtRestClient(settings) as client:
-    receipt = client.receipt.create({
-        "branch_no": "001",
-        "total_amount": 10000,
-        "merchant_tin": "1234567890",
-        "pos_no": "POS001",
-        "type": "B2C_RECEIPT",
-        "bill_id_suffix": "A",
-        "receipts": [{
+    receipt = client.receipt.create(
+        {
+            "branch_no": "001",
             "total_amount": 10000,
-            "tax_type": "VAT_ABLE",
             "merchant_tin": "1234567890",
-            "items": [{
-                "name": "Бараа",
-                "measure_unit": "ш",
-                "qty": 1,
-                "unit_price": 10000,
-                "total_amount": 10000,
-            }],
-        }],
-    })
+            "pos_no": "POS001",
+            "type": "B2C_RECEIPT",
+            "bill_id_suffix": "A",
+            "receipts": [
+                {
+                    "total_amount": 10000,
+                    "tax_type": "VAT_ABLE",
+                    "merchant_tin": "1234567890",
+                    "items": [
+                        {
+                            "name": "Бараа",
+                            "measure_unit": "ш",
+                            "qty": 1,
+                            "unit_price": 10000,
+                            "total_amount": 10000,
+                        }
+                    ],
+                }
+            ],
+        }
+    )
     print(receipt.id, receipt.qr_data)
 ```
 
@@ -84,10 +90,12 @@ Async хувилбар: `with`-ийг `async with` болгож, `await client.r
 import asyncio
 from ebarimt_pos_sdk import EbarimtRestClient, RestClientSettings
 
+
 async def main() -> None:
     async with EbarimtRestClient(RestClientSettings(base_url="http://localhost:1234")) as client:
         receipt = await client.receipt.acreate(payload)
         print(receipt.id)
+
 
 asyncio.run(main())
 ```
@@ -162,10 +170,25 @@ except PosApiBusinessError as e:
 except PosApiHttpError as e:
     # 4xx / 5xx — нууц мэдээлэл нуугдсан хүсэлт/хариу агуулсан
     print(e)
-except PosApiTransportError:
-    # Сүлжээний түвшин — дараа нь дахин оролдох боломжтой
-    raise
+except PosApiTransportError as e:
+    # Сүлжээний түвшин. e.cause нь httpx-ийн анхдагч алдаа.
+    if not e.request_sent:
+        # Хүсэлт клиентээс гараагүй (холболт татгалзсан, DNS, холболтын timeout,
+        # proxy татгалзсан, OAuth токен авч чадаагүй): PosAPI энэ баримтыг
+        # хадгалсан байх боломжгүй тул дахин илгээхэд аюулгүй.
+        ...
+    else:
+        # Хүсэлт PosAPI-д хүрсэн байж магадгүй, хариу нь алга болсон (read
+        # timeout, холболт тасарсан, ...). receipt.create зэрэг POST-ийн хувьд
+        # баримт аль хэдийн үүссэн байж болзошгүй: дахин илгээхээс өмнө нягтал,
+        # эс бөгөөс давхар е-баримт гарах эрсдэлтэй.
+        raise
 ```
+
+`request_sent` нь зөвхөн хүсэлт огт илгээгдээгүйг баталсан алдаанд `False` байна
+(`httpx.ConnectError`, `httpx.ConnectTimeout`, `httpx.ProxyError`, эсвэл хүсэлтээс өмнөх токен
+авалт амжилтгүй болсон). Бусад бүх тохиолдолд, үүнд SDK-д танигдаагүй алдаа ч орно, `True` байна.
+Idempotent хүсэлтийг дахин оролдох үед алдаа нь сүүлийн оролдлогыг илэрхийлнэ.
 
 Алдаа print хийхэд `Authorization` header болон токен агуулсан query параметрүүд автоматаар нуугдсан байна.
 
@@ -189,8 +212,8 @@ settings = RestClientSettings(
         max_retries=3,
         backoff_base_seconds=1.0,
         max_backoff_seconds=30.0,
-        jitter=True,                 # full jitter: sleep ~ U(0, backoff)
-        respect_retry_after=True,    # серверийн Retry-After давуу (дээд хязгаартай)
+        jitter=True,  # full jitter: sleep ~ U(0, backoff)
+        respect_retry_after=True,  # серверийн Retry-After давуу (дээд хязгаартай)
         retryable_statuses=frozenset({429, 500, 502, 503, 504}),
         retry_methods=RetrySettings.DEFAULT_RETRY_METHODS,  # GET/HEAD/OPTIONS/PUT/DELETE
     ),

@@ -51,5 +51,8 @@ jobs:
             - name: Ruff
               run: uv run ruff check
 
+            - name: Ruff format
+              run: uv run ruff format --check
+
             - name: ty
               run: uv run ty check

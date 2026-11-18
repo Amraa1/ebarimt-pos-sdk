@@ -62,7 +62,7 @@ class SyncTransport:
             started = time.perf_counter()
             try:
                 response = self._client.send(request)
-            except (httpx.TimeoutException, httpx.NetworkError) as exc:
+            except (httpx.TimeoutException, httpx.NetworkError, httpx.ProxyError) as exc:
                 if attempt < attempts - 1:
                     sleep_s = self._retry.sleep_seconds(attempt)
                     log_retry(

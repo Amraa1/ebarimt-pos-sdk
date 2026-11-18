@@ -216,6 +216,7 @@ settings = RestClientSettings(
         respect_retry_after=True,  # серверийн Retry-After давуу (дээд хязгаартай)
         retryable_statuses=frozenset({429, 500, 502, 503, 504}),
         retry_methods=RetrySettings.DEFAULT_RETRY_METHODS,  # GET/HEAD/OPTIONS/PUT/DELETE
+        retry_unsent=False,  # True: POST/PATCH-ийг зөвхөн клиентээс гараагүй үед дахин илгээнэ
     ),
 )
 ```
@@ -231,6 +232,16 @@ backoff-ыг орлох ба `max_backoff_seconds`-оор хязгаарлагд
 
 ```python
 RetrySettings(retry_methods=RetrySettings.DEFAULT_RETRY_METHODS | {"POST"})
+```
+
+Илүү аюулгүй дунд хувилбар нь `retry_unsent=True`. Энэ нь `POST`/`PATCH`-ийг зөвхөн хүсэлт клиентээс огт
+гараагүйг баталсан алдааны дараа дахин илгээнэ: холболт татгалзсан, DNS алдаа, холболтын timeout, эсвэл proxy
+tunnel-ийг татгалзсан (`PosApiTransportError.request_sent` нь `False` байх тохиолдлууд). PosAPI хүлээж аваагүй
+баримтыг хадгалах боломжгүй тул давхардал үүсэхгүй. Бусад бүх тохиолдол эхний оролдлогоор дуусна, үүнд ямар ч
+хариу (`503` ч гэсэн) болон хүсэлт илгээгдсэн байж болзошгүй алдаа (read timeout, холболт тасарсан) орно:
+
+```python
+RetrySettings(retry_unsent=True)  # жишээ нь POS түр холбогдохгүй байхад тэсвэрлэх
 ```
 
 ---

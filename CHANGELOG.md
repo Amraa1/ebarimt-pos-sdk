@@ -8,6 +8,13 @@ All notable changes to this project will be documented here.
 
 ### Added
 
+- `RetrySettings.retry_unsent` (default `False`). When on, `POST`/`PATCH` (any method outside
+  `retry_methods`) may be re-sent up to `max_retries` times, but only after a failure that proves
+  the request never left the client (`PosApiTransportError.request_sent` is `False`: connection
+  refused, DNS, connect timeout, proxy refused). Responses, including 5xx, and failures after
+  the request may have been sent still end on the first attempt, so it cannot duplicate a
+  receipt. New `RetrySettings.may_retry(method, *, request_sent)` encodes the rule;
+  `attempts_for` returns `max_retries` for every method when the flag is on
 - `PosApiTransportError.request_sent` tells whether the failed request could have reached the
   server. It is `False` for connect-phase failures (`httpx.ConnectError`, `httpx.ConnectTimeout`,
   `httpx.ProxyError`) and when the OAuth token fetch fails before the resource request, so a

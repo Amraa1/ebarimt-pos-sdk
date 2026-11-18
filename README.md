@@ -234,6 +234,7 @@ settings = RestClientSettings(
         respect_retry_after=True,  # server's Retry-After wins (capped)
         retryable_statuses=frozenset({429, 500, 502, 503, 504}),
         retry_methods=RetrySettings.DEFAULT_RETRY_METHODS,  # GET/HEAD/OPTIONS/PUT/DELETE
+        retry_unsent=False,  # True: re-send POST/PATCH only if it never left the client
     ),
 )
 ```
@@ -249,6 +250,16 @@ but the response is lost to a timeout, a retry would issue a *second* е-бар�
 
 ```python
 RetrySettings(retry_methods=RetrySettings.DEFAULT_RETRY_METHODS | {"POST"})
+```
+
+A safer middle ground is `retry_unsent=True`. It re-sends `POST`/`PATCH` only after a failure that proves the
+request never left the client: connection refused, DNS failure, connect timeout, or a proxy that refused the tunnel
+(the cases where `PosApiTransportError.request_sent` is `False`). PosAPI cannot hold a receipt it never received, so
+this cannot create a duplicate. Anything else still ends after the first attempt, including any response (even
+`503`) and any failure after the request may have been sent (read timeout, dropped connection):
+
+```python
+RetrySettings(retry_unsent=True)  # e.g. ride out a POS that is briefly unreachable
 ```
 
 ---

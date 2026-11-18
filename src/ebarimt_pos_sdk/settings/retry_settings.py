@@ -29,6 +29,15 @@ class RetrySettings:
     when ``jitter`` is on, so a fleet of POS devices that fail together does
     not retry in lockstep. A ``Retry-After`` header from the server, when
     ``respect_retry_after`` is on, replaces the computed backoff (still capped).
+
+    ``retry_unsent`` (off by default) lets methods outside ``retry_methods``
+    (``POST``/``PATCH``, e.g. ``receipt.create``) be re-sent, but only after a
+    failure that proves the request never left the client: connection refused,
+    DNS failure, connect timeout, or a proxy that refused the tunnel (see
+    ``PosApiTransportError.request_sent``). Such a request cannot have been
+    persisted, so re-sending it cannot duplicate a write. Responses (including
+    5xx) and failures after the request may have been sent (read timeout,
+    dropped connection, ...) are still never retried for those methods.
     """
 
     DEFAULT_RETRY_METHODS = _DEFAULT_RETRY_METHODS
@@ -40,6 +49,7 @@ class RetrySettings:
     jitter: bool = True
     respect_retry_after: bool = True
     retry_methods: frozenset[str] = field(default_factory=lambda: _DEFAULT_RETRY_METHODS)
+    retry_unsent: bool = False
 
     def __post_init__(self) -> None:
         if self.max_retries < 1:
@@ -56,9 +66,25 @@ class RetrySettings:
         return method.upper() in self.retry_methods
 
     def attempts_for(self, method: str) -> int:
-        """Number of attempts the transport may make for ``method``: ``max_retries``
-        for retryable methods, exactly 1 otherwise."""
-        return self.max_retries if self.is_retryable_method(method) else 1
+        """Upper bound on attempts the transport may make for ``method``.
+
+        ``max_retries`` for retryable methods, and for any method when
+        ``retry_unsent`` is on (those extra attempts are only used after a
+        never-sent failure, see ``may_retry``); exactly 1 otherwise.
+        """
+        if self.is_retryable_method(method) or self.retry_unsent:
+            return self.max_retries
+        return 1
+
+    def may_retry(self, method: str, *, request_sent: bool) -> bool:
+        """Return True if a failed attempt of ``method`` may be re-sent.
+
+        ``request_sent`` is ``False`` only when the failure proves the request
+        never reached the server; pass ``True`` for an HTTP response.
+        """
+        if self.is_retryable_method(method):
+            return True
+        return self.retry_unsent and not request_sent
 
     def sleep_seconds(self, attempt: int, *, retry_after: float | None = None) -> float:
         """Return the sleep duration before the next retry.

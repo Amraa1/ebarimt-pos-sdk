@@ -13,6 +13,7 @@ from .http import (
     HttpRequestResponse,
     QueryParamTypes,
     build_transport_error,
+    request_was_sent,
     retry_after_from,
 )
 
@@ -45,7 +46,9 @@ class SyncTransport:
         last_request: httpx.Request | None = None
         response: httpx.Response | None = None
         # Non-idempotent methods (POST/PATCH by default) get exactly one attempt
-        # so a lost response can never turn into a duplicate write (#77).
+        # so a lost response can never turn into a duplicate write (#77). With
+        # ``retry_unsent`` they may be re-sent, but only after a failure that
+        # proves the request never left the client.
         attempts = self._retry.attempts_for(method)
         for attempt in range(attempts):
             request = self._client.build_request(
@@ -63,7 +66,9 @@ class SyncTransport:
             try:
                 response = self._client.send(request)
             except (httpx.TimeoutException, httpx.NetworkError, httpx.ProxyError) as exc:
-                if attempt < attempts - 1:
+                if attempt < attempts - 1 and self._retry.may_retry(
+                    method, request_sent=request_was_sent(exc)
+                ):
                     sleep_s = self._retry.sleep_seconds(attempt)
                     log_retry(
                         logger,
@@ -81,7 +86,9 @@ class SyncTransport:
 
             log_response(logger, response, request_id, (time.perf_counter() - started) * 1000)
 
-            if response.status_code not in self._retry.retryable_statuses:
+            if response.status_code not in self._retry.retryable_statuses or not (
+                self._retry.may_retry(method, request_sent=True)
+            ):
                 return HttpRequestResponse(request=request, response=response)
             if attempt < attempts - 1:
                 sleep_s = self._retry.sleep_seconds(attempt, retry_after=retry_after_from(response))

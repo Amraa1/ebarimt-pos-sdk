@@ -55,7 +55,37 @@ class PosApiError(Exception):
 
 
 class PosApiTransportError(PosApiError):
-    """Network / timeout / DNS / TLS errors."""
+    """Network / timeout / DNS / TLS errors.
+
+    ``request_sent`` says whether the request could have reached the server:
+
+    - ``False``: the failure happened before any byte of the request left the
+      client (connection refused, DNS failure, unreachable host, connect
+      timeout, proxy refused the tunnel, or the OAuth token fetch that precedes
+      the request failed). The server cannot have acted on it, so resending is
+      safe even for non-idempotent methods such as ``receipt.create``.
+    - ``True``: the request may have been received (read/write timeout,
+      dropped connection, protocol error, ...) or the SDK cannot tell. A
+      ``POST`` may already have been persisted, so resending it can duplicate
+      the write. Unknown failures always report ``True``.
+
+    ``cause`` holds the underlying exception (usually an ``httpx`` error).
+    """
+
+    def __init__(
+        self,
+        message: str,
+        *,
+        request: httpx.Request | None = None,
+        response: httpx.Response | None = None,
+        cause: Exception | None = None,
+        request_sent: bool = True,
+    ) -> None:
+        super().__init__(message, request=request, response=response, cause=cause)
+        self.request_sent = request_sent
+
+    def __str__(self) -> str:
+        return f"{super().__str__()}\nRequestSent: {self.request_sent}"
 
 
 class PosApiDecodeError(PosApiError):

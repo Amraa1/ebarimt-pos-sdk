@@ -70,7 +70,7 @@ class PasswordGrantAuth(httpx.Auth):
             )
             return OAuth2Token.from_authlib(token_dict)
         except _TOKEN_TRANSPORT_EXCEPTIONS as exc:
-            raise PosApiTransportError(f"Token fetch failed: {exc}") from exc
+            raise PosApiTransportError(f"Token fetch failed: {exc}", cause=exc) from exc
 
     def _refresh_token_sync(self, current_token: OAuth2Token) -> OAuth2Token:
         try:
@@ -81,7 +81,7 @@ class PasswordGrantAuth(httpx.Auth):
             )
             return OAuth2Token.from_authlib(token_dict)
         except _TOKEN_TRANSPORT_EXCEPTIONS as exc:
-            raise PosApiTransportError(f"Token refresh failed: {exc}") from exc
+            raise PosApiTransportError(f"Token refresh failed: {exc}", cause=exc) from exc
 
     def _ensure_token_sync(self) -> OAuth2Token:
         with self._sync_lock:
@@ -109,7 +109,7 @@ class PasswordGrantAuth(httpx.Auth):
             )
             return OAuth2Token.from_authlib(token_dict)
         except _TOKEN_TRANSPORT_EXCEPTIONS as exc:
-            raise PosApiTransportError(f"Token fetch failed: {exc}") from exc
+            raise PosApiTransportError(f"Token fetch failed: {exc}", cause=exc) from exc
 
     async def _refresh_token_async(self, current_token: OAuth2Token) -> OAuth2Token:
         try:
@@ -120,7 +120,7 @@ class PasswordGrantAuth(httpx.Auth):
             )
             return OAuth2Token.from_authlib(token_dict)
         except _TOKEN_TRANSPORT_EXCEPTIONS as exc:
-            raise PosApiTransportError(f"Token refresh failed: {exc}") from exc
+            raise PosApiTransportError(f"Token refresh failed: {exc}", cause=exc) from exc
 
     async def _ensure_token_async(self) -> OAuth2Token:
         async with self._async_lock:
@@ -188,7 +188,14 @@ class PasswordGrantAuth(httpx.Auth):
         request.headers["Authorization"] = f"{tok.token_type} {tok.access_token}"
 
     def auth_flow(self, request: httpx.Request) -> Generator[httpx.Request, httpx.Response, None]:
-        tok = self._ensure_token_sync()
+        try:
+            tok = self._ensure_token_sync()
+        except PosApiTransportError as exc:
+            # The resource request has not been sent yet.
+            exc.request = request
+            exc.request_id = request.extensions.get("request_id")
+            exc.request_sent = False
+            raise
         self._apply(request, tok)
         response = yield request
         if response.status_code != httpx.codes.UNAUTHORIZED:
@@ -201,7 +208,14 @@ class PasswordGrantAuth(httpx.Auth):
     async def async_auth_flow(
         self, request: httpx.Request
     ) -> AsyncGenerator[httpx.Request, httpx.Response]:
-        tok = await self._ensure_token_async()
+        try:
+            tok = await self._ensure_token_async()
+        except PosApiTransportError as exc:
+            # The resource request has not been sent yet.
+            exc.request = request
+            exc.request_id = request.extensions.get("request_id")
+            exc.request_sent = False
+            raise
         self._apply(request, tok)
         response = yield request
         if response.status_code != httpx.codes.UNAUTHORIZED:

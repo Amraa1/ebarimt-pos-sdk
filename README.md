@@ -179,10 +179,25 @@ except PosApiBusinessError as e:
 except PosApiHttpError as e:
     # 4xx / 5xx — includes safe, redacted request/response context
     print(e)
-except PosApiTransportError:
-    # Network layer — safe to retry later
-    raise
+except PosApiTransportError as e:
+    # Network layer. e.cause is the underlying httpx exception.
+    if not e.request_sent:
+        # Never left the client (connection refused, DNS, connect timeout, proxy
+        # refused, OAuth token fetch failed): PosAPI cannot hold this receipt,
+        # so resending is safe.
+        ...
+    else:
+        # The request may have reached PosAPI and the answer was lost (read
+        # timeout, dropped connection, ...). For a POST such as receipt.create
+        # the receipt may already exist: reconcile before resending, or you
+        # risk issuing a duplicate е-баримт.
+        raise
 ```
+
+`request_sent` is `False` only for failures that prove the request was never written
+(`httpx.ConnectError`, `httpx.ConnectTimeout`, `httpx.ProxyError`, or a failed token fetch before
+the request). Anything else, including exceptions the SDK does not recognise, reports `True`.
+When idempotent requests are retried, the error describes the final attempt.
 
 `Authorization` headers and token-bearing query parameters are redacted automatically in every error's string
 representation.

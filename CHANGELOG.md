@@ -17,6 +17,9 @@ All notable changes to this project will be documented here.
 
 ### Fixed
 
+- `httpx.ProxyError` (the proxy refused or failed the tunnel) is now retried for idempotent
+  methods, like other connect failures. It was previously raised on the first attempt. `POST`
+  and `PATCH` are still sent once
 - `PosApiTransportError.cause` now holds the underlying `httpx` (or authlib) exception instead of
   always being `None` (#106)
 

@@ -450,7 +450,7 @@ def test_sync_method_preserved_on_retry(method: str) -> None:
 
 @respx.mock
 def test_sync_non_retryable_http_error_does_not_retry() -> None:
-    """httpx.HTTPError that is NOT TimeoutException/NetworkError must raise without retrying."""
+    """httpx.HTTPError that is NOT TimeoutException/NetworkError/ProxyError must raise without retrying."""
     calls: list[Any] = []
 
     def boom(_request: httpx.Request) -> httpx.Response:
@@ -616,4 +616,61 @@ def test_rest_client_receipt_create_is_sent_exactly_once_on_timeout() -> None:
     with EbarimtRestClient(RestClientSettings(base_url=BASE)) as client:
         with pytest.raises(PosApiTransportError):
             client.receipt.create(payload)
+    assert route.call_count == 1
+
+
+# --------------------------
+# ProxyError is retried for idempotent methods, like other connect failures
+# --------------------------
+
+
+@respx.mock
+def test_sync_get_retries_on_proxy_error_then_succeeds() -> None:
+    route = respx.get(f"{BASE}/x").mock(
+        side_effect=[httpx.ProxyError("tunnel refused"), httpx.Response(200, json={})]
+    )
+    transport = SyncTransport(httpx.Client(base_url=BASE), retry=RetrySettings(max_retries=3))
+    result = transport.send("GET", "/x")
+    assert result.response.status_code == 200
+    assert route.call_count == 2
+
+
+@respx.mock
+def test_sync_get_proxy_error_exhausts_retries() -> None:
+    route = respx.get(f"{BASE}/x").mock(side_effect=httpx.ProxyError("tunnel refused"))
+    transport = SyncTransport(httpx.Client(base_url=BASE), retry=RetrySettings(max_retries=3))
+    with pytest.raises(PosApiTransportError) as info:
+        transport.send("GET", "/x")
+    assert route.call_count == 3
+    assert info.value.request_sent is False
+
+
+@pytest.mark.asyncio
+@respx.mock
+async def test_async_get_retries_on_proxy_error_then_succeeds() -> None:
+    route = respx.get(f"{BASE}/x").mock(
+        side_effect=[httpx.ProxyError("tunnel refused"), httpx.Response(200, json={})]
+    )
+    transport = AsyncTransport(httpx.AsyncClient(base_url=BASE), retry=RetrySettings(max_retries=3))
+    result = await transport.send("GET", "/x")
+    assert result.response.status_code == 200
+    assert route.call_count == 2
+
+
+@respx.mock
+def test_sync_post_not_retried_on_proxy_error() -> None:
+    route = respx.post(f"{BASE}/receipt").mock(side_effect=httpx.ProxyError("tunnel refused"))
+    transport = SyncTransport(httpx.Client(base_url=BASE), retry=RetrySettings(max_retries=3))
+    with pytest.raises(PosApiTransportError):
+        transport.send("POST", "/receipt", payload={"k": "v"})
+    assert route.call_count == 1
+
+
+@pytest.mark.asyncio
+@respx.mock
+async def test_async_post_not_retried_on_proxy_error() -> None:
+    route = respx.post(f"{BASE}/receipt").mock(side_effect=httpx.ProxyError("tunnel refused"))
+    transport = AsyncTransport(httpx.AsyncClient(base_url=BASE), retry=RetrySettings(max_retries=3))
+    with pytest.raises(PosApiTransportError):
+        await transport.send("POST", "/receipt", payload={"k": "v"})
     assert route.call_count == 1

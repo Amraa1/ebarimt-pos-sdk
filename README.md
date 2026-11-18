@@ -57,26 +57,32 @@ from ebarimt_pos_sdk import EbarimtRestClient, RestClientSettings
 settings = RestClientSettings(base_url="http://localhost:1234")
 
 with EbarimtRestClient(settings) as client:
-    receipt = client.receipt.create({
-        "branch_no": "001",
-        "total_amount": 10000,
-        "merchant_tin": "1234567890",
-        "pos_no": "POS001",
-        "type": "B2C_RECEIPT",
-        "bill_id_suffix": "A",
-        "receipts": [{
+    receipt = client.receipt.create(
+        {
+            "branch_no": "001",
             "total_amount": 10000,
-            "tax_type": "VAT_ABLE",
             "merchant_tin": "1234567890",
-            "items": [{
-                "name": "Product",
-                "measure_unit": "ш",
-                "qty": 1,
-                "unit_price": 10000,
-                "total_amount": 10000,
-            }],
-        }],
-    })
+            "pos_no": "POS001",
+            "type": "B2C_RECEIPT",
+            "bill_id_suffix": "A",
+            "receipts": [
+                {
+                    "total_amount": 10000,
+                    "tax_type": "VAT_ABLE",
+                    "merchant_tin": "1234567890",
+                    "items": [
+                        {
+                            "name": "Product",
+                            "measure_unit": "ш",
+                            "qty": 1,
+                            "unit_price": 10000,
+                            "total_amount": 10000,
+                        }
+                    ],
+                }
+            ],
+        }
+    )
     print(receipt.id, receipt.qr_data)
 ```
 
@@ -86,10 +92,12 @@ Async variant: swap `with` for `async with` and call `await client.receipt.acrea
 import asyncio
 from ebarimt_pos_sdk import EbarimtRestClient, RestClientSettings
 
+
 async def main() -> None:
     async with EbarimtRestClient(RestClientSettings(base_url="http://localhost:1234")) as client:
         receipt = await client.receipt.acreate(payload)
         print(receipt.id)
+
 
 asyncio.run(main())
 ```
@@ -222,8 +230,8 @@ settings = RestClientSettings(
         max_retries=3,
         backoff_base_seconds=1.0,
         max_backoff_seconds=30.0,
-        jitter=True,                 # full jitter: sleep ~ U(0, backoff)
-        respect_retry_after=True,    # server's Retry-After wins (capped)
+        jitter=True,  # full jitter: sleep ~ U(0, backoff)
+        respect_retry_after=True,  # server's Retry-After wins (capped)
         retryable_statuses=frozenset({429, 500, 502, 503, 504}),
         retry_methods=RetrySettings.DEFAULT_RETRY_METHODS,  # GET/HEAD/OPTIONS/PUT/DELETE
     ),
@@ -278,15 +286,17 @@ To also see httpx's own output, configure its loggers directly — `httpx` at `I
 ```python
 import logging.config
 
-logging.config.dictConfig({
-    "version": 1,
-    "handlers": {"default": {"class": "logging.StreamHandler"}},
-    "loggers": {
-        "ebarimt_pos_sdk": {"handlers": ["default"], "level": "DEBUG"},
-        "httpx": {"handlers": ["default"], "level": "INFO"},
-        "httpcore": {"handlers": ["default"], "level": "WARNING"},
-    },
-})
+logging.config.dictConfig(
+    {
+        "version": 1,
+        "handlers": {"default": {"class": "logging.StreamHandler"}},
+        "loggers": {
+            "ebarimt_pos_sdk": {"handlers": ["default"], "level": "DEBUG"},
+            "httpx": {"handlers": ["default"], "level": "INFO"},
+            "httpcore": {"handlers": ["default"], "level": "WARNING"},
+        },
+    }
+)
 ```
 
 ---

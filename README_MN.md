@@ -55,26 +55,32 @@ from ebarimt_pos_sdk import EbarimtRestClient, RestClientSettings
 settings = RestClientSettings(base_url="http://localhost:1234")
 
 with EbarimtRestClient(settings) as client:
-    receipt = client.receipt.create({
-        "branch_no": "001",
-        "total_amount": 10000,
-        "merchant_tin": "1234567890",
-        "pos_no": "POS001",
-        "type": "B2C_RECEIPT",
-        "bill_id_suffix": "A",
-        "receipts": [{
+    receipt = client.receipt.create(
+        {
+            "branch_no": "001",
             "total_amount": 10000,
-            "tax_type": "VAT_ABLE",
             "merchant_tin": "1234567890",
-            "items": [{
-                "name": "Бараа",
-                "measure_unit": "ш",
-                "qty": 1,
-                "unit_price": 10000,
-                "total_amount": 10000,
-            }],
-        }],
-    })
+            "pos_no": "POS001",
+            "type": "B2C_RECEIPT",
+            "bill_id_suffix": "A",
+            "receipts": [
+                {
+                    "total_amount": 10000,
+                    "tax_type": "VAT_ABLE",
+                    "merchant_tin": "1234567890",
+                    "items": [
+                        {
+                            "name": "Бараа",
+                            "measure_unit": "ш",
+                            "qty": 1,
+                            "unit_price": 10000,
+                            "total_amount": 10000,
+                        }
+                    ],
+                }
+            ],
+        }
+    )
     print(receipt.id, receipt.qr_data)
 ```
 
@@ -84,10 +90,12 @@ Async хувилбар: `with`-ийг `async with` болгож, `await client.r
 import asyncio
 from ebarimt_pos_sdk import EbarimtRestClient, RestClientSettings
 
+
 async def main() -> None:
     async with EbarimtRestClient(RestClientSettings(base_url="http://localhost:1234")) as client:
         receipt = await client.receipt.acreate(payload)
         print(receipt.id)
+
 
 asyncio.run(main())
 ```
@@ -204,8 +212,8 @@ settings = RestClientSettings(
         max_retries=3,
         backoff_base_seconds=1.0,
         max_backoff_seconds=30.0,
-        jitter=True,                 # full jitter: sleep ~ U(0, backoff)
-        respect_retry_after=True,    # серверийн Retry-After давуу (дээд хязгаартай)
+        jitter=True,  # full jitter: sleep ~ U(0, backoff)
+        respect_retry_after=True,  # серверийн Retry-After давуу (дээд хязгаартай)
         retryable_statuses=frozenset({429, 500, 502, 503, 504}),
         retry_methods=RetrySettings.DEFAULT_RETRY_METHODS,  # GET/HEAD/OPTIONS/PUT/DELETE
     ),

@@ -6,29 +6,35 @@ All notable changes to this project will be documented here.
 
 ## [Unreleased]
 
+## [0.6.0] — 2026-11-18
+
+Feature release, no breaking changes. A failed request now tells you whether it could have reached
+PosAPI, so a failed `receipt.create` can be safely resent when it never left the client. You can
+let the SDK do that resend for you by opting in.
+
 ### Added
 
-- `RetrySettings.retry_unsent` (default `False`). When on, `POST`/`PATCH` (any method outside
-  `retry_methods`) may be re-sent up to `max_retries` times, but only after a failure that proves
-  the request never left the client (`PosApiTransportError.request_sent` is `False`: connection
-  refused, DNS, connect timeout, proxy refused). Responses, including 5xx, and failures after
-  the request may have been sent still end on the first attempt, so it cannot duplicate a
-  receipt. New `RetrySettings.may_retry(method, *, request_sent)` encodes the rule;
-  `attempts_for` returns `max_retries` for every method when the flag is on
 - `PosApiTransportError.request_sent` tells whether the failed request could have reached the
   server. It is `False` for connect-phase failures (`httpx.ConnectError`, `httpx.ConnectTimeout`,
   `httpx.ProxyError`) and when the OAuth token fetch fails before the resource request, so a
   failed `receipt.create` can be resent safely; it is `True` for everything else (read/write
   timeouts, dropped connections, unknown errors). With retries, it reflects the final attempt.
   Shown as `RequestSent:` in the error's string form (#106)
+- `RetrySettings.retry_unsent` (default `False`). When on, `POST`/`PATCH` (any method outside
+  `retry_methods`) may be re-sent up to `max_retries` times, but only after a failure that proves
+  the request never left the client (`PosApiTransportError.request_sent` is `False`). Responses,
+  including 5xx, and failures after the request may have been sent still end on the first
+  attempt, so it cannot duplicate a receipt. New `RetrySettings.may_retry(method, *,
+  request_sent)` encodes the rule; `attempts_for` returns `max_retries` for every method when the
+  flag is on (#108)
 
 ### Fixed
 
-- `httpx.ProxyError` (the proxy refused or failed the tunnel) is now retried for idempotent
-  methods, like other connect failures. It was previously raised on the first attempt. `POST`
-  and `PATCH` are still sent once
 - `PosApiTransportError.cause` now holds the underlying `httpx` (or authlib) exception instead of
   always being `None` (#106)
+- `httpx.ProxyError` (the proxy refused or failed the tunnel) is now retried for idempotent
+  methods, like other connect failures. It was previously raised on the first attempt. `POST`
+  and `PATCH` are still sent once by default (#107)
 
 ## [0.5.0] — 2026-11-01
 

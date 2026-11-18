@@ -9,7 +9,7 @@
 project = "ebarimt-pos-sdk"
 copyright = "2026, Amraa1"
 author = "Amraa1"
-release = "0.1.0"
+release = "0.6.0"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration

@@ -161,7 +161,7 @@ def test_refusal_inside_a_200_raises_business_error() -> None:
     error = excinfo.value
     assert error.message == REFUSAL_IN_200_RESPONSE["msg"]
     assert error.status == 400
-    assert error.code == "MERCHANT_ALREADY_REGISTERED"
+    assert error.code == REFUSAL_IN_200_RESPONSE["code"]
 
 
 @pytest.mark.asyncio
@@ -307,3 +307,73 @@ def test_rejected_login_surfaces_oauth_error_without_sending() -> None:
     assert "invalid_grant (Invalid user credentials)" in error.message
     assert "s3cret" not in str(error)
     assert not route.called
+
+
+@pytest.mark.asyncio
+@respx.mock
+async def test_refusal_inside_a_200_raises_business_error_async() -> None:
+    respx.post(TOKEN_URL).mock(return_value=httpx.Response(200, json=TOKEN_RESPONSE))
+    respx.post(ENDPOINT).mock(return_value=httpx.Response(200, json=REFUSAL_IN_200_RESPONSE))
+
+    async with EbarimtApiClient(make_settings()) as client:
+        with pytest.raises(PosApiBusinessError) as excinfo:
+            await client.merchant_registration.acreate(REQUEST_PAYLOAD)
+
+    assert excinfo.value.message == REFUSAL_IN_200_RESPONSE["msg"]
+    assert excinfo.value.status == 400
+
+
+@pytest.mark.asyncio
+@respx.mock
+async def test_401_renews_the_token_and_resends_once_async() -> None:
+    respx.post(TOKEN_URL).mock(
+        side_effect=[
+            httpx.Response(200, json=TOKEN_RESPONSE),
+            httpx.Response(200, json={**TOKEN_RESPONSE, "access_token": "ACCESS-TOKEN-2"}),
+        ]
+    )
+    route = respx.post(ENDPOINT).mock(
+        side_effect=[httpx.Response(401), httpx.Response(200, json=SUCCESS_RESPONSE)]
+    )
+
+    async with EbarimtApiClient(make_settings()) as client:
+        result = await client.merchant_registration.acreate(REQUEST_PAYLOAD)
+
+    assert result.status == 200
+    assert [c.request.headers["Authorization"] for c in route.calls] == [
+        "Bearer ACCESS-TOKEN-1",
+        "Bearer ACCESS-TOKEN-2",
+    ]
+
+
+@respx.mock
+def test_token_without_expires_in_is_still_reused() -> None:
+    """RFC 6749 makes ``expires_in`` optional; a token without it must not be
+    treated as already expired (which would fetch a token on every call)."""
+    no_expiry = {k: v for k, v in TOKEN_RESPONSE.items() if k != "expires_in"}
+    token_route = respx.post(TOKEN_URL).mock(return_value=httpx.Response(200, json=no_expiry))
+    respx.post(ENDPOINT).mock(return_value=httpx.Response(200, json=SUCCESS_RESPONSE))
+
+    with EbarimtApiClient(make_settings()) as client:
+        client.merchant_registration.create(REQUEST_PAYLOAD)
+        client.merchant_registration.create(REQUEST_PAYLOAD)
+
+    assert token_route.call_count == 1
+
+
+def test_password_grant_without_token_url_is_a_configuration_error() -> None:
+    """Used directly, PasswordGrantAuth with no token_url fails as configuration,
+    not as a transport error, and sends nothing."""
+    from ebarimt_pos_sdk.auth import PasswordGrantAuth
+
+    sent: list[httpx.Request] = []
+    http = httpx.Client(
+        transport=httpx.MockTransport(lambda r: sent.append(r) or httpx.Response(200))
+    )
+    auth = PasswordGrantAuth(
+        settings=make_settings(token_url=None), sync_client=http, async_client=httpx.AsyncClient()
+    )
+
+    with pytest.raises(PosApiConfigurationError, match="token_url"):
+        http.post(ENDPOINT, json={}, auth=auth)
+    assert sent == []

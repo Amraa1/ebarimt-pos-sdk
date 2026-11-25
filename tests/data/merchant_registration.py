@@ -22,7 +22,7 @@ SUCCESS_RESPONSE = {
 REFUSAL_IN_200_RESPONSE = {
     "msg": "Мерчант бүртгэлтэй байна.",
     "status": 400,
-    "code": "MERCHANT_ALREADY_REGISTERED",
+    "code": "ASSUMED_CODE",  # placeholder, not an observed eBarimt code
     "data": None,
 }
 

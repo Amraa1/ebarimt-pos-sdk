@@ -7,7 +7,7 @@ from typing import Any
 
 import httpx
 
-from ..errors import PosApiTransportError
+from ..errors import PosApiConfigurationError, PosApiTransportError
 from ..settings import ApiClientSettings
 from .token import OAuth2Token
 
@@ -83,7 +83,9 @@ class _TokenEndpoint:
 
     def _post(self, url: str | None, form: dict[str, str]) -> dict[str, Any]:
         if not url:
-            raise ValueError("token_url is not configured")
+            raise PosApiConfigurationError(
+                "PasswordGrantAuth requires ApiClientSettings.token_url; missing: token_url"
+            )
         return _parse_token_response(self._http.post(url, data=form, auth=_NO_AUTH))
 
     def fetch_token(
@@ -110,7 +112,9 @@ class _AsyncTokenEndpoint:
 
     async def _post(self, url: str | None, form: dict[str, str]) -> dict[str, Any]:
         if not url:
-            raise ValueError("token_url is not configured")
+            raise PosApiConfigurationError(
+                "PasswordGrantAuth requires ApiClientSettings.token_url; missing: token_url"
+            )
         return _parse_token_response(await self._http.post(url, data=form, auth=_NO_AUTH))
 
     async def fetch_token(

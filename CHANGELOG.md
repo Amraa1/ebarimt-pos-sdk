@@ -25,7 +25,9 @@ All notable changes to this project will be documented here.
   endpoints still send no `Authorization` header, even when credentials are configured (#111)
 - The password-grant token request is now sent through the client's own `httpx` clients, so it
   honours the client's `proxy`, `verify_tls`, `timeout_s` and any injected client. Client
-  credentials are sent in the form body (`client_secret_post`) (#111)
+  credentials are sent in the form body (`client_secret_post`). A token response without
+  `expires_in` is assumed to last 300 seconds instead of being treated as already expired, and a
+  missing `token_url` raises `PosApiConfigurationError` (#111)
 - `authlib` is no longer a dependency (#111)
 - `PosApiHttpError` keeps the server's explanation from a `msg` field when the body has no
   `message` field (#111)

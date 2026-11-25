@@ -40,6 +40,7 @@ class AsyncTransport:
         params: QueryParamTypes | None = None,
         headers: HeaderTypes | None = None,
         payload: dict[str, Any] | None = None,
+        auth: httpx.Auth | None = None,
         **kwargs: Any,
     ) -> HttpRequestResponse:
         request_id = new_request_id()
@@ -67,7 +68,14 @@ class AsyncTransport:
             log_request(logger, request, request_id)
             started = time.perf_counter()
             try:
-                response = await self._client.send(request)
+                # ``auth`` is per request (httpx takes it on ``send``, not on
+                # ``build_request``). Omitted when unset so an injected
+                # client's own default auth is left alone.
+                response = (
+                    await self._client.send(request)
+                    if auth is None
+                    else await self._client.send(request, auth=auth)
+                )
             except (httpx.TimeoutException, httpx.NetworkError, httpx.ProxyError) as exc:
                 if attempt < attempts - 1 and self._retry.may_retry(
                     method, request_sent=request_was_sent(exc)

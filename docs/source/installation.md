@@ -12,7 +12,7 @@ With `uv`:
 uv add ebarimt-pos-sdk
 ```
 
-The package installs `httpx`, `pydantic` (v2) and `authlib` as dependencies.
+The package installs `httpx` and `pydantic` (v2) as dependencies.
 
 ## Optional: SOCKS proxy support
 

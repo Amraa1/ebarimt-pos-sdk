@@ -40,6 +40,7 @@ def create_api_settings(
     password: str | None = None,
     client_secret: str | None = None,
     scope: str | None = None,
+    api_key: str | None = None,
     timeout_s: float = 10.0,
     verify_tls: bool = True,
     skew_seconds: float = 30,
@@ -47,8 +48,9 @@ def create_api_settings(
     """Ebarimt api settings factory.
 
     The public ebarimt info endpoints don't require OAuth2, so credentials
-    are optional. They are preserved for forward-compat with any endpoint
-    that may later require token auth.
+    are optional. They are used only by ``merchant_registration``, which needs
+    ``client_id``, ``username``, ``password`` and ``api_key`` (the
+    environment's ``X-API-KEY``); the token URL comes from the preset.
     """
 
     p = _PRESETS[env]
@@ -61,6 +63,7 @@ def create_api_settings(
         username=username,
         password=password,
         scope=scope,
+        api_key=api_key,
         timeout_s=timeout_s,
         verify_tls=verify_tls,
         skew_seconds=skew_seconds,

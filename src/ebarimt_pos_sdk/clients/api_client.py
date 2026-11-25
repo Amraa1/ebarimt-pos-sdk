@@ -1,10 +1,12 @@
 from httpx import AsyncClient, Client, Proxy
 
 from .._types import HeaderTypes
+from ..auth import PasswordGrantAuth
 from ..resources import (
     BunaResource,
     DistrictCodeResource,
     MerchantInfoResource,
+    MerchantRegistrationResource,
     ProductTaxCodeResource,
     TinInfoResource,
 )
@@ -24,10 +26,15 @@ class EbarimtApiClient(EbarimtBaseClient):
     ) -> None:
         """Ebarimt public api client.
 
-        These endpoints (district codes, TIN info, merchant info, product tax
-        codes, BÜNA classification) are publicly readable — no OAuth2 token
-        is required. The auth/ module is kept for future endpoints that may
-        require it.
+        The info endpoints (district codes, TIN info, merchant info, product
+        tax codes, BÜNA classification) are publicly readable — no OAuth2
+        token is required, and the client sends none to them even when the
+        settings carry credentials.
+
+        ``merchant_registration`` is the exception: it sends a password-grant
+        token and ``X-API-KEY`` from the settings, on its own requests only.
+        The token is fetched through this client's own HTTP clients, so it
+        uses the same proxy, TLS and timeout settings.
 
         ``proxy`` routes every request through an HTTP/SOCKS proxy — useful
         when the public API is only reachable from a specific region. Accepts a
@@ -69,4 +76,23 @@ class EbarimtApiClient(EbarimtBaseClient):
         self.buna = BunaResource(
             sync=self._sync_transport,
             async_=self._async_transport,
+        )
+
+        # Built only when the password-grant fields are all present; building
+        # it makes no network call. Only merchant_registration receives it.
+        token_auth = (
+            PasswordGrantAuth(
+                settings=settings,
+                sync_client=self._sync_client,
+                async_client=self._async_client,
+                skew_seconds=settings.skew_seconds,
+            )
+            if settings.has_password_grant_credentials
+            else None
+        )
+        self.merchant_registration = MerchantRegistrationResource(
+            sync=self._sync_transport,
+            async_=self._async_transport,
+            settings=settings,
+            token_auth=token_auth,
         )

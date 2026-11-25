@@ -10,6 +10,11 @@ from .api.info.info import TinInfoResource
 from .api.info.schema import GetTinInfoResponse
 from .api.merchant.merchant import MerchantInfoResource
 from .api.merchant.schema import GetInfoResponse
+from .api.merchant_registration.merchant_registration import MerchantRegistrationResource
+from .api.merchant_registration.schema import (
+    CreateMerchantRegistrationRequest,
+    CreateMerchantRegistrationResponse,
+)
 from .api.product.product import ProductTaxCodeResource
 from .api.product.schema import GetProductTaxCodeResponse, ProductTaxCode
 from .enum import BarCodeType, PaymentCode, PaymentStatus, ReceiptCreateStatus, ReceiptType, TaxType
@@ -61,4 +66,7 @@ __all__ = [
     "TinInfoResource",
     "MerchantInfoResource",
     "GetInfoResponse",
+    "MerchantRegistrationResource",
+    "CreateMerchantRegistrationRequest",
+    "CreateMerchantRegistrationResponse",
 ]

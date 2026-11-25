@@ -15,8 +15,9 @@ client = EbarimtApiClient(create_api_settings(Environment.PRODUCTION))
 | `client.district_code` | `read()` | All district (branch) codes |
 | `client.product_tax_code` | `read()` | Product codes for tax-free and zero-rated goods |
 | `client.buna` | `read(*segments)` | One level of the BUNA classification |
+| `client.merchant_registration` | `create(payload)` | Acknowledgement of a merchant registration request |
 
-Each `read` has an async twin named `aread`. The client lifecycle is the same as for the REST client: use `with` / `async with`, or call `close()` / `aclose()`.
+Each method has an async twin with an `a` prefix (`aread`, `acreate`). The client lifecycle is the same as for the REST client: use `with` / `async with`, or call `close()` / `aclose()`.
 
 ## Environments
 
@@ -37,9 +38,23 @@ settings = ApiClientSettings(base_url="https://api.example.mn")
 
 ## Authentication
 
-The endpoints listed above are public. The client does not request or send a token for them.
+The lookup endpoints are public. The client does not request or send a token for them, even when the settings contain credentials.
 
-`create_api_settings` and `ApiClientSettings` still accept `client_id`, `username`, `password`, `client_secret` and `scope`. These are kept for endpoints that may require OAuth2 in the future and have no effect on the current endpoints, so you can leave them out. `password` and `client_secret` are hidden from the settings object's `repr()`.
+Only `merchant_registration` needs credentials: an OAuth2 password-grant token and an API key. Pass them to `create_api_settings`, which fills in the token URL for the environment:
+
+```python
+settings = create_api_settings(
+    Environment.STAGING,
+    client_id="your_client_id",
+    username="your_username",
+    password="your_password",
+    api_key="your_api_key",  # sent as X-API-KEY
+)
+```
+
+`client_secret` and `scope` are optional. The token is fetched on first use, reused until it expires and renewed once if the server rejects it. The token request goes through the same HTTP client as every other request, so it uses the same proxy, TLS and timeout settings. `password`, `client_secret` and `api_key` are hidden from the settings object's `repr()`, and the token and API key are masked in logs and error messages.
+
+Calling `merchant_registration` without one of `token_url`, `client_id`, `username`, `password` or `api_key` raises `PosApiConfigurationError` before anything is sent. Its message lists the missing fields.
 
 ## Looking up a taxpayer
 
@@ -97,6 +112,25 @@ for code, name in sectors.root:
 The levels, from the top, are sector, sub-sector, group, class, sub-class and BUNA code. A seventh call with all six codes returns the barcodes registered under that BUNA code.
 
 The response is a list of rows and each row is a list of strings. Classification rows are `[code, name]`. Barcode rows are `[barcode, name, registered_date]`. The rows are available as `response.root`.
+
+## Registering merchants
+
+An operator adds merchants to its POS with `merchant_registration.create()`. This replaces the manual step in the operator portal (operator.ebarimt.mn).
+
+```python
+from ebarimt_pos_sdk import CreateMerchantRegistrationRequest
+
+response = client.merchant_registration.create(
+    CreateMerchantRegistrationRequest(pos_no="10005299", merchant_tins=["77001059076"])
+)
+print(response.msg)
+```
+
+The call only submits a request. eBarimt approves it later, and there is no endpoint that reports the status of a request. To find out when a merchant is approved, poll the local POS with `EbarimtRestClient.info.read()` until the merchant's TIN appears in its merchant list.
+
+`pos_no` must not be empty and every TIN must have 11 digits. If eBarimt refuses the request, the call raises `PosApiBusinessError` with eBarimt's `msg` as the message and its `status` and `code` attached. The SDK does not interpret the refusal: whether "already registered" is acceptable is for your code to decide.
+
+The request is a `POST`, so it is never resent after it may have reached the server. See [](errors.md) for how to handle a failed call.
 
 ## Using a proxy
 

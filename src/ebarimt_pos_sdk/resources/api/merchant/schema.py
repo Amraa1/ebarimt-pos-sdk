@@ -1,18 +1,6 @@
 from datetime import date
 
-from pydantic import Field
-
 from ...base_model import BaseEbarimtModel
-
-
-class SaveMerchantRequest(BaseEbarimtModel):
-    pos_no: str
-    merchant_tins: list[str] = Field(min_length=1)
-
-
-class SaveMerchantResponse(BaseEbarimtModel):
-    msg: str
-    status: int
 
 
 class MerchantInfo(BaseEbarimtModel):

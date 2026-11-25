@@ -19,9 +19,8 @@
 
 - **Async-first** — үйлдэл бүр синхрон болон `async` хувилбартай (`method()` / `amethod()`). `httpx` дээр суурилсан.
 - **Хатуу төрөлтэй** — Pydantic v2 загварууд, camelCase ↔ snake_case хөрвүүлэгчтэй. `ty`-ээр төрөл шалгасан.
-- **Хоёр тусгайлсан клиент** — олон нийтийн OAuth2 API-д `EbarimtApiClient`, дотоод POS REST API-д `EbarimtRestClient`.
-- **OAuth2 токен удирдлага** — password grant урсгал болон токен шинэчлэх (refresh) логик, хугацаа дуусахаас өмнө
-  автоматаар шинэчилдэг.
+- **Хоёр тусгайлсан клиент** — олон нийтийн eBarimt API-д `EbarimtApiClient` (нэвтрэх мэдээлэл шаардлагагүй),
+  дотоод POS REST API-д `EbarimtRestClient`.
 - **Найдвартай тээвэрлэлт** — 5xx болон сүлжээний алдаанд экспоненциал backoff-той давтан оролдлого, хүсэлт бүрийн
   timeout, TLS баталгаажуулалт.
 - **Зохион байгуулалттай алдаа** — тээвэр, HTTP, decode, validation, бизнес логикийн алдаануудыг тус тусад нь ялгасан
@@ -114,15 +113,38 @@ from ebarimt_pos_sdk import (
 
 settings = create_api_settings(
     Environment.PRODUCTION,  # эсвэл Environment.STAGING
-    client_id="your_client_id",
-    username="your_username",
-    password="your_password",
 )
 
 with EbarimtApiClient(settings=settings) as client:
     info = client.tin_info.read("1234567890")
     print(info.data)
 ```
+
+#### POS-доо мерчант бүртгэх
+
+Оператор өөрийн POS-д мерчантыг operator portal ашиглахгүйгээр бүртгүүлж болно. Нэвтрэх мэдээлэл шаарддаг цорын ганц
+дуудлага нь энэ: OAuth2 password grant нэвтрэлт болон eBarimt-аас олгосон `X-API-KEY`.
+
+```python
+from ebarimt_pos_sdk import CreateMerchantRegistrationRequest
+
+settings = create_api_settings(
+    Environment.STAGING,
+    client_id="your_client_id",
+    username="your_username",
+    password="your_password",
+    api_key="your_api_key",
+)
+
+with EbarimtApiClient(settings) as client:
+    ack = client.merchant_registration.create(
+        CreateMerchantRegistrationRequest(pos_no="10005299", merchant_tins=["77001059076"])
+    )
+```
+
+Энэ дуудлага зөвхөн хүсэлт *илгээнэ*; eBarimt дараа нь баталгаажуулна. TIN нь POS-ийн мерчантуудын жагсаалтад гарч
+ирэх хүртэл `EbarimtRestClient.info.read()`-ийг давтан шалгана. Нэвтрэх мэдээлэл дутуу бол юу ч илгээхээс өмнө
+`PosApiConfigurationError` гарна; татгалзвал eBarimt-ийн мессежтэй `PosApiBusinessError` гарна.
 
 ---
 
@@ -131,7 +153,9 @@ with EbarimtApiClient(settings=settings) as client:
 | Клиент              | Нэвтрэлт               | Боломжит resource-ууд                                            |
 | ------------------- | ---------------------- | ---------------------------------------------------------------- |
 | `EbarimtRestClient` | Байхгүй (дотоод сүлж.) | `receipt`, `info`, `send_data`, `bank_accounts`                  |
-| `EbarimtApiClient`  | OAuth2 password grant  | `district_code`, `tin_info`, `merchant_info`, `product_tax_code` |
+| `EbarimtApiClient`  | Байхгүй (нийтийн API)¹ | `district_code`, `tin_info`, `merchant_info`, `product_tax_code`, `buna`, `merchant_registration` |
+
+¹ `merchant_registration`-аас бусад нь. Тэр нь OAuth2 password grant нэвтрэлт болон API key шаарддаг.
 
 Хоёр клиент хоёулаа синхрон болон асинхрон context manager-ийг дэмжих ба settings (timeout, TLS, header, retry policy)
 болон алдааны иерархийг хуваалцана.
@@ -144,11 +168,12 @@ SDK нь алдааг тодорхой иерархиар илэрхийлдэг
 
 ```text
 PosApiError
-├── PosApiTransportError    # сүлжээ / timeout / DNS / TLS
-├── PosApiDecodeError       # JSON хариу буруу байна
-├── PosApiHttpError         # сервер 2xx бус хариу буцаав
-├── PosApiBusinessError     # 2xx гэвч бизнес логикийн алдаа
-└── PosApiValidationError   # Pydantic validation алдаа
+├── PosApiTransportError      # сүлжээ / timeout / DNS / TLS
+├── PosApiDecodeError         # JSON хариу буруу байна
+├── PosApiHttpError           # сервер 2xx бус хариу буцаав
+├── PosApiBusinessError       # 2xx гэвч бизнес логикийн алдаа
+├── PosApiValidationError     # Pydantic validation алдаа
+└── PosApiConfigurationError  # шаардлагатай тохиргоо дутуу; хүсэлт илгээгдээгүй
 ```
 
 ```python

@@ -8,7 +8,8 @@ PosApiError
 ├── PosApiTransportError
 ├── PosApiHttpError
 ├── PosApiDecodeError
-└── PosApiBusinessError
+├── PosApiBusinessError
+└── PosApiConfigurationError
 ```
 
 All of them can be imported from `ebarimt_pos_sdk`.
@@ -17,11 +18,12 @@ All of them can be imported from `ebarimt_pos_sdk`.
 
 | Error | When | Was the request processed? |
 | --- | --- | --- |
+| `PosApiConfigurationError` | The call needs settings that are missing, such as credentials. Nothing was sent. | No |
 | `PosApiValidationError`, `stage == "request"` | Your payload is malformed. Nothing was sent. | No |
 | `PosApiTransportError`, `request_sent == False` | The connection could not be opened. | No |
 | `PosApiTransportError`, `request_sent == True` | The connection failed after the request may have been sent. | Unknown |
 | `PosApiHttpError` | The server returned 4xx or 5xx. | Normally no, but treat 5xx as unknown |
-| `PosApiBusinessError` | The server returned 2xx with `"status": "ERROR"`. | No, it was rejected |
+| `PosApiBusinessError` | The server returned 2xx with an error status in the body. | No, it was rejected |
 | `PosApiDecodeError` | The server returned 2xx with a body that is not JSON. | Unknown |
 | `PosApiValidationError`, `stage == "response"` | The server returned 2xx with JSON the SDK cannot parse. | Probably yes |
 
@@ -74,7 +76,7 @@ except PosApiHttpError as error:
 
 ## Business errors
 
-PosAPI reports some rejections with HTTP 200 and a body such as `{"status": "ERROR", "message": "..."}`. The SDK turns these into `PosApiBusinessError`.
+PosAPI reports some rejections with HTTP 200 and a body such as `{"status": "ERROR", "message": "..."}`. The SDK turns these into `PosApiBusinessError`. For `merchant_registration`, a numeric `status` other than `200` is a rejection, and the message comes from the body's `msg` field.
 
 ```python
 from ebarimt_pos_sdk import PosApiBusinessError

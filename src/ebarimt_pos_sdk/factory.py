@@ -47,8 +47,7 @@ def create_api_settings(
     """Ebarimt api settings factory.
 
     The public ebarimt info endpoints don't require OAuth2, so credentials
-    are optional. They are preserved for forward-compat with any endpoint
-    that may later require token auth.
+    are optional. No current endpoint uses them: passing them has no effect.
     """
 
     p = _PRESETS[env]

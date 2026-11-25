@@ -20,9 +20,8 @@ interface.
 - **Async-first** — every operation exposes both a synchronous and an `async` variant (`method()` / `amethod()`), built
   on `httpx`.
 - **Strictly typed** — Pydantic v2 models with camelCase ↔ snake_case aliasing; type-checked with `ty`.
-- **Two focused clients** — `EbarimtApiClient` for the public OAuth2 API, `EbarimtRestClient` for the local POS REST
-  API.
-- **Managed OAuth2** — built-in password-grant flow with automatic token refresh and proactive expiry handling.
+- **Two focused clients** — `EbarimtApiClient` for the public eBarimt API (no credentials needed),
+  `EbarimtRestClient` for the local POS REST API.
 - **Resilient transport** — configurable retry with jittered exponential backoff on 429/5xx and network errors for
   idempotent methods (`GET`/`HEAD`/`OPTIONS`/`PUT`/`DELETE`), per-request timeouts, and TLS verification. `POST` is never
   retried unless you opt in, so a lost response can't become a duplicate receipt.
@@ -116,9 +115,6 @@ from ebarimt_pos_sdk import (
 
 settings = create_api_settings(
     Environment.PRODUCTION,  # or Environment.STAGING
-    client_id="your_client_id",
-    username="your_username",
-    password="your_password",
 )
 
 with EbarimtApiClient(settings=settings) as client:
@@ -147,7 +143,7 @@ combined with an injected `sync_client`/`async_client` — set the proxy on that
 | Client              | Authentication        | Available resources                                              |
 | ------------------- | --------------------- | ---------------------------------------------------------------- |
 | `EbarimtRestClient` | None (local network)  | `receipt`, `info`, `send_data`, `bank_accounts`                  |
-| `EbarimtApiClient`  | OAuth2 password grant | `district_code`, `tin_info`, `merchant_info`, `product_tax_code` |
+| `EbarimtApiClient`  | None (public API)     | `district_code`, `tin_info`, `merchant_info`, `product_tax_code` |
 
 Both clients support synchronous and asynchronous context managers, share a common settings base (timeouts, TLS,
 headers, retry policy), and reuse the same error hierarchy.

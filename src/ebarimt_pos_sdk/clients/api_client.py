@@ -26,8 +26,8 @@ class EbarimtApiClient(EbarimtBaseClient):
 
         These endpoints (district codes, TIN info, merchant info, product tax
         codes, BÜNA classification) are publicly readable — no OAuth2 token
-        is required. The auth/ module is kept for future endpoints that may
-        require it.
+        is required, and the client sends none even when the settings carry
+        credentials.
 
         ``proxy`` routes every request through an HTTP/SOCKS proxy — useful
         when the public API is only reachable from a specific region. Accepts a

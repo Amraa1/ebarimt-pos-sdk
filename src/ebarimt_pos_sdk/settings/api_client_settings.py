@@ -11,8 +11,8 @@ class ApiClientSettings(BaseSettings):
 
     The public ebarimt info endpoints (district codes, TIN info, merchant
     info, product tax codes, BÜNA classification) do not require auth, so
-    every credential field below is optional. They remain for forward
-    compatibility with endpoints that may require OAuth2 in the future.
+    every credential field below is optional. No current endpoint uses them:
+    setting them has no effect, and the client sends no token.
     """
 
     token_url: str | None = None

@@ -19,9 +19,8 @@
 
 - **Async-first** — үйлдэл бүр синхрон болон `async` хувилбартай (`method()` / `amethod()`). `httpx` дээр суурилсан.
 - **Хатуу төрөлтэй** — Pydantic v2 загварууд, camelCase ↔ snake_case хөрвүүлэгчтэй. `ty`-ээр төрөл шалгасан.
-- **Хоёр тусгайлсан клиент** — олон нийтийн OAuth2 API-д `EbarimtApiClient`, дотоод POS REST API-д `EbarimtRestClient`.
-- **OAuth2 токен удирдлага** — password grant урсгал болон токен шинэчлэх (refresh) логик, хугацаа дуусахаас өмнө
-  автоматаар шинэчилдэг.
+- **Хоёр тусгайлсан клиент** — олон нийтийн eBarimt API-д `EbarimtApiClient` (нэвтрэх мэдээлэл шаардлагагүй),
+  дотоод POS REST API-д `EbarimtRestClient`.
 - **Найдвартай тээвэрлэлт** — 5xx болон сүлжээний алдаанд экспоненциал backoff-той давтан оролдлого, хүсэлт бүрийн
   timeout, TLS баталгаажуулалт.
 - **Зохион байгуулалттай алдаа** — тээвэр, HTTP, decode, validation, бизнес логикийн алдаануудыг тус тусад нь ялгасан
@@ -114,9 +113,6 @@ from ebarimt_pos_sdk import (
 
 settings = create_api_settings(
     Environment.PRODUCTION,  # эсвэл Environment.STAGING
-    client_id="your_client_id",
-    username="your_username",
-    password="your_password",
 )
 
 with EbarimtApiClient(settings=settings) as client:
@@ -131,7 +127,7 @@ with EbarimtApiClient(settings=settings) as client:
 | Клиент              | Нэвтрэлт               | Боломжит resource-ууд                                            |
 | ------------------- | ---------------------- | ---------------------------------------------------------------- |
 | `EbarimtRestClient` | Байхгүй (дотоод сүлж.) | `receipt`, `info`, `send_data`, `bank_accounts`                  |
-| `EbarimtApiClient`  | OAuth2 password grant  | `district_code`, `tin_info`, `merchant_info`, `product_tax_code` |
+| `EbarimtApiClient`  | Байхгүй (нийтийн API)  | `district_code`, `tin_info`, `merchant_info`, `product_tax_code` |
 
 Хоёр клиент хоёулаа синхрон болон асинхрон context manager-ийг дэмжих ба settings (timeout, TLS, header, retry policy)
 болон алдааны иерархийг хуваалцана.

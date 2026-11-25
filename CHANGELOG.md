@@ -14,6 +14,10 @@ All notable changes to this project will be documented here.
 - The documentation is now published in English and Mongolian from one set of sources; Mongolian
   lives in `docs/locale/mn` as gettext catalogues (see `docs/README.md`)
 - README: default headers are passed to the client constructor, not to the settings object
+- README: the public API client example no longer passes `client_id`, `username` and `password`,
+  and the feature list and client table no longer claim OAuth2 for it. The public endpoints need no
+  credentials, and the client never sent a token, so the example implied an authentication that
+  did not happen. The settings, factory and client docstrings say the same (#112)
 
 ## [0.6.0] — 2026-11-18
 

@@ -6,6 +6,18 @@ All notable changes to this project will be documented here.
 
 ## [Unreleased]
 
+## [0.7.0] — 2026-11-25
+
+Feature release, no breaking changes to the SDK's API. Operators can register merchants under
+their POS with `merchant_registration.create()`, the first API-client call that sends credentials.
+The public lookups still need none. The documentation is rewritten and published in English and
+Mongolian.
+
+**Upgrading:** `authlib` is no longer installed with the SDK. If your own code imports it, add it
+to your dependencies. The password-grant token request now sends the client credentials in the
+form body (`client_secret_post`) instead of HTTP Basic. No endpoint used the token before this
+release, so no existing call changes.
+
 ### Added
 
 - `EbarimtApiClient.merchant_registration.create()` / `acreate()` for eBarimt's

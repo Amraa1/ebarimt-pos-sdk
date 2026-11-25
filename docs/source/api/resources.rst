@@ -36,3 +36,6 @@ Public API
 
 .. autoclass:: ebarimt_pos_sdk.resources.BunaResource
    :undoc-members:
+
+.. autoclass:: ebarimt_pos_sdk.resources.MerchantRegistrationResource
+   :undoc-members:

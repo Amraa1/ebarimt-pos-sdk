@@ -57,11 +57,19 @@ class OAuth2Token:
 
     @classmethod
     def from_authlib(cls, token: Mapping[str, Any]) -> "OAuth2Token":
+        """Build a token from an OAuth2 token response.
+
+        ``expires_at`` is taken from the response when present; otherwise it is
+        derived from ``expires_in`` at the time of the call (a raw Keycloak
+        response carries only ``expires_in``).
+        """
+        expires_in = int(token.get("expires_in", 0))
+        expires_at = token.get("expires_at")
         return cls(
             access_token=token["access_token"],
             token_type=token.get("token_type", "Bearer"),
-            expires_in=int(token.get("expires_in", 0)),
-            expires_at=int(token["expires_at"]),
+            expires_in=expires_in,
+            expires_at=int(expires_at) if expires_at is not None else int(time.time()) + expires_in,
             not_before_policy=token.get("not-before-policy"),
             session_state=token.get("session_state"),
             refresh_token=token.get("refresh_token"),

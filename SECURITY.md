@@ -32,7 +32,7 @@ acknowledgement within 5 business days.
   development only.
 - **Dependency floors track advisories.** Minimum versions in `pyproject.toml`
   are raised when a direct or security-critical transitive dependency
-  (e.g. `authlib`, `certifi`) publishes a fix, and CI runs `pip-audit` against
+  (e.g. `httpx`, `certifi`) publishes a fix, and CI runs `pip-audit` against
   the locked dependency set weekly and on every lockfile change.
 
 ## Operational guidance

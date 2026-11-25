@@ -3,6 +3,7 @@ import logging
 from .clients import EbarimtApiClient, EbarimtRestClient
 from .errors import (
     PosApiBusinessError,
+    PosApiConfigurationError,
     PosApiDecodeError,
     PosApiError,
     PosApiHttpError,
@@ -12,6 +13,8 @@ from .errors import (
 from .factory import Environment, create_api_settings
 from .resources import (
     BarCodeType,
+    CreateMerchantRegistrationRequest,
+    CreateMerchantRegistrationResponse,
     CreateReceiptRequest,
     CreateReceiptResponse,
     DeleteReceiptRequest,
@@ -39,6 +42,8 @@ __all__ = [
     "RestClientSettings",
     "ApiClientSettings",
     "BarCodeType",
+    "CreateMerchantRegistrationRequest",
+    "CreateMerchantRegistrationResponse",
     "CreateReceiptRequest",
     "CreateReceiptResponse",
     "DeleteReceiptRequest",
@@ -55,6 +60,7 @@ __all__ = [
     "ReceiptType",
     "TaxType",
     "PosApiBusinessError",
+    "PosApiConfigurationError",
     "PosApiDecodeError",
     "PosApiError",
     "PosApiHttpError",

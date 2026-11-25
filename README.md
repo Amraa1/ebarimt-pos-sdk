@@ -136,6 +136,32 @@ with EbarimtApiClient(settings, proxy="http://user:pass@mn-proxy:8080") as clien
 combined with an injected `sync_client`/`async_client` — set the proxy on that client instead. The local
 `EbarimtRestClient` has no `proxy` argument (it talks to a POS device on your own network).
 
+#### Registering merchants under your POS
+
+An operator can add merchants to its POS without the operator portal. This is the only call that needs credentials:
+an OAuth2 password-grant login and the `X-API-KEY` issued by eBarimt.
+
+```python
+from ebarimt_pos_sdk import CreateMerchantRegistrationRequest
+
+settings = create_api_settings(
+    Environment.STAGING,
+    client_id="your_client_id",
+    username="your_username",
+    password="your_password",
+    api_key="your_api_key",
+)
+
+with EbarimtApiClient(settings) as client:
+    ack = client.merchant_registration.create(
+        CreateMerchantRegistrationRequest(pos_no="10005299", merchant_tins=["77001059076"])
+    )
+```
+
+The call only *submits* a request; eBarimt approves it later. Poll `EbarimtRestClient.info.read()` until the TIN
+appears among the POS's merchants. Missing credentials raise `PosApiConfigurationError` before anything is sent; a
+refusal raises `PosApiBusinessError` with eBarimt's message.
+
 ---
 
 ## Clients at a glance
@@ -143,7 +169,9 @@ combined with an injected `sync_client`/`async_client` — set the proxy on that
 | Client              | Authentication        | Available resources                                              |
 | ------------------- | --------------------- | ---------------------------------------------------------------- |
 | `EbarimtRestClient` | None (local network)  | `receipt`, `info`, `send_data`, `bank_accounts`                  |
-| `EbarimtApiClient`  | None (public API)     | `district_code`, `tin_info`, `merchant_info`, `product_tax_code` |
+| `EbarimtApiClient`  | None (public API)¹    | `district_code`, `tin_info`, `merchant_info`, `product_tax_code`, `buna`, `merchant_registration` |
+
+¹ Except `merchant_registration`, which needs an OAuth2 password-grant login and an API key.
 
 Both clients support synchronous and asynchronous context managers, share a common settings base (timeouts, TLS,
 headers, retry policy), and reuse the same error hierarchy.
@@ -157,11 +185,12 @@ matters to your code:
 
 ```text
 PosApiError
-├── PosApiTransportError    # network / timeout / DNS / TLS
-├── PosApiDecodeError       # response body was not valid JSON
-├── PosApiHttpError         # non-2xx response from server
-├── PosApiBusinessError     # 2xx, but domain-level failure in payload
-└── PosApiValidationError   # Pydantic validation of request or response
+├── PosApiTransportError      # network / timeout / DNS / TLS
+├── PosApiDecodeError         # response body was not valid JSON
+├── PosApiHttpError           # non-2xx response from server
+├── PosApiBusinessError       # 2xx, but domain-level failure in payload
+├── PosApiValidationError     # Pydantic validation of request or response
+└── PosApiConfigurationError  # settings a call needs are missing; nothing sent
 ```
 
 ```python

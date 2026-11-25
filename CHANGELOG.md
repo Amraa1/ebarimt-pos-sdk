@@ -6,6 +6,37 @@ All notable changes to this project will be documented here.
 
 ## [Unreleased]
 
+### Added
+
+- `EbarimtApiClient.merchant_registration.create()` / `acreate()` for eBarimt's
+  `saveOprMerchants`: an operator submits a request to register merchant TINs under its POS,
+  replacing the manual step in the operator portal. Approval is asynchronous; poll
+  `EbarimtRestClient.info.read()` until the TIN appears. Request and response models are
+  `CreateMerchantRegistrationRequest` and `CreateMerchantRegistrationResponse` (#111)
+- `ApiClientSettings.api_key` and `create_api_settings(..., api_key=...)`, sent as `X-API-KEY` by
+  `merchant_registration` only and hidden from `repr()` (#111)
+- `PosApiConfigurationError` (a `PosApiError`), raised before anything is sent when a call needs
+  settings that are missing. Its message lists every missing field and `request_sent` is `False`
+  (#111)
+
+### Changed
+
+- `merchant_registration` is the only resource that sends an OAuth2 token. The public lookup
+  endpoints still send no `Authorization` header, even when credentials are configured (#111)
+- The password-grant token request is now sent through the client's own `httpx` clients, so it
+  honours the client's `proxy`, `verify_tls`, `timeout_s` and any injected client. Client
+  credentials are sent in the form body (`client_secret_post`) (#111)
+- `authlib` is no longer a dependency (#111)
+- `PosApiHttpError` keeps the server's explanation from a `msg` field when the body has no
+  `message` field (#111)
+
+### Fixed
+
+- The password-grant token request ignored the client's proxy, TLS and timeout settings and any
+  injected client: Authlib's `OAuth2Client` silently dropped the `client=` argument and sent the
+  request through its own default `httpx` client. Behind a required proxy, the token request
+  would have failed (#111)
+
 ### Documentation
 
 - Rewrote the Read the Docs site: installation, quickstart, guides for both clients, models and

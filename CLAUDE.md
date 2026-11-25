@@ -173,3 +173,17 @@ uv run pytest -m "not integration"
 ## OpenAPI Spec
 
 The canonical API contract lives at `spec/openapi/posapi-3.0.yaml`. The `spec/vendor/` directory contains upstream artifacts and should not be edited manually. CI validates spec changes for breaking differences using `oasdiff`.
+
+## Agent skills
+
+### Issue tracker
+
+Issues live in GitHub Issues for `Amraa1/ebarimt-pos-sdk`, managed with the `gh` CLI. See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+The default five-role vocabulary (`needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`). See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Single-context: one `CONTEXT.md` and `docs/adr/` at the repo root, created only when there's something to write. See `docs/agents/domain.md`.

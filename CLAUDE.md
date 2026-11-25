@@ -4,7 +4,7 @@ This file provides guidance to Claude Code when working with the **ebarimt-pos-s
 
 ## Project Overview
 
-**ebarimt-pos-sdk** is an async-first Python SDK for the Ebarimt POS API 3.0 — Mongolia's electronic receipting (e-баримт) system. It wraps both the public OAuth2-protected API and the local REST API used by point-of-sale devices.
+**ebarimt-pos-sdk** is an async-first Python SDK for the Ebarimt POS API 3.0 — Mongolia's electronic receipting (e-баримт) system. It wraps both the public API (lookups need no auth; merchant registration needs OAuth2 and an API key) and the local REST API used by point-of-sale devices.
 
 Core design philosophy: **"Validate structure, not policy."** The SDK validates JSON shape and format strictly, but deliberately avoids implementing government business rules (which change frequently and belong server-side).
 
@@ -13,7 +13,6 @@ Core design philosophy: **"Validate structure, not policy."** The SDK validates 
 - **Python 3.10+** — primary language; strict typing enforced
 - **httpx** — async/sync HTTP client
 - **pydantic v2** — data validation and serialization
-- **authlib** — OAuth2 password grant flow
 - **uv** — package manager and build tool (replaces pip/venv)
 - **pytest + pytest-asyncio + respx** — testing
 - **ruff** — linting and formatting
@@ -57,18 +56,19 @@ src/ebarimt_pos_sdk/
 ├── _types.py                 # Type aliases
 ├── errors.py                 # Exception hierarchy
 ├── factory.py                # Environment/settings factory
-├── auth/                     # OAuth2 (password grant, token management)
+├── auth/                     # OAuth2 password grant (token requests sent via the SDK's httpx clients)
 ├── clients/
 │   ├── base_client.py        # Lifecycle, context managers
-│   ├── api_client.py         # EbarimtApiClient — public API (OAuth2)
+│   ├── api_client.py         # EbarimtApiClient — public API
 │   └── rest_client.py        # EbarimtRestClient — local POS REST API
 ├── resources/
 │   ├── base_model.py         # Pydantic base with camelCase aliases
 │   ├── base_resource.py      # Abstract resource base (sync + async)
 │   ├── enum.py               # ReceiptType, PaymentCode, etc.
-│   ├── api/                  # OAuth2-protected resources
+│   ├── api/                  # Public API resources (only merchant_registration needs auth)
 │   │   ├── info/             # District codes, TIN info
 │   │   ├── merchant/         # Merchant information
+│   │   ├── merchant_registration/  # saveOprMerchants (token + X-API-KEY)
 │   │   └── product/          # Product tax codes
 │   └── rest/                 # Local POS resources
 │       ├── receipt/          # Receipt create/delete
@@ -95,7 +95,7 @@ spec/
 
 | Client              | Auth                  | Endpoints                                                  |
 | ------------------- | --------------------- | ---------------------------------------------------------- |
-| `EbarimtApiClient`  | OAuth2 password grant | District codes, TIN info, merchant info, product tax codes |
+| `EbarimtApiClient`  | None, except `merchant_registration` (OAuth2 password grant + `X-API-KEY`) | District codes, TIN info, merchant info, product tax codes, BUNA, merchant registration |
 | `EbarimtRestClient` | None (local)          | Receipt, info, send_data, bank accounts                    |
 
 Both support context managers (`with` / `async with`) and every method has a sync and `async` variant (e.g., `method()` / `amethod()`).
@@ -108,7 +108,8 @@ PosApiError
 ├── PosApiDecodeError       — invalid JSON
 ├── PosApiHttpError         — non-2xx responses
 ├── PosApiBusinessError     — 2xx but domain-level error
-└── PosApiValidationError   — pydantic validation failure
+├── PosApiValidationError   — pydantic validation failure
+└── PosApiConfigurationError — settings a call needs are missing; raised before sending
 ```
 
 ### Resource Pattern

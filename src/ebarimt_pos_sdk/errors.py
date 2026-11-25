@@ -88,6 +88,19 @@ class PosApiTransportError(PosApiError):
         return f"{super().__str__()}\nRequestSent: {self.request_sent}"
 
 
+class PosApiConfigurationError(PosApiError):
+    """The client is missing configuration a call needs; nothing was sent.
+
+    Raised before any request goes out (for example, ``merchant_registration``
+    called without credentials), so ``request_sent`` is always ``False``. The
+    message names every missing field.
+    """
+
+    def __init__(self, message: str) -> None:
+        super().__init__(message)
+        self.request_sent = False
+
+
 class PosApiDecodeError(PosApiError):
     """Response body was not valid JSON when JSON was expected."""
 
@@ -169,7 +182,7 @@ class PosApiBusinessError(PosApiError):
         self,
         message: str,
         *,
-        status: str | None = None,
+        status: str | int | None = None,
         code: str | int | None = None,
         request: httpx.Request | None = None,
         response: httpx.Response | None = None,

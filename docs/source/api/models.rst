@@ -44,3 +44,6 @@ Public API responses
 
 .. automodule:: ebarimt_pos_sdk.resources.api.buna.schema
    :undoc-members:
+
+.. automodule:: ebarimt_pos_sdk.resources.api.merchant_registration.schema
+   :undoc-members:

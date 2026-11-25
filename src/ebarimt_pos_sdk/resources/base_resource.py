@@ -185,8 +185,10 @@ class BaseResource:
                         date = datetime.fromisoformat(str(error["date"]))
                     except ValueError:
                         date = None
-                if error.get("message"):
-                    message = str(error["message"])
+                # Most endpoints use ``message``; the ``/api/tpi`` ones use ``msg``.
+                server_message = error.get("message") or error.get("msg")
+                if server_message:
+                    message = str(server_message)
 
             raise PosApiHttpError(
                 status=status,
@@ -208,6 +210,7 @@ class BaseResource:
         payload: BaseModel | dict[str, Any] | None = None,
         response_model: None = None,
         headers: HeaderTypes | None = None,
+        auth: httpx.Auth | None = None,
     ) -> None: ...
 
     @overload
@@ -221,6 +224,7 @@ class BaseResource:
         payload: BaseModel | dict[str, Any] | None = None,
         response_model: type[N],
         headers: HeaderTypes | None = None,
+        auth: httpx.Auth | None = None,
     ) -> N: ...
 
     def _send_sync_request(
@@ -233,16 +237,18 @@ class BaseResource:
         payload: BaseModel | dict[str, Any] | None = None,
         response_model: type[N] | None = None,
         headers: HeaderTypes | None = None,
+        auth: httpx.Auth | None = None,
     ) -> N | None:
         """Send sync request. `path` overrides `self._path` for resources
-        that build the URL dynamically (e.g. hierarchical drill-down)."""
+        that build the URL dynamically (e.g. hierarchical drill-down). `auth`
+        applies to this request only (no resource-wide or client-wide auth)."""
         send_kwargs = self._prepare_send_kwargs(
             params=params,
             payload_model=payload_model,
             payload=payload,
             headers=headers,
         )
-        result = self._sync.send(method, path or self._path, **send_kwargs)
+        result = self._sync.send(method, path or self._path, auth=auth, **send_kwargs)
         return self._decode_and_validate(result.response, response_model)
 
     @overload
@@ -256,6 +262,7 @@ class BaseResource:
         payload: BaseModel | dict[str, Any] | None = None,
         response_model: None = None,
         headers: HeaderTypes | None = None,
+        auth: httpx.Auth | None = None,
     ) -> None: ...
 
     @overload
@@ -269,6 +276,7 @@ class BaseResource:
         payload: BaseModel | dict[str, Any] | None = None,
         response_model: type[N],
         headers: HeaderTypes | None = None,
+        auth: httpx.Auth | None = None,
     ) -> N: ...
 
     async def _send_async_request(
@@ -281,14 +289,16 @@ class BaseResource:
         payload: BaseModel | dict[str, Any] | None = None,
         response_model: type[N] | None = None,
         headers: HeaderTypes | None = None,
+        auth: httpx.Auth | None = None,
     ) -> N | None:
         """Send async request. `path` overrides `self._path` for resources
-        that build the URL dynamically (e.g. hierarchical drill-down)."""
+        that build the URL dynamically (e.g. hierarchical drill-down). `auth`
+        applies to this request only (no resource-wide or client-wide auth)."""
         send_kwargs = self._prepare_send_kwargs(
             params=params,
             payload_model=payload_model,
             payload=payload,
             headers=headers,
         )
-        result = await self._async.send(method, path or self._path, **send_kwargs)
+        result = await self._async.send(method, path or self._path, auth=auth, **send_kwargs)
         return self._decode_and_validate(result.response, response_model)
